@@ -1,0 +1,22 @@
+<svg version="1.1" class="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 161 50" style="enable-background:new 0 0 161 50;" xml:space="preserve">
+              <style type="text/css">
+                .st0{fill:#737373;}
+                .st1{font-family:'Novecentosanswide-DemiBold';}
+                .st2{font-size:24px;}
+                .st3{fill-rule:evenodd;clip-rule:evenodd;fill:#737373;}
+                .st4{fill:#FFFFFF;}
+                .st5{font-size:36px;}
+              </style>
+              <g id="DISPLAY">
+                <text transform="matrix(1 0 0 1 62 34)" class="st0 st1 st2">DISPLAY</text>
+              </g>
+              <g id="container">
+                <g>
+                  <rect y="0" class="st3" width="50" height="50"/>
+                </g>
+              </g>
+              <g id="D">
+                <text transform="matrix(1 0 0 1 11 38)" class="st4 st1 st5">D</text>
+              </g>
+            </svg>
