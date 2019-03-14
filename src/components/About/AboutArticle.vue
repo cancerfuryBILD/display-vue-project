@@ -1,9 +1,9 @@
 <template>
-<div class="container">
-    <div class="row">
-        <article class="col-md-6" v-for="(articleText, index) in articleTexts" :key="index" v-html="articleText"></article>
- </div></div>
-
+    <div class="container">
+        <div class="row">
+            <article class="col-md-6" v-for="(articleText, index) in articleTexts" :key="index" v-html="articleText"></article>
+        </div>
+    </div>
 </template>
 
 <script>
