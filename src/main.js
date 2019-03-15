@@ -5,6 +5,8 @@ import {store} from "./store/index";
 import jQuery from 'jquery';
 global.jQuery = jQuery;
 let Bootstrap = require('bootstrap');
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
 
 
 Vue.config.productionTip = false;

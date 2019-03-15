@@ -9,9 +9,9 @@
         <label><input type="radio" v-model="selectedCategory" value="Web" /> Web </label> / 
         <label><input type="radio" v-model="selectedCategory" value="Applications" /> Applications </label>
 
-        <layout />
+        
       </div>
-
+      <layout />
       <div class="list-images grid-layout" id="layout">
         <div v-for="(img, index) in filteredImgList" :key="index">
           <router-link to="#"><img :src="img.imgLocation" :alt="img.altTag"></router-link>
@@ -27,15 +27,6 @@
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
 import Layout from '@/components/Work/Layout.vue';
-import img1 from '@/assets/img-1.png';
-import img2 from '@/assets/img-2.png';
-import img3 from '@/assets/img-3.png';
-import img4 from '@/assets/img-4.png';
-import img5 from '@/assets/img-5.png';
-import img6 from '@/assets/img-6.png';
-import img7 from '@/assets/img-7.png';
-import img8 from '@/assets/img-8.png';
-import img9 from '@/assets/img-9.png';
 
 export default {
   name: "Work",

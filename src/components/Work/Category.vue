@@ -62,15 +62,15 @@ export default {
     methods: {
         ...mapMutations([
            'ADD_CATEGORY'
-       ]),
-    //    ...mapActions([
-    //        'addCategory'
-    //    ]),
-        addCategory: function() {
-            // this.$store.dispatch('addCategory', this.newCategory)
-            this.$store.commit('ADD_CATEGORY', this.newCategory)
+        ]),
+        ...mapActions([
+            'addCategory'
+        ]),
+        addCategory() {
+            this.$store.dispatch('addCategory', this.newCategory)
+            // this.$store.commit('ADD_CATEGORY', this.newCategory)
             // this.ADD_CATEGORY(this.newCategory)
-            this.newCategory = ''
+            this.newCategory = '';
         }
     }
 }

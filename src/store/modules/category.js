@@ -8,12 +8,12 @@ const getters = {
 }
 const mutations = {
     ADD_CATEGORY(state, link) {
-        state.categories.push(link)
+        state.categories.push(link);
     }
 }
 const actions = {
-    addCategory(context) {
-        context.commit('ADD_CATEGORY')
+    addCategory(context, category) {
+        context.commit('ADD_CATEGORY', category);
     }
 }
 export default {
