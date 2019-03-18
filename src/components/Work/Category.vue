@@ -8,6 +8,7 @@
         <form @submit.prevent="addCategory">
             <input class="category-input" type="text" placeholder="Add a Category" v-model="newCategory" /> 
             <button type="submit">Add Category</button>
+            <p class="error-message" id="error-name"></p>
         </form>
         <div class="list-images grid-layout" id="layout">
             <div v-for="(img, index) in filteredImgList" :key="index">
@@ -67,10 +68,14 @@ export default {
             'addCategory'
         ]),
         addCategory() {
+            if(this.categories.includes(this.newCategory.toLowerCase())) {
+                document.getElementById('error-name').innerHTML = "Category already exist"
+            } else {
             this.$store.dispatch('addCategory', this.newCategory)
             // this.$store.commit('ADD_CATEGORY', this.newCategory)
             // this.ADD_CATEGORY(this.newCategory)
             this.newCategory = '';
+            }
         }
     }
 }

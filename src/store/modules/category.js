@@ -1,5 +1,5 @@
 const state = {
-    categories: ['All', 'Print', 'Photography', 'Web','Applications']
+    categories: ['all', 'print', 'photography', 'web','applications']
 }
 const getters = {
     categories(state) {     
@@ -13,7 +13,8 @@ const mutations = {
 }
 const actions = {
     addCategory(context, category) {
-        context.commit('ADD_CATEGORY', category);
+
+        context.commit('ADD_CATEGORY', category.toLowerCase());
     }
 }
 export default {

@@ -20,6 +20,7 @@ export default {
     border: none;
     color: #fff;
     border: none;
+    outline: none;
 }
 .action-btn a {
     color: #fff;
