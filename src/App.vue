@@ -28,13 +28,13 @@ export default {
 }
 @font-face {
   font-family: 'Novecentosanswide-DemiBold';
-  src: url('assets/Novecentosanswide-DemiBold-webfont.woff') format('woff');
+  src: url('assets/fonts/Novecentosanswide-DemiBold-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'Helvetica';
-  src: url('assets/Helvetica.woff') format('woff');
+  src: url('assets/fonts/Helvetica.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }

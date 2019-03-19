@@ -6,8 +6,11 @@ import jQuery from 'jquery';
 global.jQuery = jQuery;
 let Bootstrap = require('bootstrap');
 import Vuelidate from 'vuelidate'
-Vue.use(Vuelidate)
-
+Vue.use(Vuelidate);
+import * as svgicon from 'vue-svgicon';
+Vue.use(svgicon, {
+  classPrefix: 'AppIcon-',
+});
 
 Vue.config.productionTip = false;
 
