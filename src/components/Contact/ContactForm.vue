@@ -13,11 +13,11 @@
                 @blur="$v.inputName.$touch()" 
                 :class="{ error: $v.inputName.$error }"
                 autocomplete="off">
-            <div v-if="$v.inputName.$dirty">
-                <p class="error-message" v-if="!$v.inputName.required">Name must not be empty.</p>
+
+                <p class="error-message" v-if="!$v.inputName.required && $v.inputName.$dirty">Name must not be empty.</p>
                 <p class="error-message" v-if="!$v.inputName.minLength">Name must have at least {{$v.inputName.$params.minLength.min}} letters.</p>
                 <p class="error-message" v-if="!$v.inputName.maxLength">Name must not exceed {{$v.inputName.$params.maxLength.max}} letters.</p>
-            </div>
+
 
             <!-- EMAIL INPUT -->
             <input name="email" 
@@ -28,10 +28,9 @@
                 v-model.trim="inputEmail"
                 :class="{ error: $v.inputEmail.$error }"
                 autocomplete="off"> 
-            <div v-if="$v.inputEmail.$dirty">
+
                 <p class="error-message" v-if="!$v.inputEmail.email">Please enter a valid email address.</p>
-                <p class="error-message" v-if="!$v.inputEmail.required">Email must not be empty.</p>
-            </div>
+                <p class="error-message" v-if="!$v.inputEmail.required && $v.inputEmail.$dirty">Email must not be empty.</p>
 
             <!-- SUBJECT INPUT -->
             <input name="subject" 
@@ -42,30 +41,30 @@
                 @blur="$v.inputSubject.$touch()" 
                 :class="{ error: $v.inputSubject.$error }"
                 autocomplete="off">
-            <div v-if="$v.inputSubject.$dirty">
-                <p class="error-message" v-if="!$v.inputSubject.required">Name must not be empty.</p>
-                <p class="error-message" v-if="!$v.inputSubject.minLength">Name must have at least {{$v.inputSubject.$params.minLength.min}} letters.</p>
-                <p class="error-message" v-if="!$v.inputSubject.maxLength">Name must not exceed {{$v.inputSubject.$params.maxLength.max}} letters.</p>
-            </div>
+
+                <p class="error-message" v-if="!$v.inputSubject.required && $v.inputSubject.$dirty">Subject must not be empty.</p>
+                <p class="error-message" v-if="!$v.inputSubject.minLength">Subject must have at least {{$v.inputSubject.$params.minLength.min}} letters.</p>
+                <p class="error-message" v-if="!$v.inputSubject.maxLength">Subject must not exceed {{$v.inputSubject.$params.maxLength.max}} letters.</p>
+      
 
             <!-- MESSAGE INPUT -->
             <textarea name="message" 
                 type="textarea" 
-                maxlength="1000" 
+
                 id="inputMessage" 
                 v-on:keyup="countdown" 
                 v-model="inputMessage"
                 @blur="$v.inputMessage.$touch()" 
                 :class="{ error: $v.inputMessage.$error }">
             </textarea>
-            <div v-if="$v.inputMessage.$dirty">
-                <p class="error-message" v-if="!$v.inputMessage.required">Name must not be empty.</p>
-                <p class="error-message" v-if="!$v.inputMessage.minLength">Name must have at least {{$v.inputMessage.$params.minLength.min}} letters.</p>
-                <p class="error-message" v-if="!$v.inputMessage.maxLength">Name must not exceed {{$v.inputMessage.$params.maxLength.max}} letters.</p>
-            </div>
+
+                <p class="error-message" v-if="!$v.inputMessage.required && $v.inputMessage.$dirty">Message must not be empty.</p>
+                <p class="error-message" v-if="!$v.inputMessage.minLength">Message must have at least {{$v.inputMessage.$params.minLength.min}} letters.</p>
+                <p class="error-message" v-if="!$v.inputMessage.maxLength">Message must not exceed {{$v.inputMessage.$params.maxLength.max}} letters.</p>
+
             <p v-bind:class="{'text-danger': hasError }">{{remainingCount}} characters left!</p>
             <button :disabled="$v.$invalid">send message</button>
-            <!-- <action-button :disabled="$v.$invalid" :buttonTitle="buttonTitle" :buttonType="buttonType" :buttonLink="buttonLink"/> -->
+            <action-button :disabled="$v.$invalid" :buttonTitle="buttonTitle" :buttonType="buttonType" :buttonLink="buttonLink"/>
         </form>
     </section>
 </template>

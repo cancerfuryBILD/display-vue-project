@@ -13,8 +13,11 @@
         <div class="list-images grid-layout" id="layout">
             <div v-for="(img, index) in filteredImgList" :key="index">
                 <router-link to="#"><img :src="img.imgLocation" :alt="img.altTag"></router-link>
+                <p>{{ img.text }}</p>
             </div>
-        </div>
+            
+
+            </div>
         
     </div>
 </template>
@@ -32,7 +35,7 @@ export default {
 
     data() {
         return {
-            selectedCategory: 'All',
+            selectedCategory: 'all',
             newCategory: ''
         }
     },
@@ -46,7 +49,7 @@ export default {
         var vm = this;
         var category = vm.selectedCategory;
         
-        if(category === "All") {
+        if(category === "all") {
             return vm.imgList;
         } else {
             return vm.imgList.filter(function(img) {
@@ -113,15 +116,22 @@ export default {
     .grid-layout {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 1.4em;
+        gap: 1.29em;
     }
    .grid-layout img {
         width: 100%;
     }
+    .grid-layout p {
+        display: none;
+    }
     .list-layout {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 1.4em;
+        gap: 1.29em;
+    }
+    .list-layout img {
+        float: left;
+        margin: 0 20px 0px 0;
     }
   .list-images {
         margin-bottom: 249px;

@@ -23,6 +23,9 @@ export default {
 </script>
 
 <style>
+body {
+  width: 100vw;
+}
 .container {
   max-width: 970px;
 }
