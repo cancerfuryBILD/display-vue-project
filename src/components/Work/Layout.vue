@@ -50,5 +50,7 @@ export default {
     .layout svg:hover #list2 {
         fill: #2ecc71;
     }
-    
+    .layout {
+        margin-top: 2px;
+    }
 </style>

@@ -1,44 +1,23 @@
 <template>
   <div>
     <page-title :headline="headline"/>
-    <div class="container category">
-      <div class="filter">
-        <label><input type="radio" v-model="selectedCategory" value="All" />All </label> / 
-        <label><input type="radio" v-model="selectedCategory" value="Print" /> Print</label> / 
-        <label><input type="radio" v-model="selectedCategory" value="Photography" /> Photography </label> / 
-        <label><input type="radio" v-model="selectedCategory" value="Web" /> Web </label> / 
-        <label><input type="radio" v-model="selectedCategory" value="Applications" /> Applications </label>
-
-        
-      </div>
-      <layout />
-      <div class="list-images grid-layout" id="layout">
-        <div v-for="(img, index) in filteredImgList" :key="index">
-          <router-link to="#"><img :src="img.imgLocation" :alt="img.altTag"></router-link>
-        </div>
-      </div>
-   
-
-
-
-  </div></div>
+    <Category />
+    </div>
 </template>
 
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
-import Layout from '@/components/Work/Layout.vue';
+import Category from '@/components/Work/Category.vue';
 
 export default {
   name: "Work",
   components: {
     PageTitle,
-    Layout
+    Category
   },
   data() {
     return {
-       headline: 'Check out what I can do',
-       selectedCategory: "All",
-       
+       headline: 'Check out what I can do'
     }
   },
   methods: {
@@ -74,7 +53,7 @@ export default {
 </script>
 
 <style>
-  .category {
+  /* .category {
     padding-top: 40px;
     clear: right;
 }
@@ -110,7 +89,7 @@ export default {
     color:#8a8888;
     font-size: 1.1875rem;
     letter-spacing: .02rem;
-  }
+  } */
   @media (max-width: 576px) {
         .list-images {
             grid-template-columns: 1fr 1fr;
