@@ -26,6 +26,9 @@ export default {
      socialIcons() {
        return this.$store.getters.socialIcons;
      }
+   },
+   created() {
+       this.$store.dispatch('getSocialIcons')
    }
 }
 </script>
