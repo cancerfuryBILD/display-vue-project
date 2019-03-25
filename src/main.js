@@ -2,15 +2,18 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import {store} from "./store/index";
+var VueCookie = require('vue-cookie');
 import jQuery from 'jquery';
-global.jQuery = jQuery;
-let Bootstrap = require('bootstrap');
+import Bootstrap from 'bootstrap';
 import Vuelidate from 'vuelidate'
-Vue.use(Vuelidate);
 import * as svgicon from 'vue-svgicon';
+
+Vue.use(Vuelidate);
 Vue.use(svgicon, {
   classPrefix: 'AppIcon-',
 });
+Vue.use(VueCookie);
+global.jQuery = jQuery;
 
 Vue.config.productionTip = false;
 

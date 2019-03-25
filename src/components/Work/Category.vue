@@ -13,6 +13,7 @@
         <div class="list-images" id="layout">
             <div v-for="(img, index) in filteredImgList" :key="index">
                 <router-link to="#"><img :src="img.imgLocation" :alt="img.altTag"></router-link>
+                <h2>{{ img.headline }}</h2>
                 <p>{{ img.text }}</p>
             </div>
             
@@ -81,10 +82,16 @@ export default {
 
 <style>
     label {
-        margin: 0 10px;
+        margin: 0 4px;
     }
     label:first-child {
         margin-left: 0;
+    }
+    label:after {
+        content: '/';
+    }
+    label:last-child:after {
+        content: '';
     }
     .category {
         padding-top: 40px;
@@ -103,7 +110,7 @@ export default {
     }
     .filter {
         color:#8a8888;
-        font-size: 1.1875rem;
+        font-size: 1.16rem;
         letter-spacing: .02rem;
         display: inline-block;
     }
@@ -115,7 +122,7 @@ export default {
    .grid-layout img {
         width: 100%;
     }
-    .grid-layout p {
+    .grid-layout p, .grid-layout h2 {
         display: none;
     }
     .list-layout {
@@ -128,8 +135,8 @@ export default {
         margin: 0 20px 0px 0;
     }
     .list-images {
-        margin-bottom: 249px;
-        margin-top: 36px;
+        margin-bottom: 251px;
+        margin-top: 44px;
     }
   
      .list-images img:hover {

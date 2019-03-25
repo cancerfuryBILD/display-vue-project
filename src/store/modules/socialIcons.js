@@ -23,7 +23,7 @@ const actions = {
             snapshot.docs.forEach(doc => {
                 arrIcons.push(doc.data())
             })
-            console.log(arrIcons)
+            // console.log(arrIcons)
             commit('set_socialIcons', arrIcons)
         })
     }
