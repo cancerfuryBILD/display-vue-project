@@ -6,6 +6,8 @@ import Work from "./views/Work.vue";
 import Contact from "./views/Contact.vue";
 import Axios from "./views/Axios.vue";
 import Test from "./views/Test.vue";
+import Login from "./views/Login.vue";
+import Signup from "./views/Signup.vue";
 
 Vue.use(Router);
 
@@ -42,6 +44,16 @@ export default new Router({
       path: "/test",
       name: "test",
       component: Test
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      component: Signup
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
     }
   ]
 });

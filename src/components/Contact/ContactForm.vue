@@ -63,21 +63,21 @@
                 <p class="error-message" v-if="!$v.inputMessage.maxLength">Message must not exceed {{$v.inputMessage.$params.maxLength.max}} letters.</p>
 
             <p v-bind:class="{'text-danger': hasError }">{{remainingCount}} characters left!</p>
-            <button :disabled="$v.$invalid">send message</button>
-            <action-button :disabled="$v.$invalid" :buttonTitle="buttonTitle" :buttonType="buttonType" :buttonLink="buttonLink"/>
+            <button :disabled="$v.$invalid">Send message</button>
+            <!-- <action-button :disabled="$v.$invalid" :buttonTitle="buttonTitle" :buttonType="buttonType" :buttonLink="buttonLink"/> -->
         </form>
     </section>
 </template>
 
 <script>
-import ActionButton from '@/components/Common/ActionButton.vue';
+// import ActionButton from '@/components/Common/ActionButton.vue';
 import {required, email, minLength, maxLength} from 'vuelidate/lib/validators';
 
 export default {
     name: 'ContactForm',
-    components: {
-        'action-button': ActionButton
-    },
+    // components: {
+    //     'action-button': ActionButton
+    // },
     data() {
         return {
             maxCount: 1000,
@@ -135,6 +135,21 @@ export default {
     }
     form {
         margin-top: 16px;
+    }
+    form button {
+        font-size: 14px;
+        text-transform: uppercase;
+        font-family: 'Novecentosanswide-DemiBold';
+        padding: 10px 22px;
+        margin-top: -2px;
+        background-color: #2ecc71;
+        border: none;
+        color: #fff;
+        border: none;
+        outline: none;
+    }
+    form button:disabled {
+        background-color: grey;
     }
     .contact-form {
         display: grid;

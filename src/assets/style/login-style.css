@@ -1,0 +1,18 @@
+.login h2 {
+    text-transform: uppercase;
+    font-family: 'Novecentosanswide-DemiBold'
+}
+.login {
+  padding: 10px;
+  max-width: 400px;
+  margin: 50px auto 0 auto;
+  text-align: center;
+}
+.login input, .login h2 {
+    margin-bottom: 20px;
+}
+.shadow {
+    -moz-box-shadow: 3px 3px 5px 6px #ccc;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+    box-shadow: 3px 3px 5px 6px #ccc;
+}

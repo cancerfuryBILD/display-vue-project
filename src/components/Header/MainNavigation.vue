@@ -1,12 +1,16 @@
 <template>
   <nav class="navbar navbar-expand-sm pl-0 pr-0">
-    <div class="container pl-0">
+    <div class="container pl-0 pr-0">
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav main-navigation">
           <li class="nav-item" v-for="(navLink, index) in navLinks" :key="index" >
             <router-link :to="navLink.link">{{ navLink.name }}</router-link>
           </li>
         </ul>
+      </div>
+      <div class="auth">
+        <router-link to="/login">Login</router-link>
+        <router-link to="/signup">Signup</router-link>
       </div>
     </div>
   </nav>
@@ -42,12 +46,21 @@ nav {
 .main-navigation .nav-item {
     margin-right: 26px;
 }
-.main-navigation .router-link-exact-active {
+.main-navigation .router-link-exact-active, .auth a:hover, .router-link-active {
   color: #2ecc71;
 }
 nav .container {
   border-top: #dadada 1px solid;
 }
+.auth {
+        font-size: .8rem;
+        float: right;
+    }
+    .auth a {
+        color: #8a8888;
+        margin-left: 15px;
+        text-decoration: none;
+    }
 @media (max-width: 576px) {
   nav .container {
   border-top: none;

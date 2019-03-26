@@ -28,21 +28,20 @@ export default {
 
 <style>
 
-.header {
-    padding: 30px 15px 23px 15px;
-
-}
-.header button {
-        display: none;
-    }
-@media (max-width: 576px) {
-    .container {
-        overflow:hidden;
+    .header {
+        padding: 30px 15px 23px 15px;
     }
     .header button {
-        display: initial;
-        float: right;
-        margin-top: 5px;
+            display: none;
     }
-}
+    @media (max-width: 576px) {
+        .container {
+            overflow:hidden;
+        }
+        .header button {
+            display: initial;
+            float: right;
+            margin-top: 5px;
+        }
+    }
 </style>

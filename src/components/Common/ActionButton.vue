@@ -5,9 +5,24 @@
 </template>
 
 <script>
+import {required, email, minLength, maxLength} from 'vuelidate/lib/validators';
 export default {
     name: 'ActionButton',
-    props: ['buttonTitle', 'buttonType', 'buttonLink']
+    props: {
+        buttonTitle: {
+            type: String,
+            required: true,
+        },
+        buttonType: {
+            type: String,
+            default: 'button'
+        },
+        buttonLink: {
+            type: String,
+            default: 'none'
+        },
+        
+    }
 }
 </script>
 
