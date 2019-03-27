@@ -1,14 +1,38 @@
 <template>
-    <div>
+    <div class="push">
         <page-title :headline="headline"/>
         <div class="container">
             <div class="login shadow">
                 <form  @submit.prevent="login">
                     <h2>Login</h2>
-                    <input placeholder="Email" type="email" name="email"><br>
-                    <input placeholder="Password" type="password" name="password" ><br>
-                    <!-- <p class="red-text center" v-if="feedback">{{ feedback }}</p><br> -->
-                    <button>Login</button>
+                    
+                    <!-- EMAIL INPUT -->
+                    <input name="email" 
+                        type="email" 
+                        placeholder="Email Address" 
+                        id="inputEmail" 
+                        @blur="$v.inputEmail.$touch()" 
+                        v-model.trim="inputEmail"
+                        :class="{ error: $v.inputEmail.$error }"
+                        autocomplete="off"> 
+
+                    <p class="error-message" v-if="!$v.inputEmail.email">Please enter a valid email address.</p>
+                    <p class="error-message" v-if="!$v.inputEmail.required && $v.inputEmail.$dirty">Email must not be empty.</p>
+                    
+                    <!-- PASSWORD INPUT -->
+                    <input name="password" 
+                        type="password" 
+                        placeholder="Password" 
+                        id="inputPassword" 
+                        v-model.trim="inputPassword"
+                        @blur="$v.inputPassword.$touch()" 
+                        :class="{ error: $v.inputPassword.$error }"
+                        autocomplete="off">
+
+                        <p class="error-message" v-if="!$v.inputPassword.required && $v.inputPassword.$dirty">Password must not be empty.</p>
+                        <p class="error-message" v-if="!$v.inputPassword.minLength">Password must have at least {{$v.inputPassword.$params.minLength.min}} letters.</p>
+
+                    <button :disabled="$v.$invalid">Login</button>
                 </form>
             </div>
         </div>
@@ -18,6 +42,7 @@
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
 import '@/assets/style/login-style.css';
+import {required, email, minLength} from 'vuelidate/lib/validators';
 
 export default {
     components: {
@@ -25,7 +50,20 @@ export default {
     },
     data() {
         return {
-            headline: 'Fill in your credentials below'
+            headline: 'Fill in your credentials below',
+            inputPassword: '',
+            inputEmail: '',
+            error: 'error'
+        }
+    },
+    validations: {
+        inputEmail: {
+            required,
+            email
+        },
+        inputPassword: {
+            required,
+            minLength: minLength(6)
         }
     }
 }

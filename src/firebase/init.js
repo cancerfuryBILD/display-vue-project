@@ -1,5 +1,5 @@
-import firebase from 'firebase'
-import 'firebase/firestore'
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 // Initialize Firebase
 var config = {
@@ -10,5 +10,5 @@ var config = {
     storageBucket: "display-13976.appspot.com",
     messagingSenderId: "790894376048"
   };
-const firebaseApp = firebase.initializeApp(config);
+const app = firebase.initializeApp(config);
 export default firebase.firestore()

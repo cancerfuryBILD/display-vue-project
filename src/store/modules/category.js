@@ -1,4 +1,9 @@
+import Vue from "vue";
+var VueCookie = require('vue-cookie');
+Vue.use(VueCookie);
+
 const state = {
+    layoutCookie: Vue.cookie.get('cookieLayout') === null ? Vue.cookie.set('cookieLayout', 'grid') : Vue.cookie.get('cookieLayout'),
     selectedCategory: 'all',
     categories: ['all', 'print', 'photography', 'web','applications'],
     imgList: [
@@ -125,6 +130,9 @@ const state = {
 }
 
 const getters = {
+    layoutCookie(state) {
+        return state.layoutCookie
+    },
     imgList(state) {
         return state.imgList;
     },
@@ -157,12 +165,19 @@ const mutations = {
     },
     changeCategory:(state,category)=>{
         state.selectedCategory = category;
+    },
+    setLayoutCookie(state, payload) {
+        state.layoutCookie = payload;
     }
 }
 const actions = {
     addCategory(context, category) {
         context.commit('ADD_CATEGORY', category.toLowerCase());
-    }     
+    },
+    setCookieLayout({commit}, payload) {
+        commit('setLayoutCookie', payload);
+        Vue.cookie.set('cookieLayout', payload)
+    }
 }
 
 export default {

@@ -204,7 +204,7 @@ export default {
     margin: 0px;
 }
 .services {
-    margin-bottom: 241px;
+    margin-bottom: 41px;
 }
 
 @media screen and (max-width: 768px) {

@@ -34,7 +34,7 @@ export default {
 .contact-form {
     display: grid;
     grid-template-columns: 60% 40%;
-    margin-bottom: 249px;
+    margin-bottom: 49px;
 }
 @media (max-width: 576px) {
   .contact-form {

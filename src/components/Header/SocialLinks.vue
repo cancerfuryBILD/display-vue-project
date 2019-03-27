@@ -24,11 +24,11 @@ export default {
    },
    computed: {
      socialIcons() {
-       return this.$store.getters.socialIcons;
+       return this.$store.getters['socialIcons/socialIcons'];
      }
    },
    created() {
-       this.$store.dispatch('getSocialIcons')
+       this.$store.dispatch('socialIcons/getSocialIcons')
    }
 }
 </script>

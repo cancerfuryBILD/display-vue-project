@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <app-header/>
-    <router-view />
+    <div class="content">
+      <app-header/>
+      <router-view />
+    </div>
     <app-footer/> 
   </div>
 </template>
@@ -23,8 +25,18 @@ export default {
 </script>
 
 <style>
+/* STICKY FOOTER */
+.content {
+  min-height: calc(100vh - 200px);
+}
+.footer {
+  height:200px;
+}
+
+
+
 body {
-  width: 100vw;
+  overflow-y: overlay;
 }
 .container {
   max-width: 970px;

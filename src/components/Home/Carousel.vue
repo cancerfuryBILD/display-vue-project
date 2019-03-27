@@ -196,9 +196,6 @@ export default {
     fill: #2ecc71;
     cursor: pointer;
 }
-.portfolio-slider {
-  margin-bottom: 201px;
-}
 @media (max-width: 576px) {
     .portfolio-slider svg #left, 
 .portfolio-slider svg #right {

@@ -22,7 +22,7 @@ export default {
     created() {
         axios.get('https://newsapi.org/v2/top-headlines?sources=crypto-coins-news&apiKey=a8aec5f2dee24f5eb5a93558c107fb91')
         .then(response => {
-            console.log(response)
+            // console.log(response)
             this.posts = response.data.articles
         })
     }

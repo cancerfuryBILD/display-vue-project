@@ -29,16 +29,16 @@ export default {
 </script>
 
 <style>
-html {
+/* html {
    min-height: 100%;
    position: relative;
 }
 .footer {
     bottom: 0;
-    width: 100%;
+    width: 100vw;
     position: absolute;
     height: 200px;
-}
+} */
 footer {
     background-color: #efefef;
     padding-top: 23px;

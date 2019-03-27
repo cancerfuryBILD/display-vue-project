@@ -4,6 +4,24 @@
             <label @click="changeCategory(category)" v-for="(category, index) in categories" :key="index">
                 <input type="radio" v-model="selectedCategory" :value="category" />{{ category }} </label>
         </div>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" 
+            type="button" 
+            id="dropdownMenuButton" 
+            data-toggle="dropdown" 
+            aria-haspopup="true" 
+            aria-expanded="false">
+            CATEGORIES
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <label @click="changeCategory(category)" v-for="(category, index) in categories" :key="index">
+                <input type="radio" v-model="selectedCategory" :value="category" />{{ category }} </label>
+            </div>
+        </div>
+
+
+
         <layout />
         <!-- <form @submit.prevent="addCategory">
             <input class="category-input" type="text" placeholder="Add a Category" v-model="newCategory" /> 
@@ -16,9 +34,7 @@
                 <h2>{{ img.headline }}</h2>
                 <p>{{ img.text }}</p>
             </div>
-            
-
-            </div>
+        </div>
         
     </div>
 </template>
@@ -43,26 +59,29 @@ export default {
     },
 
     computed: {
+        layoutCookie() {
+            return this.$store.getters['category/layoutCookie'];
+        },
         categories() {
-            return this.$store.getters.categories;
+            return this.$store.getters['category/categories'];
         },
         selectedCategory() {
-            return this.$store.getters.selectedCategory;
+            return this.$store.getters['category/selectedCategory'];
         },
         imgList() {
-            return this.$store.getters.imgList;
+            return this.$store.getters['category/imgList'];
         },
         filteredImgList() {
-            return this.$store.getters.filteredImgList;
-        }
+            return this.$store.getters['category/filteredImgList'];
+        },
     },
 
     methods: {
-        ...mapMutations([
+        ...mapMutations('category', [
            'ADD_CATEGORY',
            'changeCategory'
         ]),
-        ...mapActions([
+        ...mapActions('category', [
             'addCategory'
         ]),
         addCategory() {
@@ -81,13 +100,13 @@ export default {
 </script>
 
 <style>
-    label {
+    .filter label {
         margin: 0 4px;
     }
-    label:first-child {
+    .filter label:first-child {
         margin-left: 0;
     }
-    label:after {
+    .filter label:after {
         content: '/';
     }
     label:last-child:after {
@@ -135,11 +154,18 @@ export default {
         margin: 0 20px 0px 0;
     }
     .list-images {
-        margin-bottom: 251px;
         margin-top: 44px;
     }
   
      .list-images img:hover {
         opacity: .3;
+    }
+    .dropdown {
+        display: none;
+    }
+    .dropdown button {
+        border-radius: unset;
+        background-color: #2ecc71;
+        border-color: #2ecc71;
     }
 </style>

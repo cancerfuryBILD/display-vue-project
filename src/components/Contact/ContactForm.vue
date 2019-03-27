@@ -134,7 +134,7 @@ export default {
     color: red;
     }
     form {
-        margin-top: 16px;
+        margin-top: 16px; 
     }
     form button {
         font-size: 14px;
@@ -154,7 +154,7 @@ export default {
     .contact-form {
         display: grid;
         grid-template-columns: 60% 40%;
-        margin-bottom: 249px;
+        margin-bottom: 49px;
     }
     input, textarea {
         padding: 9px 20px;

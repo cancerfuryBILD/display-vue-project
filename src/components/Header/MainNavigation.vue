@@ -22,10 +22,15 @@ export default {
    name: 'MainNavigation',
    computed: {
      navLinks() {
-       return this.$store.getters.navLinks;
+       return this.$store.getters['menu/navLinks'];
      }
    }
 }
+// $('.nav a').on('click', function(){
+//     $('.btn-navbar').click(); //bootstrap 2.x
+//     $('.navbar-toggle').click(); //bootstrap 3.x by Richard
+//     $('.navbar-toggler').click(); //bootstrap 4.x
+// });
 </script>
 
 <style>
@@ -46,7 +51,7 @@ nav {
 .main-navigation .nav-item {
     margin-right: 26px;
 }
-.main-navigation .router-link-exact-active, .auth a:hover, .router-link-active {
+.main-navigation .router-link-exact-active, .auth a:hover, .auth .router-link-active {
   color: #2ecc71;
 }
 nav .container {
@@ -55,6 +60,7 @@ nav .container {
 .auth {
         font-size: .8rem;
         float: right;
+        margin-top: 27px;
     }
     .auth a {
         color: #8a8888;
