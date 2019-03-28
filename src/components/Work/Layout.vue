@@ -26,7 +26,7 @@ export default {
     name: 'Layout',
     methods: {
     changeLayout(value) {
-      this.$store.dispatch('setCookieLayout', value)
+      this.$store.dispatch('category/setCookieLayout', value)
     }
   },
 }

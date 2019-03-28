@@ -1,11 +1,11 @@
 const state = {
     navLinks: [
-        {name: 'Home', link: '/'},
-        {name: 'About', link: '/about'},
-        {name: 'Work', link: '/work'},
-        {name: 'Contact', link: '/contact'},
-        {name: 'Axios', link: '/axios'},
-        {name: 'Test', link: '/test'},
+        {name: 'home', link: '/'},
+        {name: 'about', link: '/about'},
+        {name: 'work', link: '/work'},
+        {name: 'contact', link: '/contact'},
+        {name: 'axios', link: '/axios'},
+        {name: 'test', link: '/test'},
     ]
 };
 

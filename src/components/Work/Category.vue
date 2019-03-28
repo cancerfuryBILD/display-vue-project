@@ -168,4 +168,16 @@ export default {
         background-color: #2ecc71;
         border-color: #2ecc71;
     }
+    @media (max-width: 576px) {
+        .dropdown {
+            display: initial;
+        }
+        label {
+            display: block;
+            margin-left: 10px;
+        }
+        .filter {
+            display: none;
+        }
+    }
 </style>

@@ -94,9 +94,9 @@ export default {
         .list-images {
             grid-template-columns: 1fr 1fr;
         }
-        .layout {
+        /* .layout {
             display: none;
-        }
+        } */
     }
     @media (max-width: 425px) {
         .list-images {

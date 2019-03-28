@@ -8,6 +8,7 @@ import Axios from "./views/Axios.vue";
 import Test from "./views/Test.vue";
 import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
+import NotFound from "./views/NotFound.vue";
 
 Vue.use(Router);
 
@@ -54,6 +55,15 @@ export default new Router({
       path: "/login",
       name: "login",
       component: Login
+    },
+    {
+      path: "/404",
+      name: "404",
+      component: NotFound
+    },
+    {
+      path: "*",
+      redirect: { name: '404'}
     }
   ]
 });
