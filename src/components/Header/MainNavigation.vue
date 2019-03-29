@@ -9,22 +9,53 @@
         </ul>
       </div>
       <div class="auth">
-        <router-link to="/login">Login</router-link>
-        <router-link to="/signup">Signup</router-link>
+        <router-link v-if="!user" :to="{ name: 'login' }">Login</router-link>
+        <router-link v-if="!user" :to="{ name: 'signup' }">Signup</router-link>
+        <span v-if="user">{{ getUser.firstName }}</span>
+        <a v-if="user" @click="logout">Logout</a>
       </div>
     </div>
   </nav>
 </template>     
 
 <script>
+import firebase from 'firebase';
 
 export default {
    name: 'MainNavigation',
+   data() {
+     return {
+      user: null
+      }
+   },
    computed: {
+
      navLinks() {
        return this.$store.getters['menu/navLinks'];
+     },
+     getUser() {
+       return this.$store.getters['user/pushUser'];
      }
-   }
+   },
+   methods: {
+     logout() {
+       firebase.auth().signOut().then(() => {
+         this.$router.push({ name: 'login' })
+       })
+     }
+   },
+   created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$store.dispatch('user/getUser', user.email)
+        this.user = user
+        // console.log(user)
+      } else {
+        this.user = null
+      }
+    });
+
+  }
 }
 // $('.nav a').on('click', function(){
 //     $('.btn-navbar').click(); //bootstrap 2.x
@@ -51,8 +82,8 @@ nav {
 .main-navigation .nav-item {
     margin-right: 26px;
 }
-.main-navigation .router-link-exact-active, .auth a:hover, .auth .router-link-active {
-  color: #2ecc71;
+.main-navigation .router-link-exact-active, .auth a:hover, .auth .router-link-active, .auth span, .auth a:hover {
+  color: #2ecc71 !important;
 }
 nav .container {
   border-top: #dadada 1px solid;
@@ -63,10 +94,16 @@ nav .container {
         margin-top: 27px;
     }
     .auth a {
-        color: #8a8888;
+        color: #8a8888 !important;
         margin-left: 15px;
         text-decoration: none;
+        cursor: pointer;
     }
+    .auth span {
+      font-size: .8rem;
+      letter-spacing: .05rem;
+    }
+  
 @media (max-width: 576px) {
   nav .container {
   border-top: none;

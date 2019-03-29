@@ -7,6 +7,7 @@ import jQuery from 'jquery';
 import Bootstrap from 'bootstrap';
 import Vuelidate from 'vuelidate'
 import * as svgicon from 'vue-svgicon';
+import firebase from 'firebase';
 
 Vue.use(Vuelidate);
 Vue.use(svgicon, {

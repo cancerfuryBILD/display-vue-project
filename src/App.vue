@@ -28,6 +28,7 @@ export default {
 /* STICKY FOOTER */
 .content {
   min-height: calc(100vh - 200px);
+  padding-bottom: 50px;
 }
 .footer {
   height:200px;

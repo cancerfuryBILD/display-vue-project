@@ -1,5 +1,5 @@
 <template>
-    <div class="push">
+    <div>
         <page-title :headline="headline"/>
         <div class="container">
             <div class="login shadow">
@@ -10,29 +10,29 @@
                     <input name="email" 
                         type="email" 
                         placeholder="Email Address" 
-                        id="inputEmail" 
-                        @blur="$v.inputEmail.$touch()" 
-                        v-model.trim="inputEmail"
-                        :class="{ error: $v.inputEmail.$error }"
+                        id="email" 
+                        @blur="$v.email.$touch()" 
+                        v-model.trim="email"
+                        :class="{ error: $v.email.$error }"
                         autocomplete="off"> 
 
-                    <p class="error-message" v-if="!$v.inputEmail.email">Please enter a valid email address.</p>
-                    <p class="error-message" v-if="!$v.inputEmail.required && $v.inputEmail.$dirty">Email must not be empty.</p>
+                    <p class="error-message" v-if="!$v.email.email">Please enter a valid email address.</p>
+                    <p class="error-message" v-if="!$v.email.required && $v.email.$dirty">Email must not be empty.</p>
                     
                     <!-- PASSWORD INPUT -->
                     <input name="password" 
                         type="password" 
                         placeholder="Password" 
-                        id="inputPassword" 
-                        v-model.trim="inputPassword"
-                        @blur="$v.inputPassword.$touch()" 
-                        :class="{ error: $v.inputPassword.$error }"
+                        id="password" 
+                        v-model.trim="password"
+                        @blur="$v.password.$touch()" 
+                        :class="{ error: $v.password.$error }"
                         autocomplete="off">
 
-                        <p class="error-message" v-if="!$v.inputPassword.required && $v.inputPassword.$dirty">Password must not be empty.</p>
-                        <p class="error-message" v-if="!$v.inputPassword.minLength">Password must have at least {{$v.inputPassword.$params.minLength.min}} letters.</p>
+                        <p class="error-message" v-if="!$v.password.required && $v.password.$dirty">Password must not be empty.</p>
+                        <p class="error-message" v-if="feedback">{{ feedback }}</p>
 
-                    <button :disabled="$v.$invalid">Login</button>
+                    <button type="submit" :disabled="$v.$invalid">Login</button>
                 </form>
             </div>
         </div>
@@ -43,6 +43,7 @@
 import PageTitle from '@/components/Common/PageTitle.vue';
 import '@/assets/style/login-style.css';
 import {required, email, minLength} from 'vuelidate/lib/validators';
+import firebase from 'firebase';
 
 export default {
     components: {
@@ -51,19 +52,29 @@ export default {
     data() {
         return {
             headline: 'Fill in your credentials below',
-            inputPassword: '',
-            inputEmail: '',
+            password: '',
+            email: '',
+            feedback: '',
             error: 'error'
         }
     },
+    methods: {
+        login() {
+            firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+                .then(cred => {
+                    this.$router.push({ name: 'home' })
+                }).catch(error =>  {
+                    this.feedback = error.message
+            });
+        }
+    },
     validations: {
-        inputEmail: {
+        email: {
             required,
             email
         },
-        inputPassword: {
-            required,
-            minLength: minLength(6)
+        password: {
+            required
         }
     }
 }
