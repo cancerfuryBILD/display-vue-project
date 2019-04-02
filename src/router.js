@@ -5,7 +5,8 @@ import About from "./views/About.vue";
 import Work from "./views/Work.vue";
 import Contact from "./views/Contact.vue";
 import Axios from "./views/Axios.vue";
-import Test from "./views/Test.vue";
+import Blog from "./views/Blog.vue";
+import NewPost from "./components/Blog/NewPost.vue";
 import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
 import NotFound from "./views/NotFound.vue";
@@ -42,9 +43,14 @@ export default new Router({
       component: Axios
     },
     {
-      path: "/test",
-      name: "test",
-      component: Test
+      path: "/blog",
+      name: "blog",
+      component: Blog
+    },
+    {
+      path: "/new-post",
+      name: "new-post",
+      component: NewPost
     },
     {
       path: "/signup",

@@ -8,7 +8,8 @@ import Bootstrap from 'bootstrap';
 import Vuelidate from 'vuelidate'
 import * as svgicon from 'vue-svgicon';
 import firebase from 'firebase';
-
+// import CKEDITOR from 'ckeditor';
+// Vue.use(CKEDITOR);
 Vue.use(Vuelidate);
 Vue.use(svgicon, {
   classPrefix: 'AppIcon-',
