@@ -10,9 +10,18 @@
                         @blur="$v.title.$touch()" 
                         v-model.trim="title"
                         :class="{ error: $v.title.$error }"
-                        autocomplete="off"> 
+                        autocomplete="off">
+            <!-- THUMBNAIL INPUT -->
+                    <input name="thumbnail" 
+                        type="text" 
+                        placeholder="Thumbnail URL" 
+                        id="thumbnail" 
+                        @blur="$v.thumbnail.$touch()" 
+                        v-model="thumbnail"
+                        :class="{ error: $v.thumbnail.$error }"
+                        autocomplete="off">
 
-                    <p class="error-message" v-if="!$v.title.required && $v.title.$dirty">Title must not be empty.</p>
+                    <p class="error-message" v-if="!$v.thumbnail.required && $v.thumbnail.$dirty">Thumbnail must not be empty.</p>
 
                     <textarea name="editor" id="editor" v-model="postText"></textarea>
                     <button class="action-btn" @click="addPost">send</button>
@@ -26,13 +35,16 @@ import {required} from 'vuelidate/lib/validators';
 import db from '@/firebase/init';
 import moment from 'moment';
 
+
 export default {
+    name: 'NewPost',
     data() {
         return {
             headline: 'Add new post',
              title: null,
              postText: null,
-             author: null
+             author: null,
+             thumbnail: null
         }
     },
     components: {
@@ -40,6 +52,9 @@ export default {
     },
     validations: {
         title: {
+            required
+        },
+        thumbnail: {
             required
         }
     },
@@ -54,8 +69,10 @@ export default {
                 title: this.title,
                 postText: CKEDITOR.instances.editor.getData(),
                 author: this.getUser.firstName + ' ' + this.getUser.lastName,
-                timestamp: Date.now()
+                thumbnail: this.thumbnail,
+                timestamp: moment(Date.now()).utc().startOf('day').format()
             })
+            // console.log(moment(Date.now()).utc().startOf('day').format())
         }
     },
 		mounted () {
@@ -78,5 +95,8 @@ export default {
     }
     .new-post button {
         margin-top: 30px;
+    }
+    .new-post input[name="thumbnail"] {
+        margin-top: 0;
     }
 </style>

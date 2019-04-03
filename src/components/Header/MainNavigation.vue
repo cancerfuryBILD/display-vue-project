@@ -11,7 +11,7 @@
       <div class="auth">
         <router-link v-if="!user" :to="{ name: 'login' }">Login</router-link>
         <router-link v-if="!user" :to="{ name: 'signup' }">Signup</router-link>
-        <span v-if="user">{{ getUser.firstName }}</span>
+        <span v-if="user">{{ user.firstName }}</span>
         <a v-if="user" @click="logout">Logout</a>
       </div>
     </div>
@@ -25,7 +25,6 @@ export default {
    name: 'MainNavigation',
    data() {
      return {
-      user: null
       }
    },
    computed: {
@@ -33,7 +32,7 @@ export default {
      navLinks() {
        return this.$store.getters['menu/navLinks'];
      },
-     getUser() {
+     user() {
        return this.$store.getters['user/pushUser'];
      }
    },
@@ -45,15 +44,7 @@ export default {
      }
    },
    created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.$store.dispatch('user/getUser', user.email)
-        this.user = user
-        // console.log(user)
-      } else {
-        this.user = null
-      }
-    });
+   
 
   }
 }

@@ -24,5 +24,16 @@ new Vue({
   store: store,
   validations: {},
   Bootstrap,
-  render: h => h(App)
+  render: h => h(App),
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$store.dispatch('user/getUser', user.email)
+        this.user = user
+        // console.log(user)
+      } else {
+        this.user = null
+      }
+    });
+  }
 }).$mount("#app");

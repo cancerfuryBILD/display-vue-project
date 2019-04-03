@@ -10,6 +10,7 @@ import NewPost from "./components/Blog/NewPost.vue";
 import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
 import NotFound from "./views/NotFound.vue";
+import Post from "./components/Blog/Post.vue";
 
 Vue.use(Router);
 
@@ -48,9 +49,14 @@ export default new Router({
       component: Blog
     },
     {
-      path: "/new-post",
+      path: "/blog/new-post",
       name: "new-post",
       component: NewPost
+    },
+    {
+      path: "blog/:slug",
+      name: "post",
+      component: Post
     },
     {
       path: "/signup",
