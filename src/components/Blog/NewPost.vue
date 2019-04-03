@@ -13,9 +13,9 @@
                         autocomplete="off"> 
 
                     <p class="error-message" v-if="!$v.title.required && $v.title.$dirty">Title must not be empty.</p>
-            {{title}} {{postText}}
-            <textarea name="editor" id="editor" v-model="postText"></textarea>
-            <button @click="send">send</button>
+
+                    <textarea name="editor" id="editor" v-model="postText"></textarea>
+                    <button class="action-btn" @click="addPost">send</button>
         </div>
     </div>
 </template>
@@ -23,32 +23,16 @@
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
 import {required} from 'vuelidate/lib/validators';
-
-import Vue from "vue";
+import db from '@/firebase/init';
+import moment from 'moment';
 
 export default {
     data() {
         return {
             headline: 'Add new post',
-             title: '',
-             postText: 'kristijan',
-             value: {
-        type: String
-      }
-        //     value:'',
-        //     toolbar: {
-        //         type:[],
-        //         default: () => [
-        //   ['Undo','Redo'],
-        //   ['Bold','Italic','Strike'],
-        //   ['NumberedList','BulletedList'],
-        //   ['Cut','Copy','Paste'],
-        // ]
-        //     },
-        //     language: {
-        //         type: String,
-        //         default: 'en'
-        //     }
+             title: null,
+             postText: null,
+             author: null
         }
     },
     components: {
@@ -59,9 +43,19 @@ export default {
             required
         }
     },
+    computed: {
+        getUser() {
+       return this.$store.getters['user/pushUser'];
+     }
+    },
     methods: {
-        send() {
-            console.log(CKEDITOR.instances.editor.getData())
+        addPost() {
+            db.collection('posts').add({
+                title: this.title,
+                postText: CKEDITOR.instances.editor.getData(),
+                author: this.getUser.firstName + ' ' + this.getUser.lastName,
+                timestamp: Date.now()
+            })
         }
     },
 		mounted () {
@@ -76,6 +70,13 @@ export default {
 <style>
     .new-post input {
         margin-top: 50px;
+        margin-bottom: 30px;
         width: 100%;
+        border: 1px solid #d1d1d1;
+        text-transform: uppercase;
+        color: #737373;
+    }
+    .new-post button {
+        margin-top: 30px;
     }
 </style>

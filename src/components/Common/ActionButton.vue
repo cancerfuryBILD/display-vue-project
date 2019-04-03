@@ -26,7 +26,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .action-btn {
     font-size: 14px;
     padding: 10px 22px;
