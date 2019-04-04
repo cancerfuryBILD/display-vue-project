@@ -51,7 +51,10 @@ export default new Router({
     {
       path: "/blog/new-post",
       name: "new-post",
-      component: NewPost
+      component: NewPost,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "blog/:slug",

@@ -15,7 +15,7 @@ const mutations = {
 }
 const actions = {
     getPosts({commit}) {
-        db.collection('posts').orderBy('timestamp').onSnapshot((snapshot) => {
+        db.collection('posts').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
             let posts = [];
             snapshot.docs.forEach(doc => {
                 posts.push(doc.data())

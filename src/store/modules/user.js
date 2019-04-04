@@ -1,7 +1,8 @@
 import db from '../../firebase/init';
 
 const state = {
-    user: ''
+    user: '',
+    userData: []
 };
 
 const getters = {
@@ -16,17 +17,23 @@ const mutations = {
     }
 };
 const actions = {
-    getUser({commit}, payload) {
-       let user = {}
-    //    console.log(payload)
-        db.collection('users').where('email', '==', payload).get().then(snapshot => {
-            snapshot.docs.forEach(doc => {
-                user = doc.data()
-            })
-            commit('set_user', user)  
-        }); 
+
+
+
+
+
+
+    // getUser({commit}, payload) {
+    //    let user = {}
+    // //    console.log(payload)
+    //     db.collection('users').where('email', '==', payload).get().then(snapshot => {
+    //         snapshot.docs.forEach(doc => {
+    //             user = doc.data()
+    //         })
+    //         commit('set_user', user)  
+    //     }); 
        
-    }
+    // }
 };
 export default {
     state,

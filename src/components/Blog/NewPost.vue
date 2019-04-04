@@ -8,9 +8,12 @@
                         placeholder="Title" 
                         id="title" 
                         @blur="$v.title.$touch()" 
-                        v-model.trim="title"
+                        v-model="title"
                         :class="{ error: $v.title.$error }"
                         autocomplete="off">
+
+            <p class="error-message" v-if="!$v.title.required && $v.title.$dirty">Title must not be empty.</p>
+
             <!-- THUMBNAIL INPUT -->
                     <input name="thumbnail" 
                         type="text" 
@@ -44,7 +47,8 @@ export default {
              title: null,
              postText: null,
              author: null,
-             thumbnail: null
+             thumbnail: null,
+             error: 'error',
         }
     },
     components: {
@@ -71,7 +75,9 @@ export default {
                 author: this.getUser.firstName + ' ' + this.getUser.lastName,
                 thumbnail: this.thumbnail,
                 timestamp: moment(Date.now()).utc().startOf('day').format()
-            })
+            }).then(() => {
+                this.$router.push({ name: 'blog' })
+                })
             // console.log(moment(Date.now()).utc().startOf('day').format())
         }
     },
@@ -98,5 +104,8 @@ export default {
     }
     .new-post input[name="thumbnail"] {
         margin-top: 0;
+    }
+    .error {
+    border: 2px solid red !important;
     }
 </style>

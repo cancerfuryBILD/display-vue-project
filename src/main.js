@@ -29,10 +29,8 @@ new Vue({
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.$store.dispatch('user/getUser', user.email)
-        this.user = user
+        
         // console.log(user)
-      } else {
-        this.user = null
       }
     });
   }

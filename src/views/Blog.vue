@@ -4,14 +4,15 @@
         <div  class="container blog-posts">
             <action-button v-if="user" :buttonTitle="buttonTitle" :buttonType="buttonType" :buttonLink="buttonLink"/>
             <div v-for="(post, index) in posts" :key="index">
-                <router-link :to="'/blog/' + post.url">
                 <article>
                     <div class="row">
-                        <div class="col-sm-5">
+                        <div class="col-sm-4">
                             <img :src="post.thumbnail" alt="">
                         </div>
-                        <div class="col-sm-7 flex-column d-flex">
-                            <h1>{{ post.title }}</h1>
+                        <div class="col-sm-8 flex-column d-flex">
+                            <router-link :to="'/blog/' + post.slug">
+                                <h1>{{ post.title }}</h1>
+                            </router-link>
                             <div class="post" v-html="post.postText"></div>
                             <div class="d-flex justify-content-between  mt-auto mb-3 ">
                                 <span class="author">Author: {{ post.author }}</span>
@@ -20,7 +21,6 @@
                         </div>
                     </div>
                 </article>
-                </router-link>
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@ export default {
    },
    methods:{
        dateFormating(date){
-           return moment(date).format('DD/MM/YYYY')
+           return moment(date).format('DD / MM / YYYY')
        }
    }
 }
@@ -93,6 +93,6 @@ export default {
         text-transform: none
     }
     article {
-        min-height: 250px;
+        min-height: 200px;
     }
 </style>

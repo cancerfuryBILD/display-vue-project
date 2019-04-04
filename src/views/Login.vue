@@ -13,8 +13,7 @@
                         id="email" 
                         @blur="$v.email.$touch()" 
                         v-model.trim="email"
-                        :class="{ error: $v.email.$error }"
-                        autocomplete="off"> 
+                        :class="{ error: $v.email.$error }"> 
 
                     <p class="error-message" v-if="!$v.email.email">Please enter a valid email address.</p>
                     <p class="error-message" v-if="!$v.email.required && $v.email.$dirty">Email must not be empty.</p>
@@ -62,7 +61,10 @@ export default {
         login() {
             firebase.auth().signInWithEmailAndPassword(this.email, this.password)
                 .then(cred => {
-                    this.$router.push({ name: 'home' })
+                    this.$store.dispatch('auth/setUser', {
+                        uid: cred.uid
+                    })
+                    this.$router.push({ name: 'blog' })
                 }).catch(error =>  {
                     this.feedback = error.message
             });

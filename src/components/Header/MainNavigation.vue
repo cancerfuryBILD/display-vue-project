@@ -25,28 +25,36 @@ export default {
    name: 'MainNavigation',
    data() {
      return {
+       isLoggedIn: false,
+       currentUser: false
       }
    },
    computed: {
-
      navLinks() {
        return this.$store.getters['menu/navLinks'];
      },
-     user() {
-       return this.$store.getters['user/pushUser'];
-     }
+    //  user() {
+    //    return this.$store.getters['user/pushUser'];
+    //  }
    },
    methods: {
-     logout() {
+     logout() {   
        firebase.auth().signOut().then(() => {
          this.$router.push({ name: 'login' })
        })
      }
    },
-   created() {
-   
-
-  }
+  //  created() {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       this.$store.dispatch('user/getUser', user.email)
+  //       this.user = user
+  //       // console.log(user)
+  //     } else {
+  //       this.user = null
+  //     }
+  //   });
+  // }
 }
 // $('.nav a').on('click', function(){
 //     $('.btn-navbar').click(); //bootstrap 2.x
