@@ -19,19 +19,21 @@ global.jQuery = jQuery;
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store: store,
-  validations: {},
-  Bootstrap,
-  render: h => h(App),
-  created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.$store.dispatch('user/getUser', user.email)
-        
-        // console.log(user)
-      }
-    });
-  }
-}).$mount("#app");
+let app = '';
+
+firebase.auth().onAuthStateChanged(() => {
+  if (!app) {
+      app = new Vue({
+      router,
+      store,
+      validations: {},
+      Bootstrap,
+      render: h => h(App),
+      
+    }).$mount("#app");
+  };
+  if(firebase.auth().currentUser) {
+    store.dispatch('auth/autoSignIn', firebase.auth().currentUser.uid);
+}
+});
+

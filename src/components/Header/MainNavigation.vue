@@ -1,71 +1,55 @@
 <template>
-  <nav class="navbar navbar-expand-sm pl-0 pr-0">
-    <div class="container pl-0 pr-0">
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav main-navigation">
-          <li class="nav-item" v-for="(navLink, index) in navLinks" :key="index" >
-            <router-link :to="navLink.link">{{ navLink.name }}</router-link>
-          </li>
-        </ul>
-      </div>
-      <div class="auth">
-        <router-link v-if="!user" :to="{ name: 'login' }">Login</router-link>
-        <router-link v-if="!user" :to="{ name: 'signup' }">Signup</router-link>
-        <span v-if="user">{{ user.firstName }}</span>
-        <a v-if="user" @click="logout">Logout</a>
-      </div>
-    </div>
-  </nav>
+	<nav class="navbar navbar-expand-sm pl-0 pr-0">
+		<div class="container pl-0 pr-0">
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav main-navigation">
+				<li class="nav-item" v-for="(navLink, index) in navLinks" :key="index" >
+					<router-link :to="navLink.link">{{ navLink.name }}</router-link>
+				</li>
+				</ul>
+			</div>
+			<div class="auth">
+				<router-link v-if="!user" :to="{ name: 'login' }">Login</router-link>
+				<router-link v-if="!user" :to="{ name: 'signup' }">Signup</router-link>
+				<span v-if="user">{{ userData.firstName }}</span>
+				<a v-if="user" @click="logout">Logout</a>
+			</div>
+		</div>
+	</nav>
 </template>     
 
 <script>
 import firebase from 'firebase';
 
 export default {
-   name: 'MainNavigation',
-   data() {
-     return {
-       isLoggedIn: false,
-       currentUser: false
-      }
-   },
-   computed: {
-     navLinks() {
-       return this.$store.getters['menu/navLinks'];
-     },
-    //  user() {
-    //    return this.$store.getters['user/pushUser'];
-    //  }
-   },
-   methods: {
-     logout() {   
-       firebase.auth().signOut().then(() => {
-         this.$router.push({ name: 'login' })
-       })
-     }
-   },
-  //  created() {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       this.$store.dispatch('user/getUser', user.email)
-  //       this.user = user
-  //       // console.log(user)
-  //     } else {
-  //       this.user = null
-  //     }
-  //   });
-  // }
+	name: 'MainNavigation',
+	computed: {
+		navLinks() {
+			return this.$store.getters['menu/navLinks'];
+		},
+		user() {
+			return this.$store.getters['auth/user'];
+		},
+		userData() {
+			return this.$store.getters['auth/userData'];
+		}
+	},
+	methods: {
+		logout() {
+			this.$store.dispatch('auth/logout')
+		}
+	},
+	beforeCreate() {
+      	let uid = firebase.auth().currentUser.uid;
+		  this.$store.dispatch('auth/getUserData', uid)
+		//   console.log(uid)
+    },
 }
-// $('.nav a').on('click', function(){
-//     $('.btn-navbar').click(); //bootstrap 2.x
-//     $('.navbar-toggle').click(); //bootstrap 3.x by Richard
-//     $('.navbar-toggler').click(); //bootstrap 4.x
-// });
 </script>
 
 <style>
 .main-navigation {
-  margin-top: 22px;
+  	margin-top: 22px;
 }
 nav {
     margin-top: 22px;
@@ -82,10 +66,10 @@ nav {
     margin-right: 26px;
 }
 .main-navigation .router-link-exact-active, .auth a:hover, .auth .router-link-active, .auth span, .auth a:hover {
-  color: #2ecc71 !important;
+  	color: #2ecc71 !important;
 }
 nav .container {
-  border-top: #dadada 1px solid;
+  	border-top: #dadada 1px solid;
 }
 .auth {
         font-size: .8rem;
@@ -99,16 +83,16 @@ nav .container {
         cursor: pointer;
     }
     .auth span {
-      font-size: .8rem;
-      letter-spacing: .05rem;
+      	font-size: .8rem;
+      	letter-spacing: .05rem;
     }
   
 @media (max-width: 576px) {
-  nav .container {
-  border-top: none;
-  }
-  nav {
-    display: none;
-  }
+	nav .container {
+		border-top: none;
+	}
+	nav {
+		display: none;
+	}
 }
 </style>

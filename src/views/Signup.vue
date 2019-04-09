@@ -96,7 +96,7 @@ export default {
                         email: this.email,
                         user_id: cred.user.uid
                     }).then(() => {
-                            this.$router.push({ name: 'login' })
+                            this.$router.replace({ name: 'login' })
                         })
                 })
                 .catch(error =>  {

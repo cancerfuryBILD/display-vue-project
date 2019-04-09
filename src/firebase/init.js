@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 import 'firebase/firestore';
 
 // Initialize Firebase
@@ -10,5 +10,5 @@ var config = {
     storageBucket: "display-13976.appspot.com",
     messagingSenderId: "790894376048"
   };
-const app = firebase.initializeApp(config);
+firebase.initializeApp(config);
 export default firebase.firestore()

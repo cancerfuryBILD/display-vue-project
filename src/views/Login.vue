@@ -53,21 +53,18 @@ export default {
             headline: 'Fill in your credentials below',
             password: '',
             email: '',
-            feedback: '',
+            // feedback: '',
             error: 'error'
+        }
+    },
+    computed: {
+        feedback() {
+            return this.$store.getters['auth/feedback'];
         }
     },
     methods: {
         login() {
-            firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-                .then(cred => {
-                    this.$store.dispatch('auth/setUser', {
-                        uid: cred.uid
-                    })
-                    this.$router.push({ name: 'blog' })
-                }).catch(error =>  {
-                    this.feedback = error.message
-            });
+            this.$store.dispatch('auth/login', {email: this.email, password: this.password})       
         }
     },
     validations: {

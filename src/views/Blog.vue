@@ -39,7 +39,6 @@ export default {
             buttonTitle: 'Add new post',
             buttonType: 'button',
             buttonLink: '/blog/new-post',
-        
         }
     },
     components: {
@@ -47,21 +46,21 @@ export default {
         ActionButton
     },
     computed: {
-     posts() {
-       return this.$store.getters['blog/posts'];
-     },
-     user() {
-       return this.$store.getters['user/pushUser'];
-     }
-   },
-    created() {
-       this.$store.dispatch('blog/getPosts')
-   },
-   methods:{
-       dateFormating(date){
-           return moment(date).format('DD / MM / YYYY')
-       }
-   }
+        posts() {
+            return this.$store.getters['blog/posts'];
+        },
+        user() {
+            return this.$store.getters['auth/user'];
+        }
+    },
+        created() {
+            this.$store.dispatch('blog/getPosts')
+    },
+    methods:{
+        dateFormating(date){
+            return moment(date).format('DD / MM / YYYY')
+        }
+    }
 }
 </script>
 

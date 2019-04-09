@@ -1,7 +1,7 @@
 import db from '../../firebase/init'
 
 const state = {
-    posts: []
+    posts: {}
 }
 const getters = {
     posts(state) {
@@ -18,13 +18,15 @@ const actions = {
         db.collection('posts').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
             let posts = [];
             snapshot.docs.forEach(doc => {
-                posts.push(doc.data())
+                posts.push({
+                    ...doc.data(),
+                    id: doc.id})
             })
-            // console.log(posts)
             commit('setPosts', posts)
         })
     }
 }
+
 export default {
     state,
     getters,
