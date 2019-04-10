@@ -12,7 +12,6 @@ const getters = {
 const mutations = {
     setSinglePost(state, payload) {
         state.post = payload
-        // console.log(state.post, 'String')
     }
 }
 const actions = {
@@ -21,8 +20,8 @@ const actions = {
             let post = [];
             snapshot.docs.forEach(doc => {
                 post = doc.data()
+                console.log(snapshot)
             })
-            // console.log(post)
             commit('setSinglePost', post)
         })
     }

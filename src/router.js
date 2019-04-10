@@ -11,7 +11,7 @@ import Login from "./views/Login.vue";
 import Signup from "./views/Signup.vue";
 import NotFound from "./views/NotFound.vue";
 import Post from "./components/Blog/Post.vue";
-
+import EditPost from "./components/Blog/EditPost.vue";
 import firebase from 'firebase'
 Vue.use(Router);
 
@@ -61,6 +61,14 @@ const router = new Router({
 		path: "/blog/:id",
 		name: "post",
 		component: Post
+	},
+	{
+		path: "/post/edit/:id",
+		name: "edit-post",
+		component: EditPost,
+		meta: {
+			requiresAuth: true
+		}
 	},
 	{
 		path: "/signup",

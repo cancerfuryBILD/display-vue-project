@@ -1,91 +1,73 @@
 <template>
     <div class="new-post">
         <page-title :headline="headline"/>
-        <div class="container">
+        <div v-if="post" class="container">
             <!-- HEADING INPUT -->
                     <input name="title" 
                         type="text" 
                         placeholder="Title" 
                         id="title" 
-                        @blur="$v.title.$touch()" 
-                        v-model="title"
-                        :class="{ error: $v.title.$error }"
+                        v-model="post.title"
                         autocomplete="off">
-
-            <p class="error-message" v-if="!$v.title.required && $v.title.$dirty">Title must not be empty.</p>
 
             <!-- THUMBNAIL INPUT -->
                     <input name="thumbnail" 
                         type="text" 
                         placeholder="Thumbnail URL" 
                         id="thumbnail" 
-                        @blur="$v.thumbnail.$touch()" 
-                        v-model="thumbnail"
-                        :class="{ error: $v.thumbnail.$error }"
+                        v-model="post.thumbnail"
                         autocomplete="off">
 
-                    <p class="error-message" v-if="!$v.thumbnail.required && $v.thumbnail.$dirty">Thumbnail must not be empty.</p>
-
-                    <textarea name="editor" id="editor" v-model="postText"></textarea>
-                    <button class="action-btn" @click="addPost">send</button>
+                    <textarea name="editor" id="editor" v-model="post.postText"></textarea>
+                    <button @click="updatePost" class="action-btn">Update</button>
         </div>
     </div>
 </template>
 
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
-import {required} from 'vuelidate/lib/validators';
 import db from '@/firebase/init';
 import moment from 'moment';
-
+import {store} from "../../store/index";
 
 export default {
-    name: 'NewPost',
+    name: 'EditPost',
     data() {
         return {
-            headline: 'Add new post',
-            title: null,
-            postText: null,
-            author: null,
-            thumbnail: null,
+            headline: 'Edit post',
             error: 'error',
         }
     },
     components: {
         PageTitle,
     },
-    validations: {
-        title: {
-            required
-        },
-        thumbnail: {
-            required
-        }
-    },
     computed: {
-        getUser() {
-            return this.$store.getters['user/pushUser'];
-        },
         post() {
             return this.$store.getters['singlePost/post'];
         }
     },
     methods: {
-        addPost() {
-            db.collection('posts').add({
+        updatePost() {
+            db.collection('posts').update({
                 title: this.title,
                 postText: CKEDITOR.instances.editor.getData(),
-                author: this.getUser.firstName + ' ' + this.getUser.lastName,
                 thumbnail: this.thumbnail,
-                timestamp: moment(Date.now()).utc().startOf('day').format()
             }).then(() => {
                 this.$router.push({ name: 'blog' })
                 })
         }
     },
-		mounted () {
-            CKEDITOR.replace('editor')
-        }
+    beforeRouteEnter (to, from, next) {
+        const id = to.params.id;
+        store.dispatch('singlePost/getSinglePost', id);
+        setTimeout(() => {
+          next();
+        }, 400);
+        
+    },
+	mounted () {
+        CKEDITOR.replace('editor');
+    }
 }
 
 </script>

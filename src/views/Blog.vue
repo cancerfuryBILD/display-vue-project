@@ -10,6 +10,9 @@
                             <img :src="post.thumbnail" alt="">
                         </div>
                         <div class="col-sm-8 flex-column d-flex">
+                            <router-link :to="'/post/edit/' + post.slug">
+                                <button>Edit Post</button>
+                            </router-link>
                             <router-link :to="'/blog/' + post.slug">
                                 <h1>{{ post.title }}</h1>
                             </router-link>
@@ -18,6 +21,7 @@
                                 <span class="author">Author: {{ post.author }}</span>
                                 <span class="published">Published: {{ dateFormating(post.timestamp) }} </span>
                             </div>
+                           
                         </div>
                     </div>
                 </article>
@@ -77,13 +81,25 @@ export default {
     .blog-posts img {
         width: 100%;
     }
+    article button {
+        font-size: 14px;
+        text-transform: uppercase;
+        font-family: 'Novecentosanswide-DemiBold';
+        padding: 3px 8px;
+        margin-top: -2px;
+        background-color: #2ecc71;
+        border: none;
+        color: #fff;
+        border: none;
+        outline: none;
+    }
     .post img {
         display: none;
     }
     .post p, .post h3 {
         display: none;
     }
-    .post p:first-child, .post p:nth-child(2) {
+    .post p:first-child {
         display: block;
     }
     .published, .author {
