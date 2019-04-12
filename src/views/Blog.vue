@@ -10,7 +10,7 @@
                             <img :src="post.thumbnail" alt="">
                         </div>
                         <div class="col-sm-8 flex-column d-flex">
-                            <router-link :to="'/post/edit/' + post.slug">
+                            <router-link v-if="user" :to="'/post/edit/' + post.slug">
                                 <button>Edit Post</button>
                             </router-link>
                             <router-link :to="'/blog/' + post.slug">
@@ -34,6 +34,7 @@
 import PageTitle from '@/components/Common/PageTitle.vue';
 import ActionButton from '@/components/Common/ActionButton.vue';
 import moment from 'moment';
+import asyncDataStatus from '@/mixins/asyncDataStatus';
 
 export default {
     name: 'Blog',
@@ -49,6 +50,7 @@ export default {
         PageTitle,
         ActionButton
     },
+    mixins: [asyncDataStatus],
     computed: {
         posts() {
             return this.$store.getters['blog/posts'];
@@ -57,8 +59,8 @@ export default {
             return this.$store.getters['auth/user'];
         }
     },
-        created() {
-            this.$store.dispatch('blog/getPosts')
+    created() {
+        this.$store.dispatch('blog/getPosts')
     },
     methods:{
         dateFormating(date){

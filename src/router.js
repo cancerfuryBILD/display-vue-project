@@ -12,7 +12,8 @@ import Signup from "./views/Signup.vue";
 import NotFound from "./views/NotFound.vue";
 import Post from "./components/Blog/Post.vue";
 import EditPost from "./components/Blog/EditPost.vue";
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth';
 Vue.use(Router);
 
 const router = new Router({
@@ -96,9 +97,18 @@ router.beforeEach((to, from, next) => {
 	const currentUser = firebase.auth().currentUser;
 	const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-	if (requiresAuth && !currentUser) next('login');
+	if (requiresAuth && !currentUser) {
+		next({
+			path: '/login',
+			query: {
+				returnUrl: '/blog/new-post'
+			}
+		});
+	} else {
+		next();
+	}
 	// else if (!requiresAuth && currentUser) next('blog');
-	else next();
+	
 });
 
 export default router;

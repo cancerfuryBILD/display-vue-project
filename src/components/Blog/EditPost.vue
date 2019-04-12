@@ -7,18 +7,19 @@
                         type="text" 
                         placeholder="Title" 
                         id="title" 
-                        v-model="post.title"
+                        v-model="post[0].title"
                         autocomplete="off">
+            <p>{{slugify(post[0].title)}}</p>
 
             <!-- THUMBNAIL INPUT -->
                     <input name="thumbnail" 
                         type="text" 
                         placeholder="Thumbnail URL" 
                         id="thumbnail" 
-                        v-model="post.thumbnail"
+                        v-model="post[0].thumbnail"
                         autocomplete="off">
 
-                    <textarea name="editor" id="editor" v-model="post.postText"></textarea>
+                    <textarea name="editor" id="editor" v-model="post[0].postText"></textarea>
                     <button @click="updatePost" class="action-btn">Update</button>
         </div>
     </div>
@@ -26,7 +27,6 @@
 
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
-import db from '@/firebase/init';
 import moment from 'moment';
 import {store} from "../../store/index";
 
@@ -48,14 +48,28 @@ export default {
     },
     methods: {
         updatePost() {
-            db.collection('posts').update({
-                title: this.title,
+            db.collection('posts').doc(this.post[0].id).update({
+                title: this.post[0].title,
                 postText: CKEDITOR.instances.editor.getData(),
-                thumbnail: this.thumbnail,
+                thumbnail: this.post[0].thumbnail,
+                slug: this.slugify(this.post[0].title)
             }).then(() => {
-                this.$router.push({ name: 'blog' })
+                this.$router.push({ path: '/blog/' + this.slugify(this.post[0].title) })
                 })
-        }
+        },
+        slugify(url) {
+           return url.toString().toLowerCase()
+               .replace(/\s+/g, '-')
+               .replace(/č/g, 'c')
+               .replace(/ć/g, 'c')
+               .replace(/đ/g, 'dj')
+               .replace(/š/g, 's')
+               .replace(/ž/g, 'z')
+               .replace(/[^\w\-]+/g, '')
+               .replace(/\-\-+/g, '-')
+               .replace(/^-+/, '')
+               .replace(/-+$/, '');
+       },
     },
     beforeRouteEnter (to, from, next) {
         const id = to.params.id;

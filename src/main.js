@@ -7,7 +7,9 @@ import jQuery from 'jquery';
 import Bootstrap from 'bootstrap';
 import Vuelidate from 'vuelidate'
 import * as svgicon from 'vue-svgicon';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import './firebase/init';
 // import CKEDITOR from 'ckeditor';
 // Vue.use(CKEDITOR);
 Vue.use(Vuelidate);
@@ -33,7 +35,7 @@ firebase.auth().onAuthStateChanged(() => {
     }).$mount("#app");
   };
   if(firebase.auth().currentUser) {
-    store.dispatch('auth/autoSignIn', firebase.auth().currentUser.uid);
+    store.dispatch('auth/setUser', firebase.auth().currentUser);
 }
 });
 

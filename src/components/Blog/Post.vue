@@ -1,12 +1,12 @@
 <template>
     <div class="single-post">
-        <page-title :headline="post.title"/>
+        <page-title :headline="post[0].title"/>
         <div class="container" v-if="post">
             <div class="d-flex justify-content-between  mt-auto mb-3 ">
-                <span class="author">Author: {{ post.author }}</span>
-                <span class="published">Published: {{ dateFormating(post.timestamp) }} </span>
+                <span class="author">Author: {{ post[0].author }}</span>
+                <span class="published">Published: {{ dateFormating(post[0].timestamp) }} </span>
             </div>
-            <div v-html="post.postText"></div>
+            <div v-html="post[0].postText"></div>
         </div>
     </div>
 </template>
@@ -14,7 +14,6 @@
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
 import moment from 'moment';
-import db from '../../firebase/init';
 
 export default {
     name: 'Post',

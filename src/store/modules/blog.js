@@ -1,5 +1,5 @@
 import db from '../../firebase/init'
-
+import asyncDataStatus from '@/mixins/asyncDataStatus';
 const state = {
     posts: {}
 }

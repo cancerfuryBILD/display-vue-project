@@ -11,7 +11,7 @@
                         v-model="title"
                         :class="{ error: $v.title.$error }"
                         autocomplete="off">
-
+            <p>{{slugify(title)}}</p>
             <p class="error-message" v-if="!$v.title.required && $v.title.$dirty">Title must not be empty.</p>
 
             <!-- THUMBNAIL INPUT -->
@@ -35,7 +35,6 @@
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
 import {required} from 'vuelidate/lib/validators';
-import db from '@/firebase/init';
 import moment from 'moment';
 
 
@@ -44,10 +43,11 @@ export default {
     data() {
         return {
             headline: 'Add new post',
-            title: null,
+            title: '',
             postText: null,
             author: null,
             thumbnail: null,
+            slug: "",
             error: 'error',
         }
     },
@@ -63,8 +63,8 @@ export default {
         }
     },
     computed: {
-        getUser() {
-            return this.$store.getters['user/pushUser'];
+        user() {
+            return this.$store.getters['user/user'];
         },
         post() {
             return this.$store.getters['singlePost/post'];
@@ -75,13 +75,27 @@ export default {
             db.collection('posts').add({
                 title: this.title,
                 postText: CKEDITOR.instances.editor.getData(),
-                author: this.getUser.firstName + ' ' + this.getUser.lastName,
+                author: this.user.firstName + ' ' + this.user.lastName,
                 thumbnail: this.thumbnail,
-                timestamp: moment(Date.now()).utc().startOf('day').format()
+                timestamp: moment(Date.now()).utc().startOf('day').format(),
+                slug: slugify(this.title)
             }).then(() => {
                 this.$router.push({ name: 'blog' })
                 })
-        }
+        },
+        slugify(url) {
+           return url.toString().toLowerCase()
+               .replace(/\s+/g, '-')
+               .replace(/č/g, 'c')
+               .replace(/ć/g, 'c')
+               .replace(/đ/g, 'dj')
+               .replace(/š/g, 's')
+               .replace(/ž/g, 'z')
+               .replace(/[^\w\-]+/g, '')
+               .replace(/\-\-+/g, '-')
+               .replace(/^-+/, '')
+               .replace(/-+$/, '');
+       },
     },
 		mounted () {
             CKEDITOR.replace('editor')

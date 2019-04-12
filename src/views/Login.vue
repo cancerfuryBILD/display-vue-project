@@ -28,7 +28,7 @@
                         :class="{ error: $v.password.$error }"
                         autocomplete="off">
 
-                        <p class="error-message" v-if="!$v.password.required && $v.password.$dirty">Password must not be empty.</p>
+                        <p class="error-message" v-if="!$v.password.required">Password must not be empty.</p>
                         <p class="error-message" v-if="feedback">{{ feedback }}</p>
 
                     <button type="submit" :disabled="$v.$invalid">Login</button>
@@ -42,7 +42,7 @@
 import PageTitle from '@/components/Common/PageTitle.vue';
 import '@/assets/style/login-style.css';
 import {required, email, minLength} from 'vuelidate/lib/validators';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 export default {
     components: {
@@ -75,6 +75,12 @@ export default {
         password: {
             required
         }
+    },
+    beforeCreated() {
+         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+    },
+    beforeDestroy() {
+         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     }
 }
 </script>

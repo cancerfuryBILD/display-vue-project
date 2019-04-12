@@ -68,7 +68,8 @@ import PageTitle from '@/components/Common/PageTitle.vue';
 import '@/assets/style/login-style.css';
 import {required, email, minLength} from 'vuelidate/lib/validators';
 import db from '@/firebase/init';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export default {
     components: {

@@ -11,7 +11,7 @@
 			<div class="auth">
 				<router-link v-if="!user" :to="{ name: 'login' }">Login</router-link>
 				<router-link v-if="!user" :to="{ name: 'signup' }">Signup</router-link>
-				<span v-if="user">{{ userData.firstName }}</span>
+				<span v-if="user">{{ user.firstName }}</span>
 				<a v-if="user" @click="logout">Logout</a>
 			</div>
 		</div>
@@ -19,7 +19,8 @@
 </template>     
 
 <script>
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export default {
 	name: 'MainNavigation',
@@ -30,20 +31,18 @@ export default {
 		user() {
 			return this.$store.getters['auth/user'];
 		},
-		userData() {
-			return this.$store.getters['auth/userData'];
-		}
 	},
 	methods: {
 		logout() {
 			this.$store.dispatch('auth/logout')
 		}
 	},
-	beforeCreate() {
-      	let uid = firebase.auth().currentUser.uid;
-		  this.$store.dispatch('auth/getUserData', uid)
-		//   console.log(uid)
-    },
+	// beforeCreate() {
+	// 	let currentUser = firebase.auth().currentUser;
+	// 	if  (currentUser) {
+	// 		this.$store.dispatch('auth/setUser', currentUser.uid);
+	// 	}
+    // },
 }
 </script>
 

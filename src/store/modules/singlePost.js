@@ -19,8 +19,10 @@ const actions = {
         db.collection('posts').where('slug', '==', payload).get().then(snapshot => {
             let post = [];
             snapshot.docs.forEach(doc => {
-                post = doc.data()
-                console.log(snapshot)
+                post.push({
+                    ...doc.data(),
+                    id: doc.id})
+            // })
             })
             commit('setSinglePost', post)
         })
