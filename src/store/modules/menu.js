@@ -4,7 +4,6 @@ const state = {
         {name: 'about', link: '/about'},
         {name: 'work', link: '/work'},
         {name: 'contact', link: '/contact'},
-        {name: 'axios', link: '/axios'},
         {name: 'blog', link: '/blog'},
     ]
 };

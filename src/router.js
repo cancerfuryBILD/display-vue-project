@@ -12,8 +12,10 @@ import Signup from "./views/Signup.vue";
 import NotFound from "./views/NotFound.vue";
 import Post from "./components/Blog/Post.vue";
 import EditPost from "./components/Blog/EditPost.vue";
+import ProfilePage from "./components/Users/ProfilePage.vue";
 import firebase from 'firebase/app'
 import 'firebase/auth';
+import {store} from "./store/index";
 Vue.use(Router);
 
 const router = new Router({
@@ -72,6 +74,14 @@ const router = new Router({
 		}
 	},
 	{
+		path: "/profile/:id",
+		name: "profile-page",
+		component: ProfilePage,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
 		path: "/signup",
 		name: "signup",
 		component: Signup
@@ -98,11 +108,10 @@ router.beforeEach((to, from, next) => {
 	const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
 	if (requiresAuth && !currentUser) {
+		store.commit('auth/setRedirect', to.path)
 		next({
-			path: '/login',
-			query: {
-				returnUrl: '/blog/new-post'
-			}
+			name: 'login',
+			query: {redirectTo: to.path}
 		});
 	} else {
 		next();

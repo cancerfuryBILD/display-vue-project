@@ -36,7 +36,7 @@
 import PageTitle from '@/components/Common/PageTitle.vue';
 import {required} from 'vuelidate/lib/validators';
 import moment from 'moment';
-
+import db from '../../firebase/init';
 
 export default {
     name: 'NewPost',
@@ -64,7 +64,7 @@ export default {
     },
     computed: {
         user() {
-            return this.$store.getters['user/user'];
+            return this.$store.getters['auth/user'];
         },
         post() {
             return this.$store.getters['singlePost/post'];
@@ -77,6 +77,7 @@ export default {
                 postText: CKEDITOR.instances.editor.getData(),
                 author: this.user.firstName + ' ' + this.user.lastName,
                 thumbnail: this.thumbnail,
+                uid: this.user.user_id,
                 timestamp: moment(Date.now()).utc().startOf('day').format(),
                 slug: slugify(this.title)
             }).then(() => {

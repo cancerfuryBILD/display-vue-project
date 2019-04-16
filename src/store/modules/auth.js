@@ -5,6 +5,7 @@ import router from "../../router";
 const state = {
     feedback: null,
     user: '',
+    redirect: ''
 
 
 }
@@ -14,6 +15,9 @@ const getters = {
     },
     feedback(state) {
         return state.feedback
+    },
+    redirect(state) {
+        return state.redirect
     }
 }
 const mutations = {
@@ -22,21 +26,25 @@ const mutations = {
     },
     setFeedback(state, payload) {
         state.feedback = payload
-    }
+    },
+    setRedirect(state, payload) {
+        state.redirect = payload
+    },
 }
 const actions = {
     // SIGNUP USER
     signup({commit}, payload) {
-        admin.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+        firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
             // CREATE USER IN 'USERS' COLLECTION
             .then(cred => {
                 db.collection("users").doc().set({
-                    firstName: this.firstName,
-                    lastName: this.lastName,
-                    email: this.email,
+                    firstName: payload.firstName,
+                    lastName: payload.lastName,
+                    email: payload.email,
                     user_id: cred.user.uid
                 }).then(() => {
-                    router.push({ name: 'login' })
+                    const redirectTo = state.redirect || {name: 'blog'}
+                    router.push(redirectTo)
                     })
             })
             .catch(error =>  {
@@ -49,7 +57,8 @@ const actions = {
         firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
             .then(user => {
                 commit('setUser', firebase.auth().currentUser.uid)
-                router.push({ name: 'blog' })
+                const redirectTo = state.redirect || {name: 'blog'}
+                router.push(redirectTo)
             }).catch(error =>  {
                 commit('setFeedback', error.message)
         });
@@ -57,7 +66,7 @@ const actions = {
 
     // LOGOUT USER
     logout({commit}) {   
-        commit('setUser', null)
+        commit('setUser', '') //passing empty string rather then NULL, throw error
         firebase.auth().signOut().then(() => {
             router.push({ name: 'login' })
         }).catch(error =>  {
@@ -77,7 +86,8 @@ const actions = {
                 commit('setUser', user)
             })
         }
-    }
+    },
+
 }
 export default {
     state,

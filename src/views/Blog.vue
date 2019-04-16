@@ -1,6 +1,7 @@
 <template>
     <div>
-        <page-title :headline="headline"/>
+       <spinner v-if="loading"></spinner>
+        <page-title v-if="!loading" :headline="headline"/>
         <div  class="container blog-posts">
             <action-button v-if="user" :buttonTitle="buttonTitle" :buttonType="buttonType" :buttonLink="buttonLink"/>
             <div v-for="(post, index) in posts" :key="index">
@@ -35,6 +36,7 @@ import PageTitle from '@/components/Common/PageTitle.vue';
 import ActionButton from '@/components/Common/ActionButton.vue';
 import moment from 'moment';
 import asyncDataStatus from '@/mixins/asyncDataStatus';
+import Spinner from '@/components/Common/Spinner.vue';
 
 export default {
     name: 'Blog',
@@ -48,7 +50,8 @@ export default {
     },
     components: {
         PageTitle,
-        ActionButton
+        ActionButton,
+        Spinner
     },
     mixins: [asyncDataStatus],
     computed: {
@@ -57,6 +60,9 @@ export default {
         },
         user() {
             return this.$store.getters['auth/user'];
+        },
+        loading() {
+            return this.$store.getters['blog/loading'];
         }
     },
     created() {

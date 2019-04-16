@@ -11,7 +11,7 @@
 			<div class="auth">
 				<router-link v-if="!user" :to="{ name: 'login' }">Login</router-link>
 				<router-link v-if="!user" :to="{ name: 'signup' }">Signup</router-link>
-				<span v-if="user">{{ user.firstName }}</span>
+				<router-link class="user" v-if="user" :to="'/profile/' + user.user_id">{{ user.firstName }}</router-link>
 				<a v-if="user" @click="logout">Logout</a>
 			</div>
 		</div>
@@ -64,7 +64,7 @@ nav {
 .main-navigation .nav-item {
     margin-right: 26px;
 }
-.main-navigation .router-link-exact-active, .auth a:hover, .auth .router-link-active, .auth span, .auth a:hover {
+.main-navigation .router-link-exact-active, .auth a:hover, .auth .router-link-active, .auth span, .auth a:hover, .user {
   	color: #2ecc71 !important;
 }
 nav .container {
@@ -76,11 +76,14 @@ nav .container {
         margin-top: 27px;
     }
     .auth a {
-        color: #8a8888 !important;
+        color: #8a8888;
         margin-left: 15px;
         text-decoration: none;
         cursor: pointer;
-    }
+	}
+	.auth a:last-child {
+		color: #8a8888;
+	}
     .auth span {
       	font-size: .8rem;
       	letter-spacing: .05rem;

@@ -1,20 +1,27 @@
 import db from '../../firebase/init'
-import asyncDataStatus from '@/mixins/asyncDataStatus';
+
 const state = {
-    posts: {}
+    posts: {},
+    loading: false
 }
 const getters = {
     posts(state) {
         return state.posts;
+    },
+    loading(state) {
+        return state.loading
     }
 }
 const mutations = {
     setPosts(state, payload) {
         state.posts = payload
+        state.loading = false
     }
 }
 const actions = {
+    
     getPosts({commit}) {
+        state.loading = true;
         db.collection('posts').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
             let posts = [];
             snapshot.docs.forEach(doc => {
@@ -23,6 +30,7 @@ const actions = {
                     id: doc.id})
             })
             commit('setPosts', posts)
+            
         })
     }
 }

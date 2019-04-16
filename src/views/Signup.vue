@@ -5,58 +5,68 @@
             <div class="login shadow container">
                 <form @submit.prevent="signup" >
                     <h2>Signup</h2>
+
                     <!-- FIRST NAME INPUT -->
-                    <input name="firstName" 
-                        type="text" 
-                        placeholder="First Name" 
-                        id="firstName" 
-                        @blur="$v.firstName.$touch()" 
-                        v-model.trim="firstName"
-                        :class="{ error: $v.firstName.$error }"
-                        autocomplete="off"> 
+                    <div>
+                        <input name="firstName" 
+                            type="text" 
+                            placeholder="First Name" 
+                            id="firstName" 
+                            v-model.trim="firstName"
+                            autocomplete="off"
+                            :class="{ 'error': $v.firstName.$error }"> 
+                        <div v-if="$v.firstName.$error">
+                            <p class="error-message" v-if="!$v.firstName.required">First Name must not be empty.</p>
+                        </div>
+                    </div>
 
-                    <p class="error-message" v-if="!$v.firstName.required && $v.firstName.$dirty">First Name must not be empty.</p>
-                    
                     <!-- LAST NAME INPUT -->
-                    <input name="lastName" 
-                        type="text" 
-                        placeholder="Last Name" 
-                        id="lastName" 
-                        @blur="$v.lastName.$touch()" 
-                        v-model.trim="lastName"
-                        :class="{ error: $v.lastName.$error }"
-                        autocomplete="off"> 
+                    <div>
+                        <input name="lastName" 
+                            type="text" 
+                            placeholder="Last Name" 
+                            id="lastName" 
+                            v-model.trim="lastName"
+                            autocomplete="off"
+                            :class="{ 'error': $v.lastName.$error }"> 
+                        <div v-if="$v.lastName.$error">
+                            <p class="error-message" v-if="!$v.lastName.required">Last Name must not be empty.</p>
+                        </div>
+                    </div>
 
-                    <p class="error-message" v-if="!$v.lastName.required && $v.lastName.$dirty">Last Name must not be empty.</p>
-                    
                     <!-- EMAIL INPUT -->
-                    <input name="email" 
-                        type="email" 
-                        placeholder="Email Address" 
-                        id="email" 
-                        @blur="$v.email.$touch()" 
-                        v-model.trim="email"
-                        :class="{ error: $v.email.$error }"
-                        autocomplete="off"> 
+                    <div >
+                        <input name="email" 
+                            type="email" 
+                            placeholder="Email Address" 
+                            id="email" 
+                            v-model.trim="email"
+                            autocomplete="off"
+                            :class="{ 'error': $v.email.$error }"> 
+                        <div v-if="$v.email.$error">
+                            <p class="error-message" v-if="!$v.email.email">Please enter a valid email address.</p>
+                            <p class="error-message" v-if="!$v.email.required">Email must not be empty.</p>
+                        </div>
+                    </div>
 
-                    <p class="error-message" v-if="!$v.email.email">Please enter a valid email address.</p>
-                    <p class="error-message" v-if="!$v.email.required && $v.email.$dirty">Email must not be empty.</p>
-                    
                     <!-- PASSWORD INPUT -->
-                    <input name="password" 
-                        type="password" 
-                        placeholder="Password" 
-                        id="password" 
-                        v-model.trim="password"
-                        @blur="$v.password.$touch()" 
-                        :class="{ error: $v.password.$error }"
-                        autocomplete="off">
+                    <div>
+                        <input name="password" 
+                            type="password" 
+                            placeholder="Password" 
+                            id="password" 
+                            v-model.trim="password"
+                            autocomplete="off"
+                            :class="{ 'error': $v.password.$error }">
+                        <div v-if="$v.password.$error">
+                            <p class="error-message" v-if="!$v.password.required">Password must not be empty.</p>
+                            <p class="error-message" v-if="!$v.password.minLength">Password must have at least {{$v.password.$params.minLength.min}} letters.</p>
+                            <p class="error-message" v-if="!$v.password.maxLength">Password must not exceed {{$v.password.$params.maxLength.max}} letters.</p>
+                            <p class="error-message" v-if="feedback">{{ feedback }}</p>
+                        </div>
+                    </div>
 
-                        <p class="error-message" v-if="!$v.password.required && $v.password.$dirty">Password must not be empty.</p>
-                        <p class="error-message" v-if="!$v.password.minLength">Password must have at least {{$v.password.$params.minLength.min}} letters.</p>
-                        <p class="error-message" v-if="feedback">{{ feedback }}</p>
-
-                    <button type="submit" :disabled="$v.$invalid">Signup</button>
+                    <button :disabled="submited === 'PENDING'" type="submit" >Signup</button>
                 </form>
             </div>
         </div>
@@ -66,7 +76,7 @@
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
 import '@/assets/style/login-style.css';
-import {required, email, minLength} from 'vuelidate/lib/validators';
+import {required, email, minLength, maxLength} from 'vuelidate/lib/validators';
 import db from '@/firebase/init';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -84,26 +94,34 @@ export default {
             email: '',
             user_id: '',
             feedback: null,
-            error: 'error'
+            error: 'error',
+            submited: ''
         }
+    },
+    computed: {
+        getfeedback() {
+            return this.$store.getters['auth/feedback'];
+        },
     },
     methods: {
         signup() {
-            firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-                .then(cred => {
-                    db.collection("users").doc().set({
-                        firstName: this.firstName,
-                        lastName: this.lastName,
-                        email: this.email,
-                        user_id: cred.user.uid
-                    }).then(() => {
-                            this.$router.replace({ name: 'login' })
-                        })
-                })
-                .catch(error =>  {
-                    this.feedback = error.message
-            });
-        }
+            this.submited = 'PENDING'
+            this.$v.$touch()
+            this.submitted = true
+
+            if (this.$v.$invalid) {
+                this.feedback = 'All fields are required!'
+                this.submited = ''
+            } else {
+                this.submited = 'PENDING'
+                this.$store.dispatch('auth/signup', 
+                {email: this.email, 
+                password: this.password,
+                firstName: this.firstName,
+                user_id: this.user_id,
+                lastName: this.lastName})
+                this.submited = ''
+        }},
     },
     validations: {
         firstName: {
@@ -118,7 +136,8 @@ export default {
         },
         password: {
             required,
-            minLength: minLength(6)
+            minLength: minLength(6),
+            maxLength: maxLength(40)
         }
     }
 }
