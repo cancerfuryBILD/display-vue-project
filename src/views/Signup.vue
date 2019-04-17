@@ -93,6 +93,7 @@ export default {
             password: '',
             email: '',
             user_id: '',
+            thumbnail: '',
             feedback: null,
             error: 'error',
             submited: ''
@@ -107,11 +108,14 @@ export default {
         signup() {
             this.submited = 'PENDING'
             this.$v.$touch()
-            this.submitted = true
 
             if (this.$v.$invalid) {
                 this.feedback = 'All fields are required!'
                 this.submited = ''
+                this.$toast.error({
+                    title:'ERROR',
+                    message:'Please fill in all required fields!'
+                })
             } else {
                 this.submited = 'PENDING'
                 this.$store.dispatch('auth/signup', 
@@ -119,6 +123,7 @@ export default {
                 password: this.password,
                 firstName: this.firstName,
                 user_id: this.user_id,
+                thumbnail: this.thumbnail,
                 lastName: this.lastName})
                 this.submited = ''
         }},

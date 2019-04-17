@@ -71,10 +71,14 @@ export default {
         login() {
             this.submited = 'PENDING'
             this.$v.$touch()
-            
+
             if (this.$v.$invalid) {
                 this.feedback = 'All fields are required!'
                 this.submited = ''
+                this.$toast.error({
+                    title:'ERROR',
+                    message:'Please fill in all required fields!'
+                })
             } else {
                 this.submited = 'PENDING'
             this.$store.dispatch('auth/login', {email: this.email, password: this.password})

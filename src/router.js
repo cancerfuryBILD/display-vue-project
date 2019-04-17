@@ -13,6 +13,7 @@ import NotFound from "./views/NotFound.vue";
 import Post from "./components/Blog/Post.vue";
 import EditPost from "./components/Blog/EditPost.vue";
 import ProfilePage from "./components/Users/ProfilePage.vue";
+import EditProfile from "./components/Users/EditProfile.vue";
 import firebase from 'firebase/app'
 import 'firebase/auth';
 import {store} from "./store/index";
@@ -77,6 +78,14 @@ const router = new Router({
 		path: "/profile/:id",
 		name: "profile-page",
 		component: ProfilePage,
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		path: "/profile/edit/:id",
+		name: "edit-profile",
+		component: EditProfile,
 		meta: {
 			requiresAuth: true
 		}

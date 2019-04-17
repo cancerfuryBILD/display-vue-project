@@ -46,7 +46,7 @@ export default {
             title: '',
             postText: null,
             author: null,
-            thumbnail: null,
+            thumbnail: '',
             slug: "",
             error: 'error',
         }
@@ -79,7 +79,7 @@ export default {
                 thumbnail: this.thumbnail,
                 uid: this.user.user_id,
                 timestamp: moment(Date.now()).utc().startOf('day').format(),
-                slug: slugify(this.title)
+                slug: this.slugify(this.title)
             }).then(() => {
                 this.$router.push({ name: 'blog' })
                 })

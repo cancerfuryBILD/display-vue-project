@@ -4,14 +4,16 @@
     <div class="container user-info">
         <div class="statistics">
             <span class="small">posts: </span>
-            <span class="small">3</span>
+            <span class="small">{{posts.length}}</span>
         </div>
         <div class="user-photo">
             <img v-if="user.img !== ''" :src="user.img" alt="">
-            <img v-if="user.img == ''" src="/images/no-img.jpg" alt="">
+            <img v-if="!user.img" src="/images/no-img.jpg" alt="">
         </div>
         <div class="update-profile">
-            <action-button :buttonTitle="buttonTitle"/>
+            <router-link v-if="user" :to="'/profile/edit/' + user.user_id">
+                <button>Edit Profile</button>
+            </router-link>
         </div>
     </div>
     <div class="info text-center container" v-if="user">
@@ -28,7 +30,8 @@
             <article>
                 <div class="row">
                     <div class="col-sm-4">
-                        <img :src="post.thumbnail" alt="">
+                        <img v-if="post.thumbnail == ''" src="/images/no-image.png" alt="">
+                        <img v-if="post.thumbnail !== ''" :src="post.thumbnail" alt="">
                     </div>
                     <div class="col-sm-8 flex-column d-flex">
                         <router-link :to="'/blog/' + post.slug">
@@ -49,30 +52,30 @@
 
 <script scoped>
 import PageTitle from '@/components/Common/PageTitle.vue';
-import ActionButton from '@/components/Common/ActionButton.vue';
 import moment from 'moment';
+import {store} from '@/store/index';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 export default {
     name: 'ProfilePage',
     data() {
         return {
-            headline: ' ',
-            buttonTitle: 'Update Profile',
+            headline: ' '
         }
     },
     components: {
-        PageTitle,
-        ActionButton
+        PageTitle
     },
      computed: {
         posts() {
-            return this.$store.getters['blog/posts'];
+            return this.$store.getters['profile/userPosts'];
         },
         user() {
 			return this.$store.getters['auth/user'];
 		},
     },
-    created() {
-        this.$store.dispatch('blog/getPosts')
+    mounted() {
+        this.$store.dispatch('profile/getUserPosts', firebase.auth().currentUser)
     },
     methods:{
         dateFormating(date){
@@ -80,6 +83,14 @@ export default {
         }
     },
 
+// beforeRouteEnter (to, from, next) {
+//         const id = store.getters['auth/user'].user_id
+//         console.log(id)
+//         store.dispatch('profile/getUserPosts',id )
+//         setTimeout(() => {
+//             next()
+//         },  1500);
+//     },
 }
 </script>
 
@@ -153,5 +164,17 @@ export default {
     }
     h2 {
         margin-bottom: 50px;
+    }
+    .update-profile button {
+        font-size: 14px;
+        text-transform: uppercase;
+        font-family: 'Novecentosanswide-DemiBold';
+        padding: 3px 8px;
+        margin-top: -2px;
+        background-color: #2ecc71;
+        border: none;
+        color: #fff;
+        border: none;
+        outline: none;
     }
 </style>

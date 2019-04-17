@@ -11,7 +11,7 @@
 <script>
 import Header from '@/components/Header/Header.vue';
 import Footer from "@/components/Footer/Footer.vue";
-
+import 'cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css'
 
 export default {
   name: "app",

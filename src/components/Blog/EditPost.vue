@@ -12,15 +12,15 @@
             <p>{{slugify(post[0].title)}}</p>
 
             <!-- THUMBNAIL INPUT -->
-                    <input name="thumbnail" 
-                        type="text" 
-                        placeholder="Thumbnail URL" 
-                        id="thumbnail" 
-                        v-model="post[0].thumbnail"
-                        autocomplete="off">
+            <input name="thumbnail" 
+                type="text" 
+                placeholder="Thumbnail URL" 
+                id="thumbnail" 
+                v-model="post[0].thumbnail"
+                autocomplete="off">
 
-                    <textarea name="editor" id="editor" v-model="post[0].postText"></textarea>
-                    <button @click="updatePost" class="action-btn">Update</button>
+            <textarea name="editor" id="editor" v-model="post[0].postText"></textarea>
+            <button @click="updatePost" class="action-btn">Update</button>
         </div>
     </div>
 </template>

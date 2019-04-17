@@ -10,12 +10,19 @@ import * as svgicon from 'vue-svgicon';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import './firebase/init';
-// import CKEDITOR from 'ckeditor';
-// Vue.use(CKEDITOR);
+import CxltToastr from 'cxlt-vue2-toastr'
+
+
+
+const toastrConfigs = {
+  position: 'top right',
+  showDuration: 3000,
+  timeOut: 30500
+}
+
+Vue.use(CxltToastr, toastrConfigs)
 Vue.use(Vuelidate);
-Vue.use(svgicon, {
-  classPrefix: 'AppIcon-',
-});
+Vue.use(svgicon, {classPrefix: 'AppIcon-',});
 Vue.use(VueCookie);
 global.jQuery = jQuery;
 
@@ -31,7 +38,6 @@ firebase.auth().onAuthStateChanged(() => {
       validations: {},
       Bootstrap,
       render: h => h(App),
-      
     }).$mount("#app");
   };
   if(firebase.auth().currentUser) {

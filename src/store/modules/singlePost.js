@@ -22,7 +22,6 @@ const actions = {
                 post.push({
                     ...doc.data(),
                     id: doc.id})
-            // })
             })
             commit('setSinglePost', post)
         })

@@ -4,7 +4,7 @@ import router from "../../router";
 
 const state = {
     feedback: null,
-    user: '',
+    user: {},
     redirect: ''
 
 
@@ -76,14 +76,15 @@ const actions = {
 
     // SET USER 
     setUser({commit}, payload) {
-        var user = firebase.auth().currentUser.uid
-        if(firebase.auth().currentUser) {
-            db.collection('users').where('user_id', '==', user).get().then(snapshot => {
-                let user = [];
+        // console.log(payload)
+        if(payload) {
+            db.collection('users').where('user_id', '==', payload.uid).get().then(snapshot => {
+                let user = {};
                 snapshot.docs.forEach(doc => {
                     user = doc.data()
                 })
                 commit('setUser', user)
+
             })
         }
     },
