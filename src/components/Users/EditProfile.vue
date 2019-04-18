@@ -54,7 +54,7 @@
                         <textarea name="biography" v-model="user.biography"></textarea>
                     </div>
 
-                    <button @click="updateUserInfo" type="submit" >Update</button>
+                    <button @click.prevent="updateUserInfo">Update</button>
                 </form>
             </div>
         </div>
@@ -64,6 +64,7 @@
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
 import {store} from "../../store/index";
+import db from '../../firebase/init';
 export default {
     components: {
         PageTitle
@@ -80,13 +81,16 @@ export default {
     },
     methods: {
         updateUserInfo() {
-            db.collection('users').doc(this.user.user_uid).update({
+
+            db.collection('users').doc(this.user.id).update({
                 occupation: this.user.occupation,
                 biography: this.user.biography,
                 img: this.user.img,
-            })//.then(() => {
-            //     this.$router.push({ path: '/profile/' + user.user_id })
-            //     })
+            }).then((response) => {
+                
+                this.$router.push({ path: '/profile/' + this.user.id })
+                })
+            // console.log(doc.id)
         }
     }
 }

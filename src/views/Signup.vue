@@ -63,6 +63,7 @@
                             <p class="error-message" v-if="!$v.password.minLength">Password must have at least {{$v.password.$params.minLength.min}} letters.</p>
                             <p class="error-message" v-if="!$v.password.maxLength">Password must not exceed {{$v.password.$params.maxLength.max}} letters.</p>
                             <p class="error-message" v-if="feedback">{{ feedback }}</p>
+                            <p class="error-message" v-if="getfeedback">{{ getfeedback }}</p>
                         </div>
                     </div>
 

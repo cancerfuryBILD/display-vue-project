@@ -19,7 +19,6 @@ const mutations = {
     }
 }
 const actions = {
-    
     getPosts({commit}) {
         state.loading = true;
         db.collection('posts').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
@@ -30,7 +29,6 @@ const actions = {
                     id: doc.id})
             })
             commit('setPosts', posts)
-            
         })
     }
 }

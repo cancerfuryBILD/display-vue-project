@@ -3,7 +3,7 @@ var VueCookie = require('vue-cookie');
 Vue.use(VueCookie);
 
 const state = {
-    layoutCookie: Vue.cookie.get('cookieLayout') === null ? Vue.cookie.set('cookieLayout', 'grid', {expires: 999}) : Vue.cookie.get('cookieLayout'),
+    layoutCookie: Vue.cookie.get('cookieLayout') === null ? Vue.cookie.set('cookieLayout', 'grid-layout', {expires: 999}) : Vue.cookie.get('cookieLayout'),
     selectedCategory: 'all',
     categories: ['all', 'print', 'photography', 'web','applications'],
     imgList: [

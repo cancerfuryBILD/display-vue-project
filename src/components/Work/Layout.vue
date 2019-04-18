@@ -1,6 +1,6 @@
 <template>
     <div class="layout float-right">
-        <svg @click="changeLayout('grid')" class="fill" 
+        <svg @click="changeLayout('grid-layout')" class="fill" 
             xmlns="http://www.w3.org/2000/svg" 
             xmlns:xlink="http://www.w3.org/1999/xlink" 
             width="15" 
@@ -9,7 +9,7 @@
             <defs><path id="grid" d="M1129 329h6.033v5.929H1129zm8.946 0H1144v6.012h-6.054zm-8.946 8.905h6.012V344H1129zm8.967 0H1144V344h-6.033z"/>
             </defs><g><g transform="translate(-1129 -329)"><use fill="#737373" xlink:href="#grid"/></g></g></svg>
 
-        <svg @click="changeLayout('list')" class="fill"
+        <svg @click="changeLayout('list-layout')" class="fill"
             xmlns="http://www.w3.org/2000/svg" 
             xmlns:xlink="http://www.w3.org/1999/xlink" 
             width="15" 

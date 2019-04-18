@@ -82,9 +82,9 @@ const actions = {
                 let user = {};
                 snapshot.docs.forEach(doc => {
                     user = doc.data()
+                    user.id = doc.id
                 })
                 commit('setUser', user)
-
             })
         }
     },

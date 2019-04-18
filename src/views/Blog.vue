@@ -8,12 +8,16 @@
                 <article>
                     <div class="row">
                         <div class="col-sm-4">
-                            <img :src="post.thumbnail" alt="">
+                           <img v-if="post.thumbnail == ''" src="/images/no-image.png" alt="">
+                            <img v-if="post.thumbnail !== ''" :src="post.thumbnail" alt="">
                         </div>
-                        <div class="col-sm-8 flex-column d-flex">
-                            <router-link v-if="user" :to="'/post/edit/' + post.slug">
-                                <button>Edit Post</button>
-                            </router-link>
+                        <div class="col-sm-8">
+                            <div class="d-flex justify-content-between">
+                                <router-link v-if="user.user_id === post.uid" :to="'/post/edit/' + post.slug">
+                                    <button>Edit Post</button>
+                                </router-link>
+                                <button @click="deletePost(post.id)" class="delete-btn" v-if="user.user_id === post.uid">Delete Post</button>
+                            </div>
                             <router-link :to="'/blog/' + post.slug">
                                 <h1>{{ post.title }}</h1>
                             </router-link>
@@ -37,7 +41,7 @@ import ActionButton from '@/components/Common/ActionButton.vue';
 import moment from 'moment';
 import asyncDataStatus from '@/mixins/asyncDataStatus';
 import Spinner from '@/components/Common/Spinner.vue';
-
+import db from '@/firebase/init';
 export default {
     name: 'Blog',
     data() {
@@ -71,6 +75,9 @@ export default {
     methods:{
         dateFormating(date){
             return moment(date).format('DD / MM / YYYY')
+        },
+        deletePost(id) {
+            db.collection("posts").doc(id).delete()
         }
     }
 }
@@ -82,9 +89,6 @@ export default {
     }
     .blog-posts h1 {
         color: #737373
-    }
-    .blog-posts button {
-        margin-bottom: 30px;
     }
     .blog-posts img {
         width: 100%;
@@ -100,6 +104,9 @@ export default {
         color: #fff;
         border: none;
         outline: none;
+    }
+    .delete-btn {
+        background-color: #c72b2b;
     }
     .post img {
         display: none;

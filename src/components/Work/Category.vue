@@ -28,7 +28,7 @@
             <button type="submit">Add Category</button>
             <p class="error-message" id="error-name"></p>
         </form> -->
-        <div class="list-images" :class="layoutCookie" id="layout">
+        <div v-if="layoutCookie" class="list-images" :class="layoutCookie" id="layout">
             <div v-for="(img, index) in filteredImgList" :key="index">
                 <router-link to="#"><img :src="img.imgLocation" :alt="img.altTag"></router-link>
                 <h2>{{ img.headline }}</h2>
@@ -53,8 +53,6 @@ export default {
     data() {
         return {
             newCategory: '',
-            grid: 'grid-layout',
-            list: 'list-layout'
         }
     },
 
@@ -89,12 +87,14 @@ export default {
                 document.getElementById('error-name').innerHTML = "Category already exist"
             } else {
             this.$store.dispatch('addCategory', this.newCategory)
-            // this.$store.commit('ADD_CATEGORY', this.newCategory)
-            // this.ADD_CATEGORY(this.newCategory)
             this.newCategory = '';
             }
         }
-    }
+    },
+    created() {
+        if(!this.layoutCookie){
+        this.$store.dispatch('category/setCookieLayout', 'grid-layout')
+    }}
 }
 
 </script>

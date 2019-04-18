@@ -11,7 +11,7 @@
             <img v-if="!user.img" src="/images/no-img.jpg" alt="">
         </div>
         <div class="update-profile">
-            <router-link v-if="user" :to="'/profile/edit/' + user.user_id">
+            <router-link v-if="user" :to="'/profile/edit/' + user.id">
                 <button>Edit Profile</button>
             </router-link>
         </div>
