@@ -34,6 +34,12 @@
                         <img v-if="post.thumbnail !== ''" :src="post.thumbnail" alt="">
                     </div>
                     <div class="col-sm-8 flex-column d-flex">
+                        <div class="d-flex justify-content-between">
+                                <router-link v-if="user.user_id === post.uid" :to="'/post/edit/' + post.slug">
+                                    <button>Edit Post</button>
+                                </router-link>
+                                <button @click="deletePost(post.id)" class="delete-btn" v-if="user.user_id === post.uid">Delete Post</button>
+                            </div>
                         <router-link :to="'/blog/' + post.slug">
                             <h1>{{ post.title }}</h1>
                         </router-link>
@@ -80,6 +86,9 @@ export default {
     methods:{
         dateFormating(date){
             return moment(date).format('DD / MM / YYYY')
+        },
+        deletePost(id) {
+            db.collection("posts").doc(id).delete()
         }
     },
 

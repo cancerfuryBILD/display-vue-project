@@ -1,8 +1,8 @@
 <template>
-    <div class="single-post">
+    <div class="single-post" v-if="post">
         <page-title :headline="post[0].title"/>
-        <div class="container" v-if="post">
-            <div class="d-flex justify-content-between  mt-auto mb-3 ">
+        <div class="post-content container">
+            <div class="d-flex justify-content-between article-meta mt-auto mb-5 ">
                 <span class="author">Author: {{ post[0].author }}</span>
                 <span class="published">Published: {{ dateFormating(post[0].timestamp) }} </span>
             </div>
@@ -34,7 +34,7 @@ export default {
       	let id = this.$route.params.id;
           this.$store.dispatch('singlePost/getSinglePost', id)
           console.log(id)
-    },
+    }
 }
 </script>
 
@@ -42,4 +42,10 @@ export default {
 	.single-post img {
 		width: 100%;
 	}
+    .post-content {
+        padding-top: 50px;
+    }
+    .article-meta span {
+        font-size: 1rem
+    }
 </style>

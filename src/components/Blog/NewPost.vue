@@ -11,7 +11,7 @@
                         v-model="title"
                         :class="{ error: $v.title.$error }"
                         autocomplete="off">
-            <p>{{slugify(title)}}</p>
+            <p>URL: http://localhost:8080/blog/{{slugify(title)}}</p>
             <p class="error-message" v-if="!$v.title.required && $v.title.$dirty">Title must not be empty.</p>
 
             <!-- THUMBNAIL INPUT -->

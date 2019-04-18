@@ -1,8 +1,8 @@
 <template>
     <div>
-       <spinner v-if="loading"></spinner>
+        <spinner v-if="loading"></spinner>
         <page-title v-if="!loading" :headline="headline"/>
-        <div  class="container blog-posts">
+        <div v-if="!loading" class="container blog-posts">
             <action-button v-if="user" :buttonTitle="buttonTitle" :buttonType="buttonType" :buttonLink="buttonLink"/>
             <div v-for="(post, index) in posts" :key="index">
                 <article>
@@ -26,7 +26,6 @@
                                 <span class="author">Author: {{ post.author }}</span>
                                 <span class="published">Published: {{ dateFormating(post.timestamp) }} </span>
                             </div>
-                           
                         </div>
                     </div>
                 </article>

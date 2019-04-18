@@ -24,19 +24,18 @@ export default {
     }
 
     .atom-spinner {
-        margin-left: auto;
-        margin-right: auto;
         margin-top: 100px;
-      height: 300px;
-      width: 300px;
+      height: 100%;
+      width: 100%;
       overflow: hidden;
     }
 
     .atom-spinner .spinner-inner {
       position: relative;
       display: block;
-      height: 100%;
-      width: 100%;
+      margin: 0 auto;
+      height: 300px;
+      width: 300px;
     }
 
     .atom-spinner .spinner-circle {

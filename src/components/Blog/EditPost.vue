@@ -29,7 +29,7 @@
 import PageTitle from '@/components/Common/PageTitle.vue';
 import moment from 'moment';
 import {store} from "../../store/index";
-
+import db from '@/firebase/init';
 export default {
     name: 'EditPost',
     data() {
