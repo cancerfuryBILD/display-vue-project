@@ -95,6 +95,7 @@ export default {
             email: '',
             user_id: '',
             thumbnail: '',
+            role: 'Role.User',
             feedback: null,
             error: 'error',
             submited: ''
@@ -125,7 +126,8 @@ export default {
                 firstName: this.firstName,
                 user_id: this.user_id,
                 thumbnail: this.thumbnail,
-                lastName: this.lastName})
+                lastName: this.lastName,
+                role: this.role})
                 this.submited = ''
         }},
     },

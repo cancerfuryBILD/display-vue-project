@@ -41,7 +41,8 @@ const actions = {
                     firstName: payload.firstName,
                     lastName: payload.lastName,
                     email: payload.email,
-                    user_id: cred.user.uid
+                    user_id: cred.user.uid,
+                    role: 'Role.User'
                 }).then(() => {
                     const redirectTo = state.redirect || {name: 'blog'}
                     router.push(redirectTo)
