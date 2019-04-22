@@ -13,10 +13,10 @@
                         </div>
                         <div class="col-sm-8">
                             <div class="d-flex justify-content-between">
-                                <router-link v-if="user.user_id === post.uid" :to="'/post/edit/' + post.slug">
+                                <router-link v-if="user" :to="'/post/edit/' + post.slug">
                                     <button>Edit Post</button>
                                 </router-link>
-                                <button @click="deletePost(post.id)" class="delete-btn" v-if="user.user_id === post.uid">Delete Post</button>
+                                <button @click="deletePost(post.id)" class="delete-btn" v-if="user">Delete Post</button>
                             </div>
                             <router-link :to="'/blog/' + post.slug">
                                 <h1>{{ post.title }}</h1>

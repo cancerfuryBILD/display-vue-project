@@ -93,12 +93,6 @@ export default {
         password: {
             required
         }
-    },
-    beforeCreated() {
-         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
-    },
-    beforeDestroy() {
-         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     }
 }
 </script>

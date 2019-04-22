@@ -9,6 +9,9 @@
     "svg": "vsvg -s src/assets/svg -t src/assets/icons"
   },
   "dependencies": {
+    "@progress/kendo-grid-vue-wrapper": "^2019.1.220",
+    "@progress/kendo-theme-default": "^3.5.1",
+    "@progress/kendo-ui": "^2019.1.412",
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.13",
     "cxlt-vue2-toastr": "^1.1.0",

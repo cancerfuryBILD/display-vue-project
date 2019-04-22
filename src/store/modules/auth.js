@@ -4,8 +4,9 @@ import router from "../../router";
 
 const state = {
     feedback: null,
-    user: {},
-    redirect: ''
+    user: null,
+    redirect: '',
+    permission: null
 
 
 }
@@ -18,6 +19,9 @@ const getters = {
     },
     redirect(state) {
         return state.redirect
+    },
+    permission(state) {
+        return state.permission
     }
 }
 const mutations = {
@@ -30,6 +34,9 @@ const mutations = {
     setRedirect(state, payload) {
         state.redirect = payload
     },
+    setPermission(state, payload) {
+        state.permission = payload
+    }
 }
 const actions = {
     // SIGNUP USER
@@ -67,7 +74,7 @@ const actions = {
 
     // LOGOUT USER
     logout({commit}) {   
-        commit('setUser', '') //passing empty string rather then NULL, throw error
+        commit('setUser', null) //passing empty string rather then NULL, throw error
         firebase.auth().signOut().then(() => {
             router.push({ name: 'login' })
         }).catch(error =>  {
@@ -77,14 +84,38 @@ const actions = {
 
     // SET USER 
     setUser({commit}, payload) {
-        // console.log(payload)
         if(payload) {
             db.collection('users').where('user_id', '==', payload.uid).get().then(snapshot => {
                 let user = {};
+                //  SET USER DATA
                 snapshot.docs.forEach(doc => {
                     user = doc.data()
                     user.id = doc.id
+                    // SET USER PERMISSIONS
+                    switch (user.role) {
+                        case 'Admin': {
+                            user.comment = true,
+                            user.create = true,
+                            user.edit = true,
+                            user.delete = true}
+                        break;
+                        case 'User': {
+                            user.comment = true}
+                        break;
+                        case 'Blogger': {
+                            user.comment = true,
+                            user.create = true,
+                            user.edit = true}
+                        break;
+                        case 'Moderator': {
+                            user.comment = true,
+                            user.create = true,
+                            user.edit = true,
+                            user.delete = true}
+                        break;
+                    }
                 })
+                // console.log(user)
                 commit('setUser', user)
             })
         }

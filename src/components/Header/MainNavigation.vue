@@ -11,7 +11,7 @@
 			<div class="auth">
 				<router-link v-if="!user" :to="{ name: 'login' }">Login</router-link>
 				<router-link v-if="!user" :to="{ name: 'signup' }">Signup</router-link>
-				<router-link class="user" v-if="user" :to="'/profile/' + user.user_id">{{ user.firstName }}</router-link>
+				<router-link class="user" v-if="user" :to="'/profile/' + user.id">{{ user.firstName }}</router-link>
 				<a v-if="user" @click="logout">Logout</a>
 			</div>
 		</div>
