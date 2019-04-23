@@ -15,12 +15,14 @@ const mutations = {
 }
 const actions = {
     getUsers({commit}) {
-        db.collection('users').get((snapshot) => {
+        db.collection('users').onSnapshot((snapshot) => {
             let users = [];
             snapshot.docs.forEach(doc => {
-                user = doc.data()
-                user.id = doc.id
+                users.push({
+                    ...doc.data(),
+                    id: doc.id})
             })
+            console.log(users)
             commit('setUsers', users)
         })
     }
