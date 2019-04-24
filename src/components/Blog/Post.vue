@@ -33,7 +33,6 @@ export default {
     beforeCreate() {
       	let id = this.$route.params.id;
           this.$store.dispatch('singlePost/getSinglePost', id)
-          console.log(id)
     }
 }
 </script>

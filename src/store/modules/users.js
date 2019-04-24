@@ -1,16 +1,23 @@
 import db from '../../firebase/init';
 
 const state = {
-    users: null
+    users: null,
+    singleUser: null
 }
 const getters = {
     users(state) {
         return state.users;
     },
+    singleUser(state) {
+        return state.singleUser;
+    }
 }
 const mutations = {
     setUsers(state, payload) {
         state.users = payload
+    },
+    setSingleUser(state, payload) {
+        state.singleUser = payload
     }
 }
 const actions = {
@@ -22,10 +29,16 @@ const actions = {
                     ...doc.data(),
                     id: doc.id})
             })
-            console.log(users)
             commit('setUsers', users)
         })
-    }
+    },
+    getSingleUser({commit}, payload) {
+        db.collection('posts').doc(payload).get().then(doc => {
+            let user = doc.data();
+           
+        })
+            commit('setSinglePost', post)
+        }
 }
 export default {
     state,

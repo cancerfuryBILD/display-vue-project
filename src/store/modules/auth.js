@@ -91,31 +91,7 @@ const actions = {
                 snapshot.docs.forEach(doc => {
                     user = doc.data()
                     user.id = doc.id
-                    // SET USER PERMISSIONS
-                    switch (user.role) {
-                        case 'Admin': {
-                            user.comment = true,
-                            user.create = true,
-                            user.edit = true,
-                            user.delete = true}
-                        break;
-                        case 'User': {
-                            user.comment = true}
-                        break;
-                        case 'Blogger': {
-                            user.comment = true,
-                            user.create = true,
-                            user.edit = true}
-                        break;
-                        case 'Moderator': {
-                            user.comment = true,
-                            user.create = true,
-                            user.edit = true,
-                            user.delete = true}
-                        break;
-                    }
                 })
-                // console.log(user)
                 commit('setUser', user)
             })
         }

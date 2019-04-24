@@ -1,6 +1,10 @@
 <template>
     <header>
         <div class="container header">
+            <div v-if="user.role == 'Admin'" class="admin-nav">
+                <router-link :to="{name: 'users'}">Users</router-link>
+                <router-link :to="{name: 'settings'}">Settings</router-link>
+            </div>
             <logo/>
             <social-links/>
             <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbarCollapse">
@@ -22,14 +26,29 @@ export default {
         "main-navigation": MainNavigation,
         "logo": Logo,
         'social-links': SocialLinks
-    }
+    },
+    computed: {
+		user() {
+			return this.$store.getters['auth/user'];
+		}
+	}
 }
 </script>
 
 <style>
-
+    .admin-nav {
+        margin-bottom: 15px;
+    }
+    .admin-nav a {
+        color: #737373;
+        text-transform: uppercase;
+        font-size: .7rem;
+        letter-spacing: 0.02em !important;
+        text-decoration: none;
+        margin-right: 15px;
+    }
     .header {
-        padding: 30px 15px 23px 15px;
+        padding: 5px 15px 23px 15px;
     }
     .header button {
             display: none;

@@ -13,7 +13,7 @@ import './firebase/init';
 import CxltToastr from 'cxlt-vue2-toastr';
 import '@progress/kendo-ui'
 import '@progress/kendo-theme-default/dist/all.css'
-import { Grid, GridInstaller } from '@progress/kendo-grid-vue-wrapper'
+import { Grid } from '@progress/kendo-vue-grid'
 
 const toastrConfigs = {
   position: 'top right',
@@ -21,7 +21,7 @@ const toastrConfigs = {
   timeOut: 3500
 }
 
-Vue.use(GridInstaller)
+
 Vue.use(CxltToastr, toastrConfigs)
 Vue.use(Vuelidate);
 Vue.use(svgicon, {classPrefix: 'AppIcon-',});

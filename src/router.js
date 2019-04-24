@@ -16,6 +16,7 @@ import EditPost from "./components/Blog/EditPost.vue";
 import ProfilePage from "./components/Users/ProfilePage.vue";
 import EditProfile from "./components/Users/EditProfile.vue";
 import Users from "./components/Admin/Users.vue";
+import Settings from "./components/Admin/Settings.vue";
 import firebase from 'firebase/app'
 import 'firebase/auth';
 import {store} from "./store/index";
@@ -105,7 +106,20 @@ const router = new Router({
 	{
 		path: "/users",
 		name: "users",
-		component: Users
+		component: Users,
+		meta: {
+			requiresAuth: true,
+			roles: []
+		}
+	},
+	{
+		path: "/settings",
+		name: "settings",
+		component: Settings,
+		meta: {
+			requiresAuth: true,
+			roles: []
+		}
 	},
 	{
 		path: "/login",
@@ -147,113 +161,6 @@ router.beforeEach((to, from, next) => {
 	} else {
 		next();
 	}
-
-		
-	// if (requiresAuth && !user) {
-	// 	store.commit('auth/setRedirect', to.path)
-	// 	next({
-	// 		name: 'login',
-	// 		query: {redirectTo: to.path}
-	// 	});
-	// }else if (to.meta.permission.indexOf(user.role) !== -1) {
-	// 	switch (user.role) {
-	// 		case 'Admin':
-	// 			next()
-	// 		break;
-	// 		case 'Moderator':
-	// 			next()
-	// 		break;
-	// 		case 'Blogger':
-	// 			next()
-	// 		break;
-	// 		default:
-	// 			next({name: 'work'})
-	// 		break;
-	// }}else if (to.meta.permission.indexOf(user.role) == -1){
-	// 	next({
-	// 		name: 'work',
-	// 		query: {redirectTo: to.path}
-	// 	});
-	// }
 });
-
-
-
-
-
-// router.beforeEach((to, from, next) => {
-// 	// const currentUser = firebase.auth().currentUser;
-//     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-// 	const user = store.getters['auth/user']
-// 	// store.commit('auth/setPermission', to.meta.permission)
-// 	console.log(to.meta.permission, '11')
-// 	// const permission = to.meta.permission.indexOf(user.role)
-// 	// 	console.log(permission)
-		
-// 	if (requiresAuth && !user) {
-// 		store.commit('auth/setRedirect', to.path)
-// 		next({
-// 			name: 'login',
-// 			query: {redirectTo: to.path}
-// 		});
-// 	}else if (to.meta.permission.includes(user.role)) {
-// 		// console.log(to, '22')
-// 		switch (user.role) {
-// 			case 'Admin':
-// 				next()
-// 			break;
-// 			case 'Moderator':
-// 				next()
-// 			break;
-// 			case 'Blogger':
-// 				next()
-// 			break;
-// 			default:
-// 				next({name: 'work'})
-// 			break;
-// 	}}else if (to.meta.permission.indexOf(user.role) == -1){
-// 		next({
-// 			name: 'work',
-// 			query: {redirectTo: to.path}
-// 		});
-// 	}
-// });
-
-
-
-
-
-
-// router.beforeEach((to, from, next) => {
-// 	const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-// 	const user = store.getters['auth/user'];
-	
-// 	if (requiresAuth) {
-// 		if (user) {
-// 			if (!to.meta.permission) {
-// 				return next()
-// 			}
-// 			if (to.meta.permission.includes(user.role)) {
-// 				switch (user.role) {
-// 					case 'Admin':
-// 						next()
-// 						break;
-// 					case 'Moderator':
-// 						next()
-// 						break;
-// 					case 'Blogger':
-// 						next()
-// 						break;
-// 					default:
-// 						next({
-// 							name: 'work'
-// 						})
-// 				}
-// 			}
-// 		} else {
-// 			next()
-// 		}
-//    	}
-// });
 
 export default router;
