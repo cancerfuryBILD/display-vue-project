@@ -3,7 +3,7 @@
         <spinner v-if="loading"></spinner>
         <page-title v-if="!loading" :headline="headline"/>
         <div v-if="!loading" class="container blog-posts">
-            <action-button v-if="user" :buttonTitle="buttonTitle" :buttonType="buttonType" :buttonLink="buttonLink"/>
+            <action-button v-if="currentUser" :buttonTitle="buttonTitle" :buttonType="buttonType" :buttonLink="buttonLink"/>
             <div v-for="(post, index) in posts" :key="index">
                 <article>
                     <div class="row">
@@ -13,10 +13,10 @@
                         </div>
                         <div class="col-sm-8">
                             <div class="d-flex justify-content-between">
-                                <router-link v-if="user" :to="'/post/edit/' + post.slug">
+                                <router-link v-if="currentUser" :to="'/post/edit/' + post.slug">
                                     <button>Edit Post</button>
                                 </router-link>
-                                <button @click="deletePost(post.id)" class="delete-btn" v-if="user">Delete Post</button>
+                                <button @click="deletePost(post.id)" class="delete-btn" v-if="currentUser">Delete Post</button>
                             </div>
                             <router-link :to="'/blog/' + post.slug">
                                 <h1>{{ post.title }}</h1>
@@ -61,8 +61,8 @@ export default {
         posts() {
             return this.$store.getters['blog/posts'];
         },
-        user() {
-            return this.$store.getters['auth/user'];
+        currentUser() {
+            return this.$store.getters['auth/currentUser'];
         },
         loading() {
             return this.$store.getters['blog/loading'];

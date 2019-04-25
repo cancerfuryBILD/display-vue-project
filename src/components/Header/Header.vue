@@ -1,7 +1,7 @@
 <template>
     <header>
         <div class="container header">
-            <div v-if="user.role == 'Admin'" class="admin-nav">
+            <div v-if="currentUser.role == 'Admin'" class="admin-nav">
                 <router-link :to="{name: 'users'}">Users</router-link>
                 <router-link :to="{name: 'settings'}">Settings</router-link>
             </div>
@@ -28,8 +28,8 @@ export default {
         'social-links': SocialLinks
     },
     computed: {
-		user() {
-			return this.$store.getters['auth/user'];
+		currentUser() {
+			return this.$store.getters['auth/currentUser'];
 		}
 	}
 }

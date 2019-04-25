@@ -9,10 +9,10 @@
 				</ul>
 			</div>
 			<div class="auth">
-				<router-link v-if="!user" :to="{ name: 'login' }">Login</router-link>
-				<router-link v-if="!user" :to="{ name: 'signup' }">Signup</router-link>
-				<router-link class="user" v-if="user" :to="'/profile/' + user.id">{{ user.firstName }}</router-link>
-				<a v-if="user" @click="logout">Logout</a>
+				<router-link v-if="!currentUser" :to="{ name: 'login' }">Login</router-link>
+				<router-link v-if="!currentUser" :to="{ name: 'signup' }">Signup</router-link>
+				<router-link class="user" v-if="currentUser" :to="'/profile/' + currentUser.id">{{ currentUser.firstName }}</router-link>
+				<a v-if="currentUser" @click="logout">Logout</a>
 			</div>
 		</div>
 	</nav>
@@ -28,13 +28,14 @@ export default {
 		navLinks() {
 			return this.$store.getters['menu/navLinks'];
 		},
-		user() {
-			return this.$store.getters['auth/user'];
+		currentUser() {
+			return this.$store.getters['auth/currentUser'];
 		},
 	},
 	methods: {
 		logout() {
-			this.$store.dispatch('auth/logout')
+			console.log(currentUser)
+			// this.$store.dispatch('auth/logout')
 		}
 	},
 	// beforeCreate() {

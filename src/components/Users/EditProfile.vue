@@ -97,18 +97,18 @@ export default {
 </script>
 
 <style>
-.user-update-profile textarea, .user-update-profile input {
-    width: 80%;
-}
-.user-update-profile .login {
-      max-width: 600px;
-}
-.user-update-profile label {
-    margin-bottom: 0;
-    display: block;
-}
-.user-update-profile label:hover {
-    color: #737373;
-    cursor: auto;
-}
+    .user-update-profile textarea, .user-update-profile input {
+        width: 80%;
+    }
+    .user-update-profile .login {
+        max-width: 600px;
+    }
+    .user-update-profile label {
+        margin-bottom: 0;
+        display: block;
+    }
+    .user-update-profile label:hover {
+        color: #737373;
+        cursor: auto;
+    }
 </style>

@@ -2,7 +2,8 @@ import db from '../../firebase/init';
 
 const state = {
     users: null,
-    singleUser: null
+    singleUser: null,
+    editUsers: false
 }
 const getters = {
     users(state) {
@@ -10,6 +11,9 @@ const getters = {
     },
     singleUser(state) {
         return state.singleUser;
+    },
+    editUsers(state) {
+        return state.editUsers;
     }
 }
 const mutations = {
@@ -18,10 +22,13 @@ const mutations = {
     },
     setSingleUser(state, payload) {
         state.singleUser = payload
+    },
+    seteditUsers(state, payload) {
+        state.editUsers = payload
     }
 }
 const actions = {
-    getUsers({commit}) {
+    getUsersList({commit}) {
         db.collection('users').onSnapshot((snapshot) => {
             let users = [];
             snapshot.docs.forEach(doc => {
@@ -32,13 +39,20 @@ const actions = {
             commit('setUsers', users)
         })
     },
-    getSingleUser({commit}, payload) {
-        db.collection('posts').doc(payload).get().then(doc => {
-            let user = doc.data();
-           
-        })
-            commit('setSinglePost', post)
-        }
+    // // SET CURRENT USER 
+    // getSingleUser({commit}, payload) {
+    //     if(payload) {
+    //         db.collection('users').where('id', '==', payload).get().then(snapshot => {
+    //             let user = {};
+    //             //  SET USER DATA
+    //             snapshot.docs.forEach(doc => {
+    //                 user = doc.data()
+    //                 user.id = doc.id
+    //             })
+    //             commit('setSingleUser', user)
+    //         })
+    //     }
+    // },
 }
 export default {
     state,

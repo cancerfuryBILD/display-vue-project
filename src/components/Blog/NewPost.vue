@@ -63,8 +63,8 @@ export default {
         }
     },
     computed: {
-        user() {
-            return this.$store.getters['auth/user'];
+        currentUser() {
+            return this.$store.getters['auth/currentUser'];
         },
         post() {
             return this.$store.getters['singlePost/post'];
@@ -75,9 +75,9 @@ export default {
             db.collection('posts').add({
                 title: this.title,
                 postText: CKEDITOR.instances.editor.getData(),
-                author: this.user.firstName + ' ' + this.user.lastName,
+                author: this.currentUser.firstName + ' ' + this.currentUser.lastName,
                 thumbnail: this.thumbnail,
-                uid: this.user.user_id,
+                uid: this.currentUser.user_id,
                 timestamp: moment(Date.now()).utc().startOf('day').format(),
                 slug: this.slugify(this.title)
             }).then(() => {

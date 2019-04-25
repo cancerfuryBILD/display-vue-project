@@ -7,25 +7,25 @@
             <span class="small">{{posts.length}}</span>
         </div>
         <div class="user-photo">
-            <img v-if="user.img !== ''" :src="user.img" alt="">
-            <img v-if="!user.img" src="/images/no-img.jpg" alt="">
+            <img v-if="singleUser.img !== ''" :src="singleUser.img" alt="">
+            <img v-if="!singleUser.img" src="/images/no-img.jpg" alt="">
         </div>
         <div class="update-profile">
-            <router-link v-if="user" :to="'/profile/edit/' + user.id">
+            <router-link v-if="singleUser" :to="'/profile/edit/' + singleUser.id">
                 <button>Edit Profile</button>
             </router-link>
         </div>
     </div>
-    <div class="info text-center container" v-if="user">
-        <span>{{user.firstName}} {{user.lastName}}, 38</span><br>
-        <span class="small">{{user.occupation}}</span><br>
+    <div class="info text-center container" v-if="singleUser">
+        <span>{{singleUser.firstName}} {{singleUser.lastName}}, 38</span><br>
+        <span class="small">{{singleUser.occupation}}</span><br>
         <div class="biography">
             <span class="small">Biography</span><br>
-            <p>{{user.biography}}</p>
+            <p>{{singleUser.biography}}</p>
         </div>
     </div>
     <div class="container blog-posts-user ">
-        <h2 class="text-center">{{user.firstName}}'s Posts</h2>
+        <h2 class="text-center">{{singleUser.firstName}}'s Posts</h2>
         <div v-for="(post, index) in posts" :key="index">
             <article>
                 <div class="row">
@@ -35,10 +35,10 @@
                     </div>
                     <div class="col-sm-8 flex-column d-flex">
                         <div class="d-flex justify-content-between">
-                                <router-link v-if="user.user_id === post.uid" :to="'/post/edit/' + post.slug">
+                                <router-link v-if="singleUser.user_id === post.uid" :to="'/post/edit/' + post.slug">
                                     <button>Edit Post</button>
                                 </router-link>
-                                <button @click="deletePost(post.id)" class="delete-btn" v-if="user.user_id === post.uid">Delete Post</button>
+                                <button @click="deletePost(post.id)" class="delete-btn" v-if="singleUser.user_id === post.uid">Delete Post</button>
                             </div>
                         <router-link :to="'/blog/' + post.slug">
                             <h1>{{ post.title }}</h1>
@@ -76,12 +76,22 @@ export default {
         posts() {
             return this.$store.getters['profile/userPosts'];
         },
-        user() {
-			return this.$store.getters['auth/user'];
-		},
+        singleUser() {
+			return this.$store.getters['users/singleUser'];
+        },
+        editUsers(){
+            return this.$store.getters['users/editUsers']
+        },
+        currentUser() {
+			return this.$store.getters['auth/currentUser'];
+		}
+    },
+    beforeDestroy(){
+            this.$store.commit('users/seteditUsers', false)
     },
     mounted() {
-        this.$store.dispatch('profile/getUserPosts', firebase.auth().currentUser)
+        if(!this.editUsers)
+            {this.$store.commit('users/setSingleUser', this.currentUser)}
     },
     methods:{
         dateFormating(date){
@@ -99,50 +109,50 @@ export default {
 //         setTimeout(() => {
 //             next()
 //         },  1500);
-//     },
+//     },ev.sender.dataItem(ev.sender.select().parent())
 }
 </script>
 
 <style>
-.user-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-.update-profile, .user-photo, .statistics {
-    margin-left: auto;
-    margin-right: auto;
-}
-.update-profile {
-    margin-top: 50px;
-}
-.statistics {
-    margin-top: 56px;
-}
-.user-photo {
-    width: 200px;
+    .user-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .update-profile, .user-photo, .statistics {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .update-profile {
+        margin-top: 50px;
+    }
+    .statistics {
+        margin-top: 56px;
+    }
+    .user-photo {
+        width: 200px;
 
-    margin-top: -50px;
-}
-.user-photo img {
-    width: 100%;
-    border-radius: 50%;
-    
-}
-.page-title {
-    height: 100px;
-}
-.info {
-    margin-top: 30px;
-}
-.small {
-    font-size: .8rem;
-}
-.biography {
-    padding-top: 10px;
-    margin-top: 20px;
-    border-top: 1px solid #8a8888;
-}
- .blog-posts-user {
+        margin-top: -50px;
+    }
+    .user-photo img {
+        width: 100%;
+        border-radius: 50%;
+        
+    }
+    .page-title {
+        height: 100px;
+    }
+    .info {
+        margin-top: 30px;
+    }
+    .small {
+        font-size: .8rem;
+    }
+    .biography {
+        padding-top: 10px;
+        margin-top: 20px;
+        border-top: 1px solid #8a8888;
+    }
+    .blog-posts-user {
         margin-top: 100px;
     }
     .blog-posts-user h1 {

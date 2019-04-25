@@ -3,7 +3,7 @@
         <Grid :style="{height: 'auto'}"
             :data-items="users"
             :columns="columns"
-            @rowclick="onChange">
+            @rowclick="userProfile">
         </Grid>
 
         <!-- <kendo-grid :data-source="users"
@@ -30,7 +30,6 @@
                                 :width="50">
             </kendo-grid-column>
         </kendo-grid> -->
-
     </div>
 </template>
 
@@ -40,9 +39,6 @@ import Vue from 'vue'
 Vue.component('Grid', Grid);
 export default {
     name: 'Users',
-    components: {
-
-    },
     data() {
         return {
             selectedField: 'selected',
@@ -60,17 +56,21 @@ export default {
 		},
     },
     methods: {
-        onChange: function(event) {
-            let id = event.dataItem.id;
-            this.$store.dispatch('users/getSingleUser', id)
-        },
+        userProfile(event) {
+            this.$store.commit('users/seteditUsers', true);
+            let user = event.dataItem;
+            this.$store.commit('users/setSingleUser', user);
+            this.$router.push('/profile/' + user.id);
+        }
     },
     created() {
-        this.$store.dispatch('users/getUsers')
+        this.$store.dispatch('users/getUsersList')
     }
 }
 </script>
 
 <style>
-
+    .grid-wrapper td:hover {
+        cursor: pointer;
+    }
 </style>

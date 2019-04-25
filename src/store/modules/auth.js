@@ -4,15 +4,15 @@ import router from "../../router";
 
 const state = {
     feedback: null,
-    user: null,
+    currentUser: null,
     redirect: '',
     permission: null
 
 
 }
 const getters = {
-    user(state) {
-        return state.user
+    currentUser(state) {
+        return state.currentUser
     },
     feedback(state) {
         return state.feedback
@@ -25,8 +25,8 @@ const getters = {
     }
 }
 const mutations = {
-    setUser(state, payload) {
-        state.user = payload
+    setCurrentUser(state, payload) {
+        state.currentUser = payload
     },
     setFeedback(state, payload) {
         state.feedback = payload
@@ -82,8 +82,8 @@ const actions = {
         })
     },
 
-    // SET USER 
-    setUser({commit}, payload) {
+    // SET CURRENT USER 
+    setCurrentUser({commit}, payload) {
         if(payload) {
             db.collection('users').where('user_id', '==', payload.uid).get().then(snapshot => {
                 let user = {};
@@ -92,7 +92,7 @@ const actions = {
                     user = doc.data()
                     user.id = doc.id
                 })
-                commit('setUser', user)
+                commit('setCurrentUser', user)
             })
         }
     },

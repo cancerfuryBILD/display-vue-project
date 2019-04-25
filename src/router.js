@@ -145,16 +145,16 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
-    const roles = to.meta.roles || [];
-	const user = store.getters['auth/user'];
+  const roles = to.meta.roles || [];
+	const currentUser = store.getters['auth/currentUser'];
 	
 	// Checks if user is logged in
-	if (!!to.meta.requiresAuth && !user) {
+	if (!!to.meta.requiresAuth && !currentUser) {
 		next({
 			name: 'login',
 			query: {redirectTo: to.path}
 		});
-	} else if (roles.length && user && !roles.includes(user.role) && user.role !== 'Admin') {
+	} else if (roles.length && currentUser && !roles.includes(currentUser.role) && currentUser.role !== 'Admin') {
 		next({
 			name: 'access-denied'
 		});

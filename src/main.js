@@ -30,45 +30,12 @@ global.jQuery = jQuery;
 
 Vue.config.productionTip = false;
 
-// router.beforeEach((to, from, next) => {
-// 	const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-// 	const user = store.getters['auth/user']
-	
-// 	if (requiresAuth) {
-// 	 // this route requires auth, check if logged in
-// 	 // if true, redirect to main page.
-// 	 if (user) {
-// 	   if (!to.meta.permission) {
-// 		 return next()
-// 	   }
-// 	   if (to.meta.permission.includes(user.role)) {
-//       switch (user.role) {
-//         case 'Admin':
-//         next()
-//         break;
-//         case 'Moderator':
-//         next()
-//         break;
-//         case 'Blogger':
-//         next()
-//         break;
-//         default:
-//         next({
-//           name: 'work'
-//         })
-//       }
-// 	  }
-// 	} else {
-//       next()
-//     }
-//   }
-// });
-
 let app = '';
 
 firebase.auth().onAuthStateChanged(() => {
   if(firebase.auth().currentUser) {
-    store.dispatch('auth/setUser', firebase.auth().currentUser);
+    let currentUser = firebase.auth().currentUser;
+    store.dispatch('auth/setCurrentUser', currentUser);
   }
   setTimeout(() => {
     if (!app) {
