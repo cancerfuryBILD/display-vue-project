@@ -74,7 +74,7 @@ const actions = {
 
     // LOGOUT USER
     logout({commit}) {   
-        commit('setUser', null) //passing empty string rather then NULL, throw error
+        commit('setUser', null)
         firebase.auth().signOut().then(() => {
             router.push({ name: 'login' })
         }).catch(error =>  {

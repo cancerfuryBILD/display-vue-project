@@ -28,6 +28,7 @@ const mutations = {
     }
 }
 const actions = {
+    // GET USERS LIST
     getUsersList({commit}) {
         db.collection('users').onSnapshot((snapshot) => {
             let users = [];
@@ -39,20 +40,22 @@ const actions = {
             commit('setUsers', users)
         })
     },
-    // // SET CURRENT USER 
-    // getSingleUser({commit}, payload) {
-    //     if(payload) {
-    //         db.collection('users').where('id', '==', payload).get().then(snapshot => {
-    //             let user = {};
-    //             //  SET USER DATA
-    //             snapshot.docs.forEach(doc => {
-    //                 user = doc.data()
-    //                 user.id = doc.id
-    //             })
-    //             commit('setSingleUser', user)
-    //         })
-    //     }
-    // },
+
+    // GET SINGLE USER 
+    getSingleUser({commit}, payload) {
+        if(payload) {
+            var user = {};
+            db.collection('users').doc(payload).get().then(doc => {
+                
+                //  SET USER DATA
+                user = doc.data()
+                user.id = doc.id
+                console.log(user)
+                
+            });
+            commit('setSingleUser', user)
+        }
+    },
 }
 export default {
     state,

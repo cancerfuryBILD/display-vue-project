@@ -1,10 +1,10 @@
 <template>
     <div class="grid-wrapper container">
-        <Grid :style="{height: 'auto'}"
+        <!-- <Grid :style="{height: 'auto'}"
             :data-items="users"
             :columns="columns"
             @rowclick="userProfile">
-        </Grid>
+        </Grid> -->
 
         <!-- <kendo-grid :data-source="users"
                     :height="550"
@@ -34,9 +34,8 @@
 </template>
 
 <script>
-import { Grid } from '@progress/kendo-vue-grid'
 import Vue from 'vue'
-Vue.component('Grid', Grid);
+
 export default {
     name: 'Users',
     data() {
@@ -56,12 +55,12 @@ export default {
 		},
     },
     methods: {
-        userProfile(event) {
-            this.$store.commit('users/seteditUsers', true);
-            let user = event.dataItem;
-            this.$store.commit('users/setSingleUser', user);
-            this.$router.push('/profile/' + user.id);
-        }
+        // userProfile(event) {
+        //     this.$store.commit('users/seteditUsers', true);
+        //     let user = event.dataItem;
+        //     this.$store.commit('users/setSingleUser', user);
+        //     this.$router.push('/profile/' + user.id);
+        // }
     },
     created() {
         this.$store.dispatch('users/getUsersList')

@@ -11,7 +11,7 @@
 			<div class="auth">
 				<router-link v-if="!currentUser" :to="{ name: 'login' }">Login</router-link>
 				<router-link v-if="!currentUser" :to="{ name: 'signup' }">Signup</router-link>
-				<router-link class="user" v-if="currentUser" :to="'/profile/' + currentUser.id">{{ currentUser.firstName }}</router-link>
+				<span class="user" v-if="currentUser" @click="userProfile">{{ currentUser.firstName }}</span>
 				<a v-if="currentUser" @click="logout">Logout</a>
 			</div>
 		</div>
@@ -34,9 +34,15 @@ export default {
 	},
 	methods: {
 		logout() {
-			console.log(currentUser)
-			// this.$store.dispatch('auth/logout')
-		}
+			// console.log(currentUser)
+			this.$store.dispatch('auth/logout')
+		},
+		 userProfile(event) {
+            // this.$store.commit('users/seteditUsers', true);
+			let id = this.currentUser.id;
+			this.$router.push('/profile/' + id);
+			
+        }
 	},
 	// beforeCreate() {
 	// 	let currentUser = firebase.auth().currentUser;
@@ -88,6 +94,7 @@ nav .container {
     .auth span {
       	font-size: .8rem;
       	letter-spacing: .05rem;
+		  cursor: pointer;
     }
   
 @media (max-width: 576px) {

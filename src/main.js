@@ -13,7 +13,6 @@ import './firebase/init';
 import CxltToastr from 'cxlt-vue2-toastr';
 import '@progress/kendo-ui'
 import '@progress/kendo-theme-default/dist/all.css'
-import { Grid } from '@progress/kendo-vue-grid'
 
 const toastrConfigs = {
   position: 'top right',
@@ -44,7 +43,6 @@ firebase.auth().onAuthStateChanged(() => {
         store,
         validations: {},
         Bootstrap,
-        Grid,
         render: h => h(App),
       }).$mount("#app");
     };

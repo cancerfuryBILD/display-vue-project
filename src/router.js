@@ -87,7 +87,15 @@ const router = new Router({
 			requiresAuth: true,
 			roles: ['Blogger' ,'Moderator'],
 			permission: 'blog_edit'
-		}
+		},
+		beforeEnter: (to, from, next) => {
+			const id = to.params.id
+			console.log(id)
+			store.dispatch('users/getSingleUser', id )
+			setTimeout(() => {
+				next()
+			}, 500);
+		},
 	},
 	{
 		path: "/profile/edit/:id",

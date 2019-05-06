@@ -109,7 +109,8 @@ export default {
 //         setTimeout(() => {
 //             next()
 //         },  1500);
-//     },ev.sender.dataItem(ev.sender.select().parent())
+//     },
+    // ev.sender.dataItem(ev.sender.select().parent())
 }
 </script>
 
