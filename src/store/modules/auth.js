@@ -4,11 +4,8 @@ import router from "../../router";
 
 const state = {
     feedback: null,
-    currentUser: null,
-    redirect: '',
-    permission: null
-
-
+    currentUser: '',
+    redirect: ''
 }
 const getters = {
     currentUser(state) {
@@ -19,9 +16,6 @@ const getters = {
     },
     redirect(state) {
         return state.redirect
-    },
-    permission(state) {
-        return state.permission
     }
 }
 const mutations = {
@@ -34,9 +28,6 @@ const mutations = {
     setRedirect(state, payload) {
         state.redirect = payload
     },
-    setPermission(state, payload) {
-        state.permission = payload
-    }
 }
 const actions = {
     // SIGNUP USER
@@ -49,7 +40,7 @@ const actions = {
                     lastName: payload.lastName,
                     email: payload.email,
                     user_id: cred.user.uid,
-                    role: 'Role.User'
+                    role: 'User'
                 }).then(() => {
                     const redirectTo = state.redirect || {name: 'blog'}
                     router.push(redirectTo)
@@ -61,11 +52,12 @@ const actions = {
     },
 
     // LOGIN USER
-    login({commit}, payload) {
+    login({commit, state}, payload) {
         firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
             .then(user => {
-                commit('setUser', firebase.auth().currentUser.uid)
-                const redirectTo = state.redirect || {name: 'blog'}
+                commit('setCurrentUser', firebase.auth().currentUser.uid)
+                // const redirectTo = state.redirect || {name: 'blog'}
+                // console.log(redirectTo)
                 router.push(redirectTo)
             }).catch(error =>  {
                 commit('setFeedback', error.message)
@@ -74,7 +66,7 @@ const actions = {
 
     // LOGOUT USER
     logout({commit}) {   
-        commit('setUser', null)
+        commit('setCurrentUser', '')
         firebase.auth().signOut().then(() => {
             router.push({ name: 'login' })
         }).catch(error =>  {
@@ -95,8 +87,7 @@ const actions = {
                 commit('setCurrentUser', user)
             })
         }
-    },
-
+    }
 }
 export default {
     state,

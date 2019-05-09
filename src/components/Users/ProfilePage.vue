@@ -1,63 +1,66 @@
 <template>
-<div>
-    <page-title :headline="headline"/>
-    <div class="container user-info">
-        <div class="statistics">
-            <span class="small">posts: </span>
-            <span class="small">{{posts.length}}</span>
+    <div>
+        <!-- <spinner v-if="loading"></spinner> -->
+        <page-title :headline="headline"/>
+        <div class="container user-info">
+            <div class="statistics">
+                <span class="small">posts: </span>
+                <span class="small">{{posts.length}}</span>
+            </div>
+            <div class="user-photo">
+                <img v-if="singleUser.img !== ''" :src="singleUser.img" alt="">
+                <img v-if="!singleUser.img" src="/images/no-img.jpg" alt="">
+            </div>
+            <div class="update-profile">
+                <router-link v-if="singleUser.id == currentUser.id || currentUser.role == 'Admin'" :to="'/profile/edit/' + singleUser.id">
+                    <button>Edit Profile</button>
+                </router-link>
+            </div>
         </div>
-        <div class="user-photo">
-            <img v-if="singleUser.img !== ''" :src="singleUser.img" alt="">
-            <img v-if="!singleUser.img" src="/images/no-img.jpg" alt="">
+        <div class="info text-center container" v-if="singleUser">
+            <span>{{singleUser.firstName}} {{singleUser.lastName}}, 38</span><br>
+            <span class="small">{{singleUser.occupation}}</span><br>
+            <div class="biography">
+                <span class="small">Biography</span><br>
+                <p>{{singleUser.biography}}</p>
+            </div>
         </div>
-        <div class="update-profile">
-            <router-link v-if="singleUser" :to="'/profile/edit/' + singleUser.id">
-                <button>Edit Profile</button>
-            </router-link>
-        </div>
-    </div>
-    <div class="info text-center container" v-if="singleUser">
-        <span>{{singleUser.firstName}} {{singleUser.lastName}}, 38</span><br>
-        <span class="small">{{singleUser.occupation}}</span><br>
-        <div class="biography">
-            <span class="small">Biography</span><br>
-            <p>{{singleUser.biography}}</p>
-        </div>
-    </div>
-    <div class="container blog-posts-user ">
-        <h2 class="text-center">{{singleUser.firstName}}'s Posts</h2>
-        <div v-for="(post, index) in posts" :key="index">
-            <article>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <img v-if="post.thumbnail == ''" src="/images/no-image.png" alt="">
-                        <img v-if="post.thumbnail !== ''" :src="post.thumbnail" alt="">
-                    </div>
-                    <div class="col-sm-8 flex-column d-flex">
-                        <div class="d-flex justify-content-between">
-                                <router-link v-if="singleUser.user_id === post.uid" :to="'/post/edit/' + post.slug">
-                                    <button>Edit Post</button>
-                                </router-link>
-                                <button @click="deletePost(post.id)" class="delete-btn" v-if="singleUser.user_id === post.uid">Delete Post</button>
+        <div class="container blog-posts-user ">
+            <h2 v-if="posts.length !== 0" class="text-center">{{singleUser.firstName}}'s Posts</h2>
+            <h2 v-if="posts.length == 0" class="text-center">{{singleUser.firstName}} has no posts!</h2>
+            <div v-for="(post, index) in posts" :key="index">
+                <article>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <img v-if="post.thumbnail == ''" src="/images/no-image.png" alt="">
+                            <img v-if="post.thumbnail !== ''" :src="post.thumbnail" alt="">
+                        </div>
+                        <div class="col-sm-8 flex-column d-flex">
+                            <div class="d-flex justify-content-between">
+                                    <router-link v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'" :to="'/post/edit/' + post.slug">
+                                        <button>Edit Post</button>
+                                    </router-link>
+                                    <button @click="deletePost(post.id)" class="delete-btn" v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'">Delete Post</button>
+                                </div>
+                            <router-link :to="'/blog/' + post.slug">
+                                <h1>{{ post.title }}</h1>
+                            </router-link>
+                            <div class="post" v-html="post.postText"></div>
+                            <div class="d-flex justify-content-between  mt-auto mb-3 ">
+                                <span class="author">Author: {{ post.author }}</span>
+                                <span class="published">Published: {{ dateFormating(post.timestamp) }} </span>
                             </div>
-                        <router-link :to="'/blog/' + post.slug">
-                            <h1>{{ post.title }}</h1>
-                        </router-link>
-                        <div class="post" v-html="post.postText"></div>
-                        <div class="d-flex justify-content-between  mt-auto mb-3 ">
-                            <span class="author">Author: {{ post.author }}</span>
-                            <span class="published">Published: {{ dateFormating(post.timestamp) }} </span>
                         </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            </div>
         </div>
     </div>
-</div>
 </template>
 
 <script scoped>
 import PageTitle from '@/components/Common/PageTitle.vue';
+// import Spinner from '@/components/Common/Spinner.vue';
 import moment from 'moment';
 import {store} from '@/store/index';
 import firebase from 'firebase/app';
@@ -70,28 +73,19 @@ export default {
         }
     },
     components: {
-        PageTitle
+        PageTitle,
+        // Spinner
     },
      computed: {
         posts() {
-            return this.$store.getters['profile/userPosts'];
+            return this.$store.getters['users/userPosts'];
         },
         singleUser() {
 			return this.$store.getters['users/singleUser'];
         },
-        editUsers(){
-            return this.$store.getters['users/editUsers']
-        },
         currentUser() {
 			return this.$store.getters['auth/currentUser'];
 		}
-    },
-    beforeDestroy(){
-            this.$store.commit('users/seteditUsers', false)
-    },
-    mounted() {
-        if(!this.editUsers)
-            {this.$store.commit('users/setSingleUser', this.currentUser)}
     },
     methods:{
         dateFormating(date){
@@ -101,16 +95,18 @@ export default {
             db.collection("posts").doc(id).delete()
         }
     },
-
-// beforeRouteEnter (to, from, next) {
-//         const id = store.getters['auth/user'].user_id
-//         console.log(id)
-//         store.dispatch('profile/getUserPosts',id )
-//         setTimeout(() => {
-//             next()
-//         },  1500);
-//     },
-    // ev.sender.dataItem(ev.sender.select().parent())
+    beforeRouteUpdate : (to, from, next) => {
+        store.dispatch('users/getSingleUser', null )
+        store.commit('users/setUserPosts', [] )
+        const id = to.params.id
+        store.dispatch('users/getSingleUser', id )
+        .then(response => {
+            next();
+        });
+    },
+    beforeDestroy() {
+        store.commit('users/setUserPosts', [] )
+    }
 }
 </script>
 

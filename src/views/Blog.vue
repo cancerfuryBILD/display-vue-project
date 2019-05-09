@@ -1,9 +1,14 @@
 <template>
     <div>
         <spinner v-if="loading"></spinner>
-        <page-title v-if="!loading" :headline="headline"/>
-        <div v-if="!loading" class="container blog-posts">
-            <action-button v-if="currentUser" :buttonTitle="buttonTitle" :buttonType="buttonType" :buttonLink="buttonLink"/>
+        <page-title :headline="headline"/>
+        <div class="container blog-posts">
+            <action-button v-if="currentUser.role == 'Blogger' || 
+                                currentUser.role == 'Admin' || 
+                                currentUser.role == 'Moderator'" 
+                                :buttonTitle="buttonTitle" 
+                                :buttonType="buttonType" 
+                                :buttonLink="buttonLink"/>
             <div v-for="(post, index) in posts" :key="index">
                 <article>
                     <div class="row">
@@ -13,10 +18,12 @@
                         </div>
                         <div class="col-sm-8">
                             <div class="d-flex justify-content-between">
-                                <router-link v-if="currentUser" :to="'/post/edit/' + post.slug">
+                                <router-link v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'" :to="'/post/edit/' + post.slug">
                                     <button>Edit Post</button>
                                 </router-link>
-                                <button @click="deletePost(post.id)" class="delete-btn" v-if="currentUser">Delete Post</button>
+                                <button @click="deletePost(post.id)"
+                                        class="delete-btn" 
+                                        v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'">Delete Post</button>
                             </div>
                             <router-link :to="'/blog/' + post.slug">
                                 <h1>{{ post.title }}</h1>

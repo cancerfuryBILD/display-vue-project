@@ -1,17 +1,11 @@
 <template>
     <div class="grid-wrapper container">
-        <!-- <Grid :style="{height: 'auto'}"
-            :data-items="users"
-            :columns="columns"
-            @rowclick="userProfile">
-        </Grid> -->
-
-        <!-- <kendo-grid :data-source="users"
-                    :height="550"
+        <kendo-grid :data-source="users"
+                    :height="250"
                     :sortable="'true'"
                     :sortable-allow-unsort="true"
                     :selectable="'true'"
-                    v-on:change="onChange"
+                    v-on:change="userProfile"
                     :selected-field="selectedField">
             <kendo-grid-column :field="'firstName'"
                                 :title="'First Name'"
@@ -29,12 +23,18 @@
                                 :title="'Role'"
                                 :width="50">
             </kendo-grid-column>
-        </kendo-grid> -->
+        </kendo-grid>
     </div>
 </template>
 
 <script>
+import '@progress/kendo-ui'
+import '@progress/kendo-theme-default/dist/all.css'
+import { Grid, GridInstaller } from '@progress/kendo-grid-vue-wrapper'
 import Vue from 'vue'
+import {store} from "@/store/index";
+
+Vue.use(GridInstaller)
 
 export default {
     name: 'Users',
@@ -55,12 +55,11 @@ export default {
 		},
     },
     methods: {
-        // userProfile(event) {
-        //     this.$store.commit('users/seteditUsers', true);
-        //     let user = event.dataItem;
-        //     this.$store.commit('users/setSingleUser', user);
-        //     this.$router.push('/profile/' + user.id);
-        // }
+        userProfile(event) {
+            const element = event.sender.select();
+            const id = event.sender.dataItem(element[0]).id
+            this.$router.push('/profile/' + id);
+        }
     },
     created() {
         this.$store.dispatch('users/getUsersList')

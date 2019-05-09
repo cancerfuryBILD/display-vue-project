@@ -11,7 +11,7 @@
                         <label for="firstName">First Name</label>
                         <input name="firstName" 
                             type="text"
-                            v-model="user.firstName"
+                            v-model="singleUser.firstName"
                             disabled>
                     </div>
 
@@ -20,7 +20,7 @@
                         <label for="lastName">Last Name</label>
                         <input name="lastName" 
                             type="text"
-                            v-model="user.lastName"
+                            v-model="singleUser.lastName"
                             disabled>
                     </div>
 
@@ -28,7 +28,7 @@
                         <label for="lastName">Link to avatar</label>
                         <input name="avatar" 
                             type="text"
-                            v-model="user.img">
+                            v-model="singleUser.img">
                     </div>
 
                     <!-- EMAIL INPUT -->
@@ -36,8 +36,17 @@
                         <label for="email">Email</label>
                         <input name="email" 
                             type="email"
-                            v-model="user.email"
+                            v-model="singleUser.email"
                             disabled>
+                    </div>
+
+                    <!-- ROLE INPUT -->
+                    <div >
+                        <label for="role">Role</label>
+                        <input name="role" 
+                            type="text"
+                            v-model="singleUser.role"
+                            :disabled="currentUser.role !== 'Admin'">
                     </div>
 
                     <!-- OCCUPATION INPUT -->
@@ -45,13 +54,13 @@
                         <label for="occupation">Occupation</label>
                         <input name="occupation" 
                             type="text"
-                            v-model="user.occupation">
+                            v-model="singleUser.occupation">
                     </div>
 
                     <!-- BIOGRAPHY INPUT -->
                     <div>
                         <label for="biography">Biography</label>
-                        <textarea name="biography" v-model="user.biography"></textarea>
+                        <textarea name="biography" v-model="singleUser.biography"></textarea>
                     </div>
 
                     <button @click.prevent="updateUserInfo">Update</button>
@@ -75,22 +84,22 @@ export default {
         }
     },
     computed: {
-        user() {
-            return this.$store.getters['auth/user'];
+        singleUser() {
+            return this.$store.getters['users/singleUser'];
+        },
+        currentUser() {
+            return this.$store.getters['auth/currentUser'];
         }
     },
     methods: {
         updateUserInfo() {
-
-            db.collection('users').doc(this.user.id).update({
-                occupation: this.user.occupation,
-                biography: this.user.biography,
-                img: this.user.img,
+            db.collection('users').doc(this.singleUser.id).update({
+                occupation: this.singleUser.occupation,
+                biography: this.singleUser.biography,
+                img: this.singleUser.img,
             }).then((response) => {
-                
-                this.$router.push({ path: '/profile/' + this.user.id })
-                })
-            // console.log(doc.id)
+                this.$router.push({ path: '/profile/' + this.singleUser.id })
+            })
         }
     }
 }

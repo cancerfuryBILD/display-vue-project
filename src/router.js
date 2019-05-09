@@ -83,19 +83,13 @@ const router = new Router({
 		path: "/profile/:id",
 		name: "profile-page",
 		component: ProfilePage,
-		meta: {
-			requiresAuth: true,
-			roles: ['Blogger' ,'Moderator'],
-			permission: 'blog_edit'
-		},
 		beforeEnter: (to, from, next) => {
 			const id = to.params.id
-			console.log(id)
 			store.dispatch('users/getSingleUser', id )
-			setTimeout(() => {
-				next()
-			}, 500);
-		},
+			.then(response => {
+				next();
+			});
+		}
 	},
 	{
 		path: "/profile/edit/:id",
@@ -103,7 +97,6 @@ const router = new Router({
 		component: EditProfile,
 		meta: {
 			requiresAuth: true,
-			roles: ['Moderator']
 		}
 	},
 	{
@@ -151,18 +144,19 @@ const router = new Router({
 ]
 });
 
-
 router.beforeEach((to, from, next) => {
-  const roles = to.meta.roles || [];
+  	const roles = to.meta.roles || [];
 	const currentUser = store.getters['auth/currentUser'];
-	
+
 	// Checks if user is logged in
 	if (!!to.meta.requiresAuth && !currentUser) {
+		store.commit('auth/setRedirect', to.path)
 		next({
 			name: 'login',
-			query: {redirectTo: to.path}
+			query: {redirect: to.path}
 		});
 	} else if (roles.length && currentUser && !roles.includes(currentUser.role) && currentUser.role !== 'Admin') {
+		// console.log(to)
 		next({
 			name: 'access-denied'
 		});

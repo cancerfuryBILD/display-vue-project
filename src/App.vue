@@ -2,7 +2,7 @@
   <div id="app">
     <div class="content">
       <app-header/>
-      <router-view />
+      <router-view :key="$route.fullPath"></router-view>
     </div>
     <app-footer/> 
   </div>

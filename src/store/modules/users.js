@@ -1,9 +1,10 @@
 import db from '../../firebase/init';
 
 const state = {
+    userPosts: [],
     users: null,
     singleUser: null,
-    editUsers: false
+    loading: false
 }
 const getters = {
     users(state) {
@@ -12,20 +13,21 @@ const getters = {
     singleUser(state) {
         return state.singleUser;
     },
-    editUsers(state) {
-        return state.editUsers;
+    userPosts(state) {
+        return state.userPosts
     }
 }
 const mutations = {
+    setUserPosts(state, payload) {
+        state.userPosts = payload
+        state.loading = false;
+    },
     setUsers(state, payload) {
         state.users = payload
     },
     setSingleUser(state, payload) {
         state.singleUser = payload
     },
-    seteditUsers(state, payload) {
-        state.editUsers = payload
-    }
 }
 const actions = {
     // GET USERS LIST
@@ -42,20 +44,32 @@ const actions = {
     },
 
     // GET SINGLE USER 
-    getSingleUser({commit}, payload) {
+    async getSingleUser({commit, dispatch}, payload) {
         if(payload) {
+            // state.loading = true;
             var user = {};
-            db.collection('users').doc(payload).get().then(doc => {
-                
+            await db.collection('users').doc(payload).get().then(doc => {
                 //  SET USER DATA
                 user = doc.data()
                 user.id = doc.id
-                console.log(user)
-                
-            });
-            commit('setSingleUser', user)
+                commit('setSingleUser', user)
+                dispatch('getUserPosts', payload)
+            })
         }
     },
+
+    // GET USER POSTS
+    async getUserPosts({commit}, payload) {
+        let post = [];
+        await db.collection('posts').where('uid', '==', payload).get().then(snapshot => {
+            snapshot.docs.forEach(doc => {
+                post.push({
+                    ...doc.data(),
+                    id: doc.id})
+                    commit('setUserPosts', post)
+            })
+        })
+    }
 }
 export default {
     state,

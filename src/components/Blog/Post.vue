@@ -2,6 +2,14 @@
     <div class="single-post" v-if="post">
         <page-title :headline="post[0].title"/>
         <div class="post-content container">
+            <div class="d-flex justify-content-between">
+                <router-link v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'" :to="'/post/edit/' + post.slug">
+                    <button>Edit Post</button>
+                </router-link>
+                <button @click="deletePost(post.id)"
+                        class="delete-btn" 
+                        v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'">Delete Post</button>
+            </div>
             <div class="d-flex justify-content-between article-meta mt-auto mb-5 ">
                 <span class="author">Author: {{ post[0].author }}</span>
                 <span class="published">Published: {{ dateFormating(post[0].timestamp) }} </span>
@@ -23,12 +31,18 @@ export default {
     methods:{
         dateFormating(date){
             return moment(date).format('DD / MM / YYYY')
+        },
+        deletePost(id) {
+            db.collection("posts").doc(id).delete()
         }
     },
     computed: {
      	 post() {
         	return this.$store.getters['singlePost/post']
-      	}
+          },
+          currentUser() {
+            return this.$store.getters['auth/currentUser'];
+        }
     },
     beforeCreate() {
       	let id = this.$route.params.id;

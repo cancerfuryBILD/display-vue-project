@@ -1,15 +1,17 @@
 <template>
+  <div class="spinner">
     <div class="atom-spinner">
-            <div class="spinner-inner">
-                <div class="spinner-line"></div>
-                <div class="spinner-line"></div>
-                <div class="spinner-line"></div>
-                <!--Chrome renders little circles malformed :(-->
-                <div class="spinner-circle">
-                    &#9679;
-                </div>
-            </div>
+      <div class="spinner-inner">
+        <div class="spinner-line"></div>
+        <div class="spinner-line"></div>
+        <div class="spinner-line"></div>
+        <!--Chrome renders little circles malformed :(-->
+        <div class="spinner-circle">
+            &#9679;
         </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -19,6 +21,14 @@ export default {
 </script>
 
 <style>
+.spinner {
+  position: fixed;
+  top: 195px;
+  width: 100vw;
+  height: calc(100vh - 195px);
+  background-color: white;
+  z-index: 999;
+}
    .atom-spinner, .atom-spinner * {
       box-sizing: border-box;
     }

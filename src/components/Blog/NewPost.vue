@@ -77,7 +77,7 @@ export default {
                 postText: CKEDITOR.instances.editor.getData(),
                 author: this.currentUser.firstName + ' ' + this.currentUser.lastName,
                 thumbnail: this.thumbnail,
-                uid: this.currentUser.user_id,
+                uid: this.currentUser.id,
                 timestamp: moment(Date.now()).utc().startOf('day').format(),
                 slug: this.slugify(this.title)
             }).then(() => {
