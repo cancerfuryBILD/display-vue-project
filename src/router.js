@@ -62,7 +62,7 @@ const router = new Router({
 		component: NewPost,
 		meta: {
 			requiresAuth: true,
-			roles: ['Blogger', 'Moderator']
+			roles: ['Blogger', 'Moderator', 'Admin']
 		}
 	},
 	{
@@ -110,7 +110,7 @@ const router = new Router({
 		component: Users,
 		meta: {
 			requiresAuth: true,
-			roles: []
+			roles: ['Admin']
 		}
 	},
 	{
@@ -119,7 +119,7 @@ const router = new Router({
 		component: Settings,
 		meta: {
 			requiresAuth: true,
-			roles: []
+			roles: ['Admin']
 		}
 	},
 	{
@@ -149,14 +149,13 @@ router.beforeEach((to, from, next) => {
 	const currentUser = store.getters['auth/currentUser'];
 
 	// Checks if user is logged in
-	if (!!to.meta.requiresAuth && !currentUser) {
-		store.commit('auth/setRedirect', to.path)
+	if (to.meta.requiresAuth && !currentUser) {
+		store.commit('auth/setRedirect', to.fullPath)
 		next({
 			name: 'login',
 			query: {redirect: to.path}
 		});
 	} else if (roles.length && currentUser && !roles.includes(currentUser.role) && currentUser.role !== 'Admin') {
-		// console.log(to)
 		next({
 			name: 'access-denied'
 		});

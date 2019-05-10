@@ -14,9 +14,6 @@ const getters = {
     feedback(state) {
         return state.feedback
     },
-    redirect(state) {
-        return state.redirect
-    }
 }
 const mutations = {
     setCurrentUser(state, payload) {
@@ -56,8 +53,7 @@ const actions = {
         firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
             .then(user => {
                 commit('setCurrentUser', firebase.auth().currentUser.uid)
-                // const redirectTo = state.redirect || {name: 'blog'}
-                // console.log(redirectTo)
+                const redirectTo = state.redirect || {name: 'blog'}
                 router.push(redirectTo)
             }).catch(error =>  {
                 commit('setFeedback', error.message)

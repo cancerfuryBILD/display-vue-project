@@ -57,7 +57,7 @@ export default {
     methods: {
         userProfile(event) {
             const element = event.sender.select();
-            const id = event.sender.dataItem(element[0]).id
+            const id = event.sender.dataItem(element[0]).id 
             this.$router.push('/profile/' + id);
         }
     },

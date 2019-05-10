@@ -43,10 +43,16 @@
                     <!-- ROLE INPUT -->
                     <div >
                         <label for="role">Role</label>
-                        <input name="role" 
+                        <select v-model="singleUser.role" :disabled="currentUser.role !== 'Admin'">
+                            <option>Admin</option>
+                            <option>Blogger</option>
+                            <option>Moderator</option>
+                            <option>User</option>
+                        </select>
+                        <!-- <input name="role" 
                             type="text"
                             v-model="singleUser.role"
-                            :disabled="currentUser.role !== 'Admin'">
+                            :disabled="currentUser.role !== 'Admin'"> -->
                     </div>
 
                     <!-- OCCUPATION INPUT -->
@@ -97,6 +103,7 @@ export default {
                 occupation: this.singleUser.occupation,
                 biography: this.singleUser.biography,
                 img: this.singleUser.img,
+                role: this.singleUser.role
             }).then((response) => {
                 this.$router.push({ path: '/profile/' + this.singleUser.id })
             })
@@ -106,8 +113,13 @@ export default {
 </script>
 
 <style>
-    .user-update-profile textarea, .user-update-profile input {
+    .user-update-profile textarea, .user-update-profile input, .user-update-profile select {
         width: 80%;
+    }
+    .user-update-profile select {
+        padding-top: 11px;
+        padding-bottom: 11px;
+        border: 
     }
     .user-update-profile .login {
         max-width: 600px;

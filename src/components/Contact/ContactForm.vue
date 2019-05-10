@@ -156,8 +156,8 @@ export default {
         grid-template-columns: 60% 40%;
         margin-bottom: 49px;
     }
-    input, textarea {
-        padding: 9px 20px;
+    input, textarea, .user-update-profile select {
+        padding: 9px 12px;
         margin: 8px 0px;
         display: inline-block;
         border: #8a8888 2px solid;
