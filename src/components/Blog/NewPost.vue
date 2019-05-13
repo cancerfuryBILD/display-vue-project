@@ -25,8 +25,9 @@
                         autocomplete="off">
 
                     <p class="error-message" v-if="!$v.thumbnail.required && $v.thumbnail.$dirty">Thumbnail must not be empty.</p>
-
-                    <textarea name="editor" id="editor" v-model="postText"></textarea>
+                    
+                    <vue-ckeditor v-model="postText" />
+                    <!-- <textarea name="editor" id="editor" v-model="postText"></textarea> -->
                     <button class="action-btn" @click="addPost">send</button>
         </div>
     </div>
@@ -37,6 +38,7 @@ import PageTitle from '@/components/Common/PageTitle.vue';
 import {required} from 'vuelidate/lib/validators';
 import moment from 'moment';
 import db from '../../firebase/init';
+import VueCkeditor from 'vue-ckeditor2';
 
 export default {
     name: 'NewPost',
@@ -53,6 +55,7 @@ export default {
     },
     components: {
         PageTitle,
+        VueCkeditor
     },
     validations: {
         title: {
@@ -74,7 +77,7 @@ export default {
         addPost() {
             db.collection('posts').add({
                 title: this.title,
-                postText: CKEDITOR.instances.editor.getData(),
+                postText: this.postText,
                 author: this.currentUser.firstName + ' ' + this.currentUser.lastName,
                 thumbnail: this.thumbnail,
                 uid: this.currentUser.id,
@@ -98,9 +101,9 @@ export default {
                .replace(/-+$/, '');
        },
     },
-		mounted () {
-            CKEDITOR.replace('editor')
-        }
+		// mounted () {
+        //     CKEDITOR.replace('editor')
+        // }
 }
 
 </script>

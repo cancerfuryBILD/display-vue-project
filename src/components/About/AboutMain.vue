@@ -39,23 +39,23 @@ export default {
 </script>
 
 <style>
-.img-float {
-    padding: 5px 28px 10px 0px;
-}
-.clearfix {
-    overflow: hidden;
-}
-.about-main  p:last-child {
-    margin-top: 22px;
-}
-.about-main {
-    margin-bottom: 30px;
-    margin-top: 44px;
-}
-@media (max-width: 425) {
     .img-float {
-        width: 100%;
-        padding: 5px 0px 15px 0px;
-}
-}
+        padding: 5px 28px 10px 0px;
+    }
+    .clearfix {
+        overflow: hidden;
+    }
+    .about-main  p:last-child {
+        margin-top: 22px;
+    }
+    .about-main {
+        margin-bottom: 30px;
+        margin-top: 44px;
+    }
+    @media (max-width: 425) {
+        .img-float {
+            width: 100%;
+            padding: 5px 0px 15px 0px;
+        }
+    }
 </style>

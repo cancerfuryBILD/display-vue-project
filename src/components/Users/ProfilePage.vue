@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- <spinner v-if="loading"></spinner> -->
         <page-title :headline="headline"/>
         <div class="container user-info">
             <div class="statistics">
@@ -60,7 +59,6 @@
 
 <script scoped>
 import PageTitle from '@/components/Common/PageTitle.vue';
-// import Spinner from '@/components/Common/Spinner.vue';
 import moment from 'moment';
 import {store} from '@/store/index';
 import firebase from 'firebase/app';
@@ -74,7 +72,6 @@ export default {
     },
     components: {
         PageTitle,
-        // Spinner
     },
      computed: {
         posts() {
@@ -85,7 +82,7 @@ export default {
         },
         currentUser() {
 			return this.$store.getters['auth/currentUser'];
-		}
+        }
     },
     methods:{
         dateFormating(date){

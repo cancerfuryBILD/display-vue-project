@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import 'firebase/auth';
 import db from '../../firebase/init';
 import router from "../../router";
 
@@ -28,8 +29,8 @@ const mutations = {
 }
 const actions = {
     // SIGNUP USER
-    signup({commit}, payload) {
-        firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+    async signup({commit}, payload) {
+        await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
             // CREATE USER IN 'USERS' COLLECTION
             .then(cred => {
                 db.collection("users").doc().set({
@@ -39,22 +40,22 @@ const actions = {
                     user_id: cred.user.uid,
                     role: 'User'
                 }).then(() => {
+                    // dispatch('getCurrentUser', firebase.auth().currentUser.uid)
                     const redirectTo = state.redirect || {name: 'blog'}
                     router.push(redirectTo)
                     })
             })
             .catch(error =>  {
+                alert(error)
                 commit('setFeedback', error.message)
         });
     },
 
     // LOGIN USER
-    login({commit, state}, payload) {
-        firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+    async login({commit, dispatch ,state}, payload) {
+        await firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
             .then(user => {
-                commit('setCurrentUser', firebase.auth().currentUser.uid)
-                const redirectTo = state.redirect || {name: 'blog'}
-                router.push(redirectTo)
+                dispatch('getCurrentUser', {uid: user.user.uid})
             }).catch(error =>  {
                 commit('setFeedback', error.message)
         });
@@ -63,6 +64,7 @@ const actions = {
     // LOGOUT USER
     logout({commit}) {   
         commit('setCurrentUser', '')
+        state.redirect = null
         firebase.auth().signOut().then(() => {
             router.push({ name: 'login' })
         }).catch(error =>  {
@@ -71,16 +73,18 @@ const actions = {
     },
 
     // SET CURRENT USER 
-    setCurrentUser({commit}, payload) {
+    async getCurrentUser({commit,state}, payload) {
         if(payload) {
-            db.collection('users').where('user_id', '==', payload.uid).get().then(snapshot => {
+            await db.collection('users').where('user_id', '==', payload.uid).get().then(snapshot => {
                 let user = {};
                 //  SET USER DATA
                 snapshot.docs.forEach(doc => {
                     user = doc.data()
                     user.id = doc.id
                 })
-                commit('setCurrentUser', user)
+                const redirectTo = state.redirect || {name: 'blog'};
+                commit('setCurrentUser', user);
+                router.push(redirectTo);
             })
         }
     }

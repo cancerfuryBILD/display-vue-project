@@ -9,7 +9,7 @@
                         id="title" 
                         v-model="post[0].title"
                         autocomplete="off">
-            <p>{{slugify(post[0].title)}}</p>
+            <p>URL: http://localhost:8080/blog/{{slugify(post[0].title)}}</p>
 
             <!-- THUMBNAIL INPUT -->
             <input name="thumbnail" 

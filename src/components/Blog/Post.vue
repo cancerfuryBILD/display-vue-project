@@ -3,7 +3,7 @@
         <page-title :headline="post[0].title"/>
         <div class="post-content container">
             <div class="d-flex justify-content-between">
-                <router-link v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'" :to="'/post/edit/' + post.slug">
+                <router-link v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'" :to="'/post/edit/' + post[0].slug">
                     <button>Edit Post</button>
                 </router-link>
                 <button @click="deletePost(post.id)"
@@ -22,7 +22,7 @@
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
 import moment from 'moment';
-
+import db from '@/firebase/init';
 export default {
     name: 'Post',
     components: {
@@ -60,5 +60,20 @@ export default {
     }
     .article-meta span {
         font-size: 1rem
+    }
+    article button {
+        font-size: 14px;
+        text-transform: uppercase;
+        font-family: 'Novecentosanswide-DemiBold';
+        padding: 3px 8px;
+        margin-top: -2px;
+        background-color: #2ecc71;
+        border: none;
+        color: #fff;
+        border: none;
+        outline: none;
+    }
+    .delete-btn {
+        background-color: #c72b2b;
     }
 </style>

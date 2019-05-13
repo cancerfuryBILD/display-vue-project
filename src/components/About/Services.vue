@@ -139,89 +139,77 @@ export default {
 </script>
 
 <style>
-.services-tabs {
-    background-color: #efefef;
-    margin-bottom: 25px;
-    margin-top: 24px;
-}
-.services-tabs .nav-pills {
-    width: 100%;
-}
-.services-tabs .nav-pills li {
-    padding: 0px;
-}
-.services-tabs .nav-pills a {
-    padding: 35px 0px 50px 0px;
-}
-.services-tabs .nav-pills .nav-link {
-    border-radius: 0px;
-}
-.services-tabs .nav-pills .nav-link.active{
-    background-color: #dadada;
-}
-.websites, 
-.photography, 
-.seo, 
-.applications {
-    height: 89px;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin: 0px auto 5px;
-    padding: 0px;
-}
-.websites {
-    background-image: url('../../assets/websites.svg');
-}
-.photography {
-    background-image: url('../../assets/photography.svg');
-}
-.seo {
-    background-image: url('../../assets/seo.svg');
-}
-.applications {
-    background-image: url('../../assets/applications.svg');
-}
-
-.services-list{
-    margin: 16px 18px 0px;
-    line-height: 1.5625rem;
-    list-style-image: url('../../assets/bullet.svg');
-    list-style-position: inside;
-    padding: 0;
-}
-.services-info {
-    margin-bottom:  42px;
-    min-height: 158px;
-}
-.services .tab-content {
-    margin-bottom:  41px;
-    min-height: 158px;
-}
-.services h2 {
-    margin: 0px;
-}
-.services h3 {
-    margin: 0px;
-}
-.services {
-    margin-bottom: 41px;
-}
-
-@media screen and (max-width: 768px) {
-    .services {
-        display: none;
+    .services-tabs {
+        background-color: #efefef;
+        margin-bottom: 25px;
+        margin-top: 24px;
     }
-}
+    .services-tabs .nav-pills {
+        width: 100%;
+    }
+    .services-tabs .nav-pills li {
+        padding: 0px;
+    }
+    .services-tabs .nav-pills a {
+        padding: 35px 0px 50px 0px;
+    }
+    .services-tabs .nav-pills .nav-link {
+        border-radius: 0px;
+    }
+    .services-tabs .nav-pills .nav-link.active{
+        background-color: #dadada;
+    }
+    .websites, 
+    .photography, 
+    .seo, 
+    .applications {
+        height: 89px;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 0px auto 5px;
+        padding: 0px;
+    }
+    .websites {
+        background-image: url('../../assets/websites.svg');
+    }
+    .photography {
+        background-image: url('../../assets/photography.svg');
+    }
+    .seo {
+        background-image: url('../../assets/seo.svg');
+    }
+    .applications {
+        background-image: url('../../assets/applications.svg');
+    }
 
+    .services-list{
+        margin: 16px 18px 0px;
+        line-height: 1.5625rem;
+        list-style-image: url('../../assets/bullet.svg');
+        list-style-position: inside;
+        padding: 0;
+    }
+    .services-info {
+        margin-bottom:  42px;
+        min-height: 158px;
+    }
+    .services .tab-content {
+        margin-bottom:  41px;
+        min-height: 158px;
+    }
+    .services h2 {
+        margin: 0px;
+    }
+    .services h3 {
+        margin: 0px;
+    }
+    .services {
+        margin-bottom: 41px;
+    }
 
-
-
-
-
-
-
-
-
-
-
+    @media screen and (max-width: 768px) {
+        .services {
+            display: none;
+        }
+    }
 </style>

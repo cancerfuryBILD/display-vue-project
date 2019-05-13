@@ -1,6 +1,5 @@
 <template>
     <div>
-        <spinner v-if="loading"></spinner>
         <page-title :headline="headline"/>
         <div class="container blog-posts">
             <action-button v-if="currentUser.role == 'Blogger' || 
@@ -46,7 +45,6 @@ import PageTitle from '@/components/Common/PageTitle.vue';
 import ActionButton from '@/components/Common/ActionButton.vue';
 import moment from 'moment';
 import asyncDataStatus from '@/mixins/asyncDataStatus';
-import Spinner from '@/components/Common/Spinner.vue';
 import db from '@/firebase/init';
 export default {
     name: 'Blog',
@@ -60,8 +58,7 @@ export default {
     },
     components: {
         PageTitle,
-        ActionButton,
-        Spinner
+        ActionButton
     },
     mixins: [asyncDataStatus],
     computed: {
@@ -70,13 +67,22 @@ export default {
         },
         currentUser() {
             return this.$store.getters['auth/currentUser'];
-        },
-        loading() {
-            return this.$store.getters['blog/loading'];
         }
     },
     created() {
         this.$store.dispatch('blog/getPosts')
+
+        // this.$store.dispatch('prompt/showPrompt', {
+        //     message: 'Are y',
+        //     confirmationLabel: 'OK',
+        //     cancelLabel: 'Cancel',
+        //     onConfirm: () => {
+        //         this.$store.dispatch('blog/delete'. 'adsfasdfsadf')
+        //     },
+        //     onCancel: () => {
+        //         dkfjksd
+        //     }
+        // })
     },
     methods:{
         dateFormating(date){
@@ -99,7 +105,7 @@ export default {
     .blog-posts img {
         width: 100%;
     }
-    article button {
+    article button, .post-content button {
         font-size: 14px;
         text-transform: uppercase;
         font-family: 'Novecentosanswide-DemiBold';
@@ -111,7 +117,7 @@ export default {
         border: none;
         outline: none;
     }
-    .delete-btn {
+    .delete-btn, .post-content .delete-btn {
         background-color: #c72b2b;
     }
     .post img {
@@ -130,5 +136,6 @@ export default {
     }
     article {
         min-height: 200px;
+        margin-top: 30px;
     }
 </style>

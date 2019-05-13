@@ -4,7 +4,7 @@
             <div class="card-header text-center" :id="item.cardId">
             <h5 class="mb-0">
                 <button class="btn btn-link" type="button" data-toggle="collapse" :data-target="item.target" aria-expanded="false" :aria-controls="item.textId">
-                {{ item.buttonTitle }}
+                    {{ item.buttonTitle }}
                 </button>
             </h5>
             </div>
@@ -93,7 +93,7 @@ export default {
     }
     @media (max-width: 768px) {
         .accordion-mobile {
-        display: block;
-    }
+            display: block;
+        }
     }
 </style>

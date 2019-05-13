@@ -31,10 +31,9 @@ Vue.config.productionTip = false;
 
 let app = '';
 
-firebase.auth().onAuthStateChanged(() => {
-  if(firebase.auth().currentUser) {
-    let currentUser = firebase.auth().currentUser;
-    store.dispatch('auth/setCurrentUser', currentUser);
+firebase.auth().onAuthStateChanged((user) => {
+  if(user) {
+    store.dispatch('auth/getCurrentUser', {uid : user.uid});
   }
   setTimeout(() => {
     if (!app) {

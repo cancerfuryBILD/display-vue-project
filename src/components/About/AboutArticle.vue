@@ -14,11 +14,11 @@ export default {
 </script>
 
 <style>
-article h2 {
-margin-bottom: 18px;
-letter-spacing: .02rem;
-}
-article {
-    margin-bottom: 23px;
-}
+    article h2 {
+        margin-bottom: 18px;
+        letter-spacing: .02rem;
+    }
+    article {
+        margin-bottom: 23px;
+    }
 </style>

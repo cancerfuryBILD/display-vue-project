@@ -1,34 +1,32 @@
 import db from '../../firebase/init'
 
 const state = {
-    posts: {},
-    loading: false
+    posts: []
 }
 const getters = {
     posts(state) {
         return state.posts;
-    },
-    loading(state) {
-        return state.loading
     }
 }
 const mutations = {
     setPosts(state, payload) {
         state.posts = payload
-        state.loading = false
+        
     }
 }
 const actions = {
-    getPosts({commit}) {
-        state.loading = true;
-        db.collection('posts').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
+    async getPosts({commit}) {
+        commit('loader/setLoading', true, { root: true })
+        await db.collection('posts').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
             let posts = [];
             snapshot.docs.forEach(doc => {
                 posts.push({
                     ...doc.data(),
                     id: doc.id})
+                    
             })
             commit('setPosts', posts)
+            commit('loader/setLoading', false, { root: true })
         })
     }
 }
