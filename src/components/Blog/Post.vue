@@ -12,7 +12,7 @@
             </div>
             <div class="d-flex justify-content-between article-meta mt-auto mb-5 ">
                 <span class="author">Author: {{ post[0].author }}</span>
-                <span class="published">Published: {{ dateFormating(post[0].timestamp) }} </span>
+                <span class="published">Published: {{ formatDate(post[0].timestamp.toDate()) }} </span>
             </div>
             <div v-html="post[0].postText"></div>
         </div>
@@ -29,8 +29,9 @@ export default {
       	PageTitle
     },
     methods:{
-        dateFormating(date){
-            return moment(date).format('DD / MM / YYYY')
+        formatDate(date) {
+            moment(date).utc().startOf("day").format();
+            return moment(date).format("DD / MM / YYYY")
         },
         deletePost(id) {
             db.collection("posts").doc(id).delete()

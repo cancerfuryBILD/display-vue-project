@@ -33,18 +33,16 @@ let app = '';
 
 firebase.auth().onAuthStateChanged((user) => {
   if(user) {
-    store.dispatch('auth/getCurrentUser', {uid : user.uid});
+    store.dispatch('auth/getCurrentUser', user);
   }
-  setTimeout(() => {
-    if (!app) {
-        app = new Vue({
-        router,
-        store,
-        validations: {},
-        Bootstrap,
-        render: h => h(App),
-      }).$mount("#app");
-    };
-  }, 400);
+  if (!app) {
+      app = new Vue({
+      router,
+      store,
+      validations: {},
+      Bootstrap,
+      render: h => h(App),
+    }).$mount("#app");
+  }
 });
 

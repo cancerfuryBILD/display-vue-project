@@ -147,10 +147,9 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   	const roles = to.meta.roles || [];
 	const currentUser = store.getters['auth/currentUser'];
-	
+
 	// Checks if user is logged in
-	if (!!to.meta.requiresAuth && !currentUser) {
-		store.commit('auth/setRedirect', to.path)
+	if (!!to.meta.requiresAuth && !firebase.auth().currentUser) {
 		next({
 			name: 'login',
 			query: {redirect: to.path}
@@ -162,7 +161,6 @@ router.beforeEach((to, from, next) => {
 	} else {
 		
 		next();
-		// store.commit('auth/setRedirect', '')
 	}
 });
 

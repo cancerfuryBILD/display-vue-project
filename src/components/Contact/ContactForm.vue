@@ -162,7 +162,7 @@ export default {
         display: inline-block;
         border: #8a8888 2px solid;
     }
-    input {
+    form input {
         width: 350px;
         outline: none;
 

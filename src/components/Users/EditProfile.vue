@@ -119,7 +119,6 @@ export default {
     .user-update-profile select {
         padding-top: 11px;
         padding-bottom: 11px;
-        border: 
     }
     .user-update-profile .login {
         max-width: 600px;

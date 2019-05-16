@@ -2,6 +2,7 @@
     <div>
         <page-title :headline="headline"/>
         <div class="container blog-posts">
+            <prompt  v-if="showModal"></prompt>
             <action-button v-if="currentUser.role == 'Blogger' || 
                                 currentUser.role == 'Admin' || 
                                 currentUser.role == 'Moderator'" 
@@ -20,7 +21,9 @@
                                 <router-link v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'" :to="'/post/edit/' + post.slug">
                                     <button>Edit Post</button>
                                 </router-link>
-                                <button @click="deletePost(post.id)"
+                                <button type="button"
+                                        data-toggle="modal" 
+                                        data-target="#exampleModal"
                                         class="delete-btn" 
                                         v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'">Delete Post</button>
                             </div>
@@ -30,7 +33,7 @@
                             <div class="post" v-html="post.postText"></div>
                             <div class="d-flex justify-content-between  mt-auto mb-3 ">
                                 <span class="author">Author: {{ post.author }}</span>
-                                <span class="published">Published: {{ dateFormating(post.timestamp) }} </span>
+                                <span class="published">Published: {{ formatDate(post.timestamp.toDate()) }} </span>
                             </div>
                         </div>
                     </div>
@@ -43,6 +46,7 @@
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
 import ActionButton from '@/components/Common/ActionButton.vue';
+import Prompt from '@/components/Common/Prompt.vue';
 import moment from 'moment';
 import asyncDataStatus from '@/mixins/asyncDataStatus';
 import db from '@/firebase/init';
@@ -58,7 +62,8 @@ export default {
     },
     components: {
         PageTitle,
-        ActionButton
+        ActionButton,
+        Prompt
     },
     mixins: [asyncDataStatus],
     computed: {
@@ -67,6 +72,9 @@ export default {
         },
         currentUser() {
             return this.$store.getters['auth/currentUser'];
+        },
+        showModal() {
+            return this.$store.getters['prompt/showModal'];
         }
     },
     created() {
@@ -85,8 +93,9 @@ export default {
         // })
     },
     methods:{
-        dateFormating(date){
-            return moment(date).format('DD / MM / YYYY')
+        formatDate(date) {
+            moment(date).utc().startOf("day").format();
+            return moment(date).format("DD / MM / YYYY")
         },
         deletePost(id) {
             db.collection("posts").doc(id).delete()

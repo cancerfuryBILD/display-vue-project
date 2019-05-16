@@ -95,7 +95,7 @@ export default {
             email: '',
             user_id: '',
             thumbnail: '',
-            role: 'Role.User',
+            role: 'User',
             feedback: null,
             error: 'error',
             submited: ''

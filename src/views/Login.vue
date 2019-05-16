@@ -68,7 +68,7 @@ export default {
         }
     },
     methods: {
-        login() {
+        async login() {
             this.submited = 'PENDING'
             this.$v.$touch()
 
@@ -81,7 +81,14 @@ export default {
                 })
             } else {
                 this.submited = 'PENDING'
-            this.$store.dispatch('auth/login', {email: this.email, password: this.password})
+                await this.$store.dispatch('auth/login', {email: this.email, password: this.password}).then(() => {
+                    let redirect = this.$route.query.redirect;
+                    if (redirect) {
+                        this.$router.push({path: redirect});
+                    } else {
+                        this.$router.push({name: 'work'});
+                    }
+                })
             }
         }
     },
