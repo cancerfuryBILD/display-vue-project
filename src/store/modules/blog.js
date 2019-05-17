@@ -15,7 +15,7 @@ const mutations = {
     }
 }
 const actions = {
-    async getPosts({commit}) {
+    async getPosts({commit}, ) {
         commit('loader/setLoading', true, { root: true })
         await db.collection('posts').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
             let posts = [];
