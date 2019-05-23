@@ -39,6 +39,7 @@
                     </div>
                 </article>
             </div>
+            <button @click="loadMore">Load More</button>
         </div>
     </div>
 </template>
@@ -99,6 +100,9 @@ export default {
         },
         deletePost(id) {
             db.collection("posts").doc(id).delete()
+        },
+        loadMore() {
+            this.$store.dispatch('blog/getPosts')
         }
     }
 }

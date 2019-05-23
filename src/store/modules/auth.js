@@ -76,7 +76,7 @@ const actions = {
                 commit('setCurrentUser', user);
             })
         }
-    }
+    },
 }
 export default {
     state,
