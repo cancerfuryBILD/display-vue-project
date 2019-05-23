@@ -20,9 +20,16 @@ const mutations = {
     }
 }
 const actions = {
-    async getPosts({commit}, ) {
+    async getPosts({commit}, payload) {
+        // const defaultOptions = {
+        //     limit: 1,
+        //     orderBy: 'timestamp',
+        //     orderDirection: 'desc'
+        // };
+        // const settings = ;
+
         commit('loader/setLoading', true, { root: true })
-        await db.collection('posts').orderBy('timestamp', 'desc').startAfter(state.lastVisible).limit(1).onSnapshot((snapshot) => {
+        await db.collection('posts').orderBy('timestamp', 'desc').startAfter(state.lastVisible).limit(settings.limit).onSnapshot((snapshot) => {
             let posts = [];
             let lastVisible = snapshot.docs[snapshot.docs.length - 1];
             snapshot.docs.forEach(doc => {
