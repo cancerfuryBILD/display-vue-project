@@ -67,7 +67,6 @@ const actions = {
                     ...doc.data(),
                     id: doc.id});
             })
-            console.log(snapshot.docs.length)
             commit('setPosts', posts);
             commit('setLastVisible', lastVisible);
             commit('loader/setLoading', false, { root: true })
