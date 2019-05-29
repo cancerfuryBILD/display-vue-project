@@ -9,8 +9,8 @@
                                 :buttonTitle="buttonTitle" 
                                 :buttonType="buttonType" 
                                 :buttonLink="buttonLink"/>
-            <svg class="svg svg-right" height="20" viewBox="0 0 1792 1792" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M1255 408h177l-72-218-12-47q-2-16-2-20h-4l-3 20q0 1-3.5 18t-7.5 29zm-455 1032q0 12-10 24l-319 319q-10 9-23 9-12 0-23-9l-320-320q-15-16-7-35 8-20 30-20h192v-1376q0-14 9-23t23-9h192q14 0 23 9t9 23v1376h192q14 0 23 9t9 23zm836 119v233h-584v-90l369-529q12-18 21-27l11-9v-3q-2 0-6.5.5t-7.5.5q-12 3-30 3h-232v115h-120v-229h567v89l-369 530q-6 8-21 26l-11 11v2l14-2q9-2 30-2h248v-119h121zm89-897v106h-288v-106h75l-47-144h-243l-47 144h75v106h-287v-106h70l230-662h162l230 662h70z"/></svg>
-            <svg class="svg" height="20" viewBox="0 0 1792 1792" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M1255 1432h177l-72-218-12-47q-2-16-2-20h-4l-3 20q0 1-3.5 18t-7.5 29zm-455 8q0 12-10 24l-319 319q-10 9-23 9-12 0-23-9l-320-320q-15-16-7-35 8-20 30-20h192v-1376q0-14 9-23t23-9h192q14 0 23 9t9 23v1376h192q14 0 23 9t9 23zm925 246v106h-288v-106h75l-47-144h-243l-47 144h75v106h-287v-106h70l230-662h162l230 662h70zm-89-1151v233h-584v-90l369-529q12-18 21-27l11-9v-3q-2 0-6.5.5t-7.5.5q-12 3-30 3h-232v115h-120v-229h567v89l-369 530q-6 8-21 26l-11 10v3l14-3q9-1 30-1h248v-119h121z"/></svg>
+            <svg @click="sort('asc')" class="svg svg-right" height="20" viewBox="0 0 1792 1792" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M1255 408h177l-72-218-12-47q-2-16-2-20h-4l-3 20q0 1-3.5 18t-7.5 29zm-455 1032q0 12-10 24l-319 319q-10 9-23 9-12 0-23-9l-320-320q-15-16-7-35 8-20 30-20h192v-1376q0-14 9-23t23-9h192q14 0 23 9t9 23v1376h192q14 0 23 9t9 23zm836 119v233h-584v-90l369-529q12-18 21-27l11-9v-3q-2 0-6.5.5t-7.5.5q-12 3-30 3h-232v115h-120v-229h567v89l-369 530q-6 8-21 26l-11 11v2l14-2q9-2 30-2h248v-119h121zm89-897v106h-288v-106h75l-47-144h-243l-47 144h75v106h-287v-106h70l230-662h162l230 662h70z"/></svg>
+            <svg @click="sort('desc')" class="svg" height="20" viewBox="0 0 1792 1792" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M1255 1432h177l-72-218-12-47q-2-16-2-20h-4l-3 20q0 1-3.5 18t-7.5 29zm-455 8q0 12-10 24l-319 319q-10 9-23 9-12 0-23-9l-320-320q-15-16-7-35 8-20 30-20h192v-1376q0-14 9-23t23-9h192q14 0 23 9t9 23v1376h192q14 0 23 9t9 23zm925 246v106h-288v-106h75l-47-144h-243l-47 144h75v106h-287v-106h70l230-662h162l230 662h70zm-89-1151v233h-584v-90l369-529q12-18 21-27l11-9v-3q-2 0-6.5.5t-7.5.5q-12 3-30 3h-232v115h-120v-229h567v89l-369 530q-6 8-21 26l-11 10v3l14-3q9-1 30-1h248v-119h121z"/></svg>
             <div v-for="(post, index) in posts" :key="index">
                 <article>
                     <div class="row">
@@ -41,7 +41,7 @@
                     </div>
                 </article>
             </div>
-            <button @click="loadMore" class="action-btn">Load More</button>
+            <button @click="loadMore" class="action-btn" v-if="loadMoreButton">Load More</button>
         </div>
     </div>
 </template>
@@ -51,7 +51,6 @@ import PageTitle from '@/components/Common/PageTitle.vue';
 import ActionButton from '@/components/Common/ActionButton.vue';
 import Prompt from '@/components/Common/Prompt.vue';
 import moment from 'moment';
-import asyncDataStatus from '@/mixins/asyncDataStatus';
 import db from '@/firebase/init';
 export default {
     name: 'Blog',
@@ -61,7 +60,6 @@ export default {
             buttonTitle: 'Add new post',
             buttonType: 'button',
             buttonLink: '/blog/new-post',
-            asc: '@/assets/asc.svg'
         }
     },
     components: {
@@ -69,7 +67,6 @@ export default {
         ActionButton,
         Prompt
     },
-    mixins: [asyncDataStatus],
     computed: {
         posts() {
             return this.$store.getters['blog/posts'];
@@ -79,11 +76,14 @@ export default {
         },
         showModal() {
             return this.$store.getters['prompt/showModal'];
+        },
+        loadMoreButton() {
+            return this.$store.getters['blog/loadMoreButton'];
         }
     },
     created() {
         this.$store.dispatch('blog/getPosts', {
-            limit: 5
+            limit: 3
         });
 
         // this.$store.dispatch('prompt/showPrompt', {
@@ -107,7 +107,15 @@ export default {
             db.collection("posts").doc(id).delete()
         },
         loadMore() {
-            this.$store.dispatch('blog/getPosts')
+            this.$store.dispatch('blog/getPosts', {
+                limit: 3,
+            })
+        },
+        sort(value) {
+            this.$store.dispatch('blog/getPosts', {
+                limit: 3,
+                orderDirection: value
+            })
         }
     }
 }

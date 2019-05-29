@@ -21,14 +21,15 @@ export default {
 </script>
 
 <style>
-.spinner {
-  position: fixed;
-  top: 195px;
-  width: 100vw;
-  height: calc(100vh - 195px);
-  background-color: white;
-  z-index: 999;
-}
+  .spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    z-index: 999;
+  }
    .atom-spinner, .atom-spinner * {
       box-sizing: border-box;
     }
