@@ -2,7 +2,6 @@
     <div>
         <page-title :headline="headline"/>
         <div class="container blog-posts">
-            <prompt  v-if="showModal"></prompt>
             <action-button v-if="currentUser.role == 'Blogger' || 
                                 currentUser.role == 'Admin' || 
                                 currentUser.role == 'Moderator'" 
@@ -27,6 +26,7 @@
                                         data-toggle="modal" 
                                         data-target="#exampleModal"
                                         class="delete-btn" 
+                                        @click="deletePost(post.id, post.title)"
                                         v-if="post.uid == currentUser.id || currentUser.role == 'Admin' || currentUser.role == 'Moderator'">Delete Post</button>
                             </div>
                             <router-link :to="'/blog/' + post.slug">
@@ -49,7 +49,6 @@
 <script>
 import PageTitle from '@/components/Common/PageTitle.vue';
 import ActionButton from '@/components/Common/ActionButton.vue';
-import Prompt from '@/components/Common/Prompt.vue';
 import moment from 'moment';
 import db from '@/firebase/init';
 export default {
@@ -65,7 +64,6 @@ export default {
     components: {
         PageTitle,
         ActionButton,
-        Prompt
     },
     computed: {
         posts() {
@@ -74,37 +72,19 @@ export default {
         currentUser() {
             return this.$store.getters['auth/currentUser'];
         },
-        showModal() {
-            return this.$store.getters['prompt/showModal'];
-        },
         loadMoreButton() {
             return this.$store.getters['blog/loadMoreButton'];
-        }
+        },
     },
     created() {
         this.$store.dispatch('blog/getPosts', {
             limit: 3
         });
-
-        // this.$store.dispatch('prompt/showPrompt', {
-        //     message: 'Are y',
-        //     confirmationLabel: 'OK',
-        //     cancelLabel: 'Cancel',
-        //     onConfirm: () => {
-        //         this.$store.dispatch('blog/delete'. 'adsfasdfsadf')
-        //     },
-        //     onCancel: () => {
-        //         dkfjksd
-        //     }
-        // })
     },
     methods:{
         formatDate(date) {
             moment(date).utc().startOf("day").format();
             return moment(date).format("DD / MM / YYYY")
-        },
-        deletePost(id) {
-            db.collection("posts").doc(id).delete()
         },
         loadMore() {
             this.$store.dispatch('blog/getPosts', {
@@ -116,6 +96,20 @@ export default {
                 limit: 3,
                 orderDirection: value
             })
+        },
+        async deletePost(id, title) {
+            await this.$store.commit('prompt/promptSetup', {
+                message: 'Are you sure you want to delete',
+                confirmationLabel: 'OK',
+                cancelLabel: 'Cancel',
+                onConfirm: () => {
+                    this.$store.dispatch('blog/deletePost', id, {root:true})
+                },
+                onCancel: () => {
+                    return
+                }
+            });
+            await this.$store.commit('prompt/setShowModal', true)
         }
     }
 }

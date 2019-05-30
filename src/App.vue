@@ -1,11 +1,17 @@
 <template>
 	<div id="app">
 		<div class="content">
+			<prompt v-if="showModal"
+					:message="promptConfig.message"
+					:confirmationLabel="promptConfig.confirmationLabel"
+					:cancelLabel="promptConfig.cancelLabel"
+					:onConfirm="promptConfig.onConfirm"
+					:onCancel="promptConfig.onCancel"></prompt>
 			<app-header/>
 			<spinner v-if="loading"></spinner>
 			<router-view :key="$route.fullPath"></router-view>
 		</div>
-		<app-footer/> 
+		<app-footer/>
 	</div>
 </template>
 
@@ -14,18 +20,32 @@ import Header from '@/components/Header/Header.vue';
 import Footer from "@/components/Footer/Footer.vue";
 import 'cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css';
 import Spinner from '@/components/Common/Spinner.vue';
+import Prompt from '@/components/Common/Prompt.vue';
 
 export default {
 	name: "app",
+	
+	data() {
+		return {
+			
+		}
+	},
 	components: {
 		'app-header': Header,
 		'app-footer': Footer,
-		Spinner
+		Spinner,
+		Prompt
 	},
 	computed: {
 		loading() {
 			return this.$store.getters['loader/loading'];
-		}
+		},
+		showModal() {
+            return this.$store.getters['prompt/showModal'];
+		},
+		promptConfig() {
+            return this.$store.getters['blog/config'];
+        }
 	}
 }
 </script>

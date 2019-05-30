@@ -1,4 +1,5 @@
 import db from '../../firebase/init'
+import _ from 'lodash';
 
 const state = {
     posts: [],
@@ -49,9 +50,9 @@ const actions = {
         if(options.orderDirection) {
             commit('setEmptyPost');
             state.config.orderDirection = options.orderDirection
-            settings = {...defaultOptions, ...options, ...state.config}
+            settings = _.merge(defaultOptions, options, state.config)
         }else{
-            settings = {...defaultOptions, ...options}
+            settings = _.merge(defaultOptions, options)
         }
         // GET POSTS
         await db.collection(settings.collection)
@@ -71,6 +72,9 @@ const actions = {
             commit('setLastVisible', lastVisible);
             commit('loader/setLoading', false, { root: true })
         })
+    },
+    deletePost(id) {
+        db.collection("posts").doc(id).delete()
     }
 }
 
