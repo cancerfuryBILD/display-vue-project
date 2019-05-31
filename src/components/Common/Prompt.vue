@@ -1,9 +1,9 @@
 <template>
-    <div class="modal-mask">
+    <div class="modal-mask" >
         <transition name="modal">
             <div class="modal-mask">
-                <div class="modal-wrapper">
-                    <div v-if="config.message" class="modal-container">
+                <div class="modal-wrapper" @click.self="closePrompt">
+                    <div class="modal-container">
 
                         <!-- MODAL HEADER - TITLE -->
                         <div class="modal-header">
@@ -59,10 +59,10 @@ export default {
             type: String
         },
     },
-    computed: {
-        // config() {
-        //     return this.$store.getters['blog/config'];
-        // }
+    methods: {
+        closePrompt() {
+            this.$store.commit('prompt/setShowModal', false)
+        }
     }
 }
 </script>

@@ -24,12 +24,6 @@ import Prompt from '@/components/Common/Prompt.vue';
 
 export default {
 	name: "app",
-	
-	data() {
-		return {
-			
-		}
-	},
 	components: {
 		'app-header': Header,
 		'app-footer': Footer,
@@ -44,7 +38,7 @@ export default {
             return this.$store.getters['prompt/showModal'];
 		},
 		promptConfig() {
-            return this.$store.getters['blog/config'];
+            return this.$store.getters['prompt/config'];
         }
 	}
 }

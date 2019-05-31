@@ -89,6 +89,7 @@ export default {
         loadMore() {
             this.$store.dispatch('blog/getPosts', {
                 limit: 3,
+                loadMore: true
             })
         },
         sort(value) {
@@ -99,14 +100,14 @@ export default {
         },
         async deletePost(id, title) {
             await this.$store.commit('prompt/promptSetup', {
-                message: 'Are you sure you want to delete',
+                message: 'Are you sure you want to delete' + ' ' + '"' + title + '"?',
                 confirmationLabel: 'OK',
                 cancelLabel: 'Cancel',
                 onConfirm: () => {
-                    this.$store.dispatch('blog/deletePost', id, {root:true})
+                    this.$store.dispatch('blog/deletePost', id)
                 },
                 onCancel: () => {
-                    return
+                    this.$store.commit('prompt/setShowModal', false)
                 }
             });
             await this.$store.commit('prompt/setShowModal', true)
